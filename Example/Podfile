@@ -1,14 +1,9 @@
 use_frameworks!
 
-target 'InfinityEngine_Example', :exclusive => true do
+target 'InfinityEngine_Example' do
   pod 'InfinityEngine', :path => '../'
 end
 
-target 'InfinityEngine_Tests', :exclusive => true do
+target 'InfinityEngine_Tests' do
   pod 'InfinityEngine', :path => '../'
-
-  pod 'Quick', '~> 0.8'
-  pod 'Nimble', '~> 3.0'
-  pod 'FBSnapshotTestCase'
-  pod 'Nimble-Snapshots'
 end

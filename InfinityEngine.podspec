@@ -8,8 +8,8 @@
 
 Pod::Spec.new do |s|
   s.name             = "InfinityEngine"
-  s.version          = "0.1.0"
-  s.summary          = "A short description of InfinityEngine."
+  s.version          = "0.0.1"
+  s.summary          = "Elegant Paged Data Handling for UITableView & UICollectionView in Swift"
 
 # This description is used to generate tags and improve search results.
 #   * Think: What does it do? Why did you write it? What is the focus?
@@ -18,20 +18,25 @@ Pod::Spec.new do |s|
 #   * Finally, don't worry about the indent, CocoaPods strips it!
 
   s.description      = <<-DESC
-TODO: Add long description of the pod here.
+
+InfinityEngine provides; Elegant TableView & CollectionView paged data handling,
+Progressive Protocol Implemtation, Fully customisable Modifers that alter Table/CollectionView behavior,
+Placeholders for pre-data responses &
+Automatic paged loading indicator
+
                        DESC
 
-  s.homepage         = "https://github.com/<GITHUB_USERNAME>/InfinityEngine"
+  s.homepage         = "https://github.com/RyanHWillis/InfinityEngine"
   # s.screenshots     = "www.example.com/screenshots_1", "www.example.com/screenshots_2"
   s.license          = 'MIT'
   s.author           = { "RyanHWillis" => "ryan_h_willis@hotmail.com" }
-  s.source           = { :git => "https://github.com/<GITHUB_USERNAME>/InfinityEngine.git", :tag => s.version.to_s }
+  s.source           = { :git => "https://github.com/RyanHWillis/InfinityEngine.git", :tag => s.version.to_s }
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
   s.ios.deployment_target = '8.0'
 
   s.source_files = 'InfinityEngine/Classes/**/*'
-  
+
   # s.resource_bundles = {
   #   'InfinityEngine' => ['InfinityEngine/Assets/*.png']
   # }

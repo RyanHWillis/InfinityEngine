@@ -1,0 +1,16 @@
+PODS:
+  - InfinityEngine (0.1.0)
+
+DEPENDENCIES:
+  - InfinityEngine (from `../`)
+
+EXTERNAL SOURCES:
+  InfinityEngine:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  InfinityEngine: ad4a6df31ab77c96fe523b19eb1ea60f99d8cbf9
+
+PODFILE CHECKSUM: 905c92cb60e70c0cdd7d0a16dc7f3bf2e5d10eb2
+
+COCOAPODS: 1.0.0.rc.1

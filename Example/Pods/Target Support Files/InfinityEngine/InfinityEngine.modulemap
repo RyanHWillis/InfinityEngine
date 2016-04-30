@@ -1,0 +1,6 @@
+framework module InfinityEngine {
+  umbrella header "InfinityEngine-umbrella.h"
+
+  export *
+  module * { export * }
+}
