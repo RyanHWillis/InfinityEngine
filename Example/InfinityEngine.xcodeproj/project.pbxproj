@@ -7,20 +7,20 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		356C63201CD556CB0027F370 /* LoadingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 356C631A1CD556CB0027F370 /* LoadingTableViewCell.swift */; };
+		356C63211CD556CB0027F370 /* LoadingTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 356C631B1CD556CB0027F370 /* LoadingTableViewCell.xib */; };
+		356C63221CD556CB0027F370 /* TestTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 356C631C1CD556CB0027F370 /* TestTableViewCell.swift */; };
+		356C63231CD556CB0027F370 /* TestTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 356C631D1CD556CB0027F370 /* TestTableViewCell.xib */; };
+		356C63241CD556CB0027F370 /* TestTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 356C631E1CD556CB0027F370 /* TestTableViewController.swift */; };
+		356C63251CD556CB0027F370 /* TestTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 356C631F1CD556CB0027F370 /* TestTableViewController.xib */; };
+		356C632C1CD556DB0027F370 /* LoadingCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 356C63261CD556DB0027F370 /* LoadingCollectionViewCell.swift */; };
+		356C632D1CD556DB0027F370 /* LoadingCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 356C63271CD556DB0027F370 /* LoadingCollectionViewCell.xib */; };
+		356C632E1CD556DB0027F370 /* TestCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 356C63281CD556DB0027F370 /* TestCollectionViewCell.swift */; };
+		356C632F1CD556DB0027F370 /* TestCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 356C63291CD556DB0027F370 /* TestCollectionViewCell.xib */; };
+		356C63301CD556DB0027F370 /* TestCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 356C632A1CD556DB0027F370 /* TestCollectionViewController.swift */; };
+		356C63311CD556DB0027F370 /* TestCollectionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 356C632B1CD556DB0027F370 /* TestCollectionViewController.xib */; };
 		35F4AFA01CD4F73C0090728B /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35F4AF9E1CD4F73C0090728B /* HomeViewController.swift */; };
 		35F4AFA11CD4F73C0090728B /* HomeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 35F4AF9F1CD4F73C0090728B /* HomeViewController.xib */; };
-		35F4AFB01CD4F7470090728B /* TestTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35F4AFA21CD4F7470090728B /* TestTableViewController.swift */; };
-		35F4AFB11CD4F7470090728B /* TestTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 35F4AFA31CD4F7470090728B /* TestTableViewController.xib */; };
-		35F4AFB21CD4F7470090728B /* TestTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35F4AFA41CD4F7470090728B /* TestTableViewCell.swift */; };
-		35F4AFB31CD4F7470090728B /* TestTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 35F4AFA51CD4F7470090728B /* TestTableViewCell.xib */; };
-		35F4AFB41CD4F7470090728B /* LoadingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35F4AFA61CD4F7470090728B /* LoadingTableViewCell.swift */; };
-		35F4AFB51CD4F7470090728B /* LoadingTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 35F4AFA71CD4F7470090728B /* LoadingTableViewCell.xib */; };
-		35F4AFB61CD4F7470090728B /* TestCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35F4AFA91CD4F7470090728B /* TestCollectionViewController.swift */; };
-		35F4AFB71CD4F7470090728B /* TestCollectionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 35F4AFAA1CD4F7470090728B /* TestCollectionViewController.xib */; };
-		35F4AFB81CD4F7470090728B /* TestCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35F4AFAB1CD4F7470090728B /* TestCollectionViewCell.swift */; };
-		35F4AFB91CD4F7470090728B /* TestCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 35F4AFAC1CD4F7470090728B /* TestCollectionViewCell.xib */; };
-		35F4AFBA1CD4F7470090728B /* LoadingCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35F4AFAD1CD4F7470090728B /* LoadingCollectionViewCell.swift */; };
-		35F4AFBB1CD4F7470090728B /* LoadingCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 35F4AFAE1CD4F7470090728B /* LoadingCollectionViewCell.xib */; };
 		607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD51AFB9204008FA782 /* AppDelegate.swift */; };
 		607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDC1AFB9204008FA782 /* Images.xcassets */; };
 		607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDE1AFB9204008FA782 /* LaunchScreen.xib */; };
@@ -43,20 +43,20 @@
 		07A1110BE152F052595E49FE /* InfinityEngine.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = InfinityEngine.podspec; path = ../InfinityEngine.podspec; sourceTree = "<group>"; };
 		0F3AAA3BEC4D919D2037E066 /* Pods-InfinityEngine_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-InfinityEngine_Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-InfinityEngine_Tests/Pods-InfinityEngine_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		25C3AC646169FA535B2B658E /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
+		356C631A1CD556CB0027F370 /* LoadingTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LoadingTableViewCell.swift; path = InfinityEngine/LoadingTableViewCell.swift; sourceTree = SOURCE_ROOT; };
+		356C631B1CD556CB0027F370 /* LoadingTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LoadingTableViewCell.xib; path = InfinityEngine/LoadingTableViewCell.xib; sourceTree = SOURCE_ROOT; };
+		356C631C1CD556CB0027F370 /* TestTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TestTableViewCell.swift; path = InfinityEngine/TestTableViewCell.swift; sourceTree = SOURCE_ROOT; };
+		356C631D1CD556CB0027F370 /* TestTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = TestTableViewCell.xib; path = InfinityEngine/TestTableViewCell.xib; sourceTree = SOURCE_ROOT; };
+		356C631E1CD556CB0027F370 /* TestTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TestTableViewController.swift; path = InfinityEngine/TestTableViewController.swift; sourceTree = SOURCE_ROOT; };
+		356C631F1CD556CB0027F370 /* TestTableViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = TestTableViewController.xib; path = InfinityEngine/TestTableViewController.xib; sourceTree = SOURCE_ROOT; };
+		356C63261CD556DB0027F370 /* LoadingCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LoadingCollectionViewCell.swift; path = InfinityEngine/LoadingCollectionViewCell.swift; sourceTree = SOURCE_ROOT; };
+		356C63271CD556DB0027F370 /* LoadingCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LoadingCollectionViewCell.xib; path = InfinityEngine/LoadingCollectionViewCell.xib; sourceTree = SOURCE_ROOT; };
+		356C63281CD556DB0027F370 /* TestCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TestCollectionViewCell.swift; path = InfinityEngine/TestCollectionViewCell.swift; sourceTree = SOURCE_ROOT; };
+		356C63291CD556DB0027F370 /* TestCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = TestCollectionViewCell.xib; path = InfinityEngine/TestCollectionViewCell.xib; sourceTree = SOURCE_ROOT; };
+		356C632A1CD556DB0027F370 /* TestCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TestCollectionViewController.swift; path = InfinityEngine/TestCollectionViewController.swift; sourceTree = SOURCE_ROOT; };
+		356C632B1CD556DB0027F370 /* TestCollectionViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = TestCollectionViewController.xib; path = InfinityEngine/TestCollectionViewController.xib; sourceTree = SOURCE_ROOT; };
 		35F4AF9E1CD4F73C0090728B /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		35F4AF9F1CD4F73C0090728B /* HomeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HomeViewController.xib; sourceTree = "<group>"; };
-		35F4AFA21CD4F7470090728B /* TestTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestTableViewController.swift; sourceTree = "<group>"; };
-		35F4AFA31CD4F7470090728B /* TestTableViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TestTableViewController.xib; sourceTree = "<group>"; };
-		35F4AFA41CD4F7470090728B /* TestTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestTableViewCell.swift; sourceTree = "<group>"; };
-		35F4AFA51CD4F7470090728B /* TestTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TestTableViewCell.xib; sourceTree = "<group>"; };
-		35F4AFA61CD4F7470090728B /* LoadingTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingTableViewCell.swift; sourceTree = "<group>"; };
-		35F4AFA71CD4F7470090728B /* LoadingTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoadingTableViewCell.xib; sourceTree = "<group>"; };
-		35F4AFA91CD4F7470090728B /* TestCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestCollectionViewController.swift; sourceTree = "<group>"; };
-		35F4AFAA1CD4F7470090728B /* TestCollectionViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TestCollectionViewController.xib; sourceTree = "<group>"; };
-		35F4AFAB1CD4F7470090728B /* TestCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestCollectionViewCell.swift; sourceTree = "<group>"; };
-		35F4AFAC1CD4F7470090728B /* TestCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TestCollectionViewCell.xib; sourceTree = "<group>"; };
-		35F4AFAD1CD4F7470090728B /* LoadingCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingCollectionViewCell.swift; sourceTree = "<group>"; };
-		35F4AFAE1CD4F7470090728B /* LoadingCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoadingCollectionViewCell.xib; sourceTree = "<group>"; };
 		40A3561E10BD9182D7B30A9C /* Pods_InfinityEngine_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_InfinityEngine_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACD01AFB9204008FA782 /* InfinityEngine_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = InfinityEngine_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACD41AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -96,12 +96,12 @@
 		35F4AFA81CD4F7470090728B /* TableView */ = {
 			isa = PBXGroup;
 			children = (
-				35F4AFA21CD4F7470090728B /* TestTableViewController.swift */,
-				35F4AFA31CD4F7470090728B /* TestTableViewController.xib */,
-				35F4AFA41CD4F7470090728B /* TestTableViewCell.swift */,
-				35F4AFA51CD4F7470090728B /* TestTableViewCell.xib */,
-				35F4AFA61CD4F7470090728B /* LoadingTableViewCell.swift */,
-				35F4AFA71CD4F7470090728B /* LoadingTableViewCell.xib */,
+				356C631A1CD556CB0027F370 /* LoadingTableViewCell.swift */,
+				356C631B1CD556CB0027F370 /* LoadingTableViewCell.xib */,
+				356C631C1CD556CB0027F370 /* TestTableViewCell.swift */,
+				356C631D1CD556CB0027F370 /* TestTableViewCell.xib */,
+				356C631E1CD556CB0027F370 /* TestTableViewController.swift */,
+				356C631F1CD556CB0027F370 /* TestTableViewController.xib */,
 			);
 			name = TableView;
 			path = ../../../../../Documents/InfintyEngine/SampleApp/SampleApp;
@@ -110,12 +110,12 @@
 		35F4AFAF1CD4F7470090728B /* CollectionView */ = {
 			isa = PBXGroup;
 			children = (
-				35F4AFA91CD4F7470090728B /* TestCollectionViewController.swift */,
-				35F4AFAA1CD4F7470090728B /* TestCollectionViewController.xib */,
-				35F4AFAB1CD4F7470090728B /* TestCollectionViewCell.swift */,
-				35F4AFAC1CD4F7470090728B /* TestCollectionViewCell.xib */,
-				35F4AFAD1CD4F7470090728B /* LoadingCollectionViewCell.swift */,
-				35F4AFAE1CD4F7470090728B /* LoadingCollectionViewCell.xib */,
+				356C63261CD556DB0027F370 /* LoadingCollectionViewCell.swift */,
+				356C63271CD556DB0027F370 /* LoadingCollectionViewCell.xib */,
+				356C63281CD556DB0027F370 /* TestCollectionViewCell.swift */,
+				356C63291CD556DB0027F370 /* TestCollectionViewCell.xib */,
+				356C632A1CD556DB0027F370 /* TestCollectionViewController.swift */,
+				356C632B1CD556DB0027F370 /* TestCollectionViewController.xib */,
 			);
 			name = CollectionView;
 			path = ../../../../../Documents/InfintyEngine/SampleApp/SampleApp;
@@ -300,15 +300,15 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				35F4AFBB1CD4F7470090728B /* LoadingCollectionViewCell.xib in Resources */,
-				35F4AFB51CD4F7470090728B /* LoadingTableViewCell.xib in Resources */,
+				356C632D1CD556DB0027F370 /* LoadingCollectionViewCell.xib in Resources */,
 				607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */,
-				35F4AFB91CD4F7470090728B /* TestCollectionViewCell.xib in Resources */,
+				356C632F1CD556DB0027F370 /* TestCollectionViewCell.xib in Resources */,
 				607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */,
+				356C63211CD556CB0027F370 /* LoadingTableViewCell.xib in Resources */,
+				356C63251CD556CB0027F370 /* TestTableViewController.xib in Resources */,
+				356C63311CD556DB0027F370 /* TestCollectionViewController.xib in Resources */,
+				356C63231CD556CB0027F370 /* TestTableViewCell.xib in Resources */,
 				35F4AFA11CD4F73C0090728B /* HomeViewController.xib in Resources */,
-				35F4AFB31CD4F7470090728B /* TestTableViewCell.xib in Resources */,
-				35F4AFB71CD4F7470090728B /* TestCollectionViewController.xib in Resources */,
-				35F4AFB11CD4F7470090728B /* TestTableViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -419,14 +419,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				35F4AFB41CD4F7470090728B /* LoadingTableViewCell.swift in Sources */,
+				356C63301CD556DB0027F370 /* TestCollectionViewController.swift in Sources */,
 				607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */,
-				35F4AFB21CD4F7470090728B /* TestTableViewCell.swift in Sources */,
-				35F4AFB81CD4F7470090728B /* TestCollectionViewCell.swift in Sources */,
+				356C632C1CD556DB0027F370 /* LoadingCollectionViewCell.swift in Sources */,
+				356C63241CD556CB0027F370 /* TestTableViewController.swift in Sources */,
+				356C632E1CD556DB0027F370 /* TestCollectionViewCell.swift in Sources */,
+				356C63221CD556CB0027F370 /* TestTableViewCell.swift in Sources */,
 				35F4AFA01CD4F73C0090728B /* HomeViewController.swift in Sources */,
-				35F4AFB61CD4F7470090728B /* TestCollectionViewController.swift in Sources */,
-				35F4AFB01CD4F7470090728B /* TestTableViewController.swift in Sources */,
-				35F4AFBA1CD4F7470090728B /* LoadingCollectionViewCell.swift in Sources */,
+				356C63201CD556CB0027F370 /* LoadingTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
