@@ -5,11 +5,20 @@
 [![License](https://img.shields.io/cocoapods/l/InfinityEngine.svg?style=flat)](http://cocoapods.org/pods/InfinityEngine)
 [![Platform](https://img.shields.io/cocoapods/p/InfinityEngine.svg?style=flat)](http://cocoapods.org/pods/InfinityEngine)
 
+## Features
++ Elegant TableView & CollectionView paged data handling
++ Progressive Protocol Implemtation
++ Fully customisable Modifers that alter Table/CollectionView behavior
++ Placeholders for pre-data responses
++ Automatic paged loading indicator
+
+## Requirements
++ iOS 8.0 +
++ Xcode 7.3 +
+
 ## Example
 
 To run the example project, clone the repo, and run `pod install` from the Example directory first.
-
-## Requirements
 
 ## Installation
 
