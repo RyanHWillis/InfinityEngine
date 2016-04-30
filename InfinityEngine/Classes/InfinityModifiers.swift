@@ -37,7 +37,7 @@ let kPlaceHolderCellCount:Int       = 4
  
  */
 
-enum IndexType {
+public enum IndexType {
     case Row
     case Section
 }

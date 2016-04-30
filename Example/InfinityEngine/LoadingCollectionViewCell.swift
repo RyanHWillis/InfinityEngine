@@ -14,5 +14,6 @@ class LoadingCollectionViewCell: UICollectionViewCell {
         super.awakeFromNib()
         // Initialization code
     }
+    
 
 }

@@ -12,7 +12,6 @@ import InfinityEngine
 class TestTableViewController: UIViewController, InfinityTableViewDelegate {
     
     @IBOutlet weak var tableView: UITableView!
-    var tableViewEngine: TableViewEngine!
     
     init() {
         super.init(nibName: "TestTableViewController", bundle: NSBundle.mainBundle())
@@ -27,8 +26,8 @@ class TestTableViewController: UIViewController, InfinityTableViewDelegate {
         
         self.tableView.backgroundColor = UIColor.lightGrayColor()
         
-        let tableViewStruct:InfinityTableView = InfinityTableView(tableView: self.tableView, tableViewCells: [(UINib(nibName: "TestTableViewCell",
-            bundle: NSBundle.mainBundle()), "TestTableViewCell")])
+        let tableViewStruct:InfinityTableView = InfinityTableView(tableView: self.tableView,
+            tableViewCellNibNames: ["TestTableViewCell"], tableViewLoadingCellINibName: "LoadingTableViewCell")
         
         startInfinityTableView(infinityTableView: tableViewStruct, withDelegate: self)
     }

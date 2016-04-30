@@ -34,12 +34,14 @@ import UIKit
 
 public struct InfinityTableView {
     let tableView: UITableView!
-    let tableViewCells: [(nib: UINib, id: String)]!
+    let tableViewCellNibNames: [String]!
+    let tableViewLoadingCellINibName: String!
     let modifiers: InfinityModifers!
     
-    public init(tableView: UITableView!, tableViewCells: [(nib: UINib, id: String)]!, modifiers: InfinityModifers? = InfinityModifers()) {
+    public init(tableView: UITableView, tableViewCellNibNames: [String]!, tableViewLoadingCellINibName:String, modifiers: InfinityModifers? = InfinityModifers()) {
         self.tableView = tableView
-        self.tableViewCells = tableViewCells
+        self.tableViewCellNibNames = tableViewCellNibNames
+        self.tableViewLoadingCellINibName = tableViewLoadingCellINibName
         self.modifiers = modifiers
     }
 }
@@ -55,7 +57,6 @@ public struct InfinityTableView {
 
 
 public protocol InfinityTableViewDelegate: InfinityView {
-    var tableViewEngine:TableViewEngine! {get set}
     func infinityCellForIndexPath(indexPath: NSIndexPath, placeholder:Bool) -> UITableViewCell
     func infinityLoadingCell(indexPath: NSIndexPath) -> UITableViewCell
 }
@@ -72,7 +73,6 @@ public protocol InfinityTableViewDelegate: InfinityView {
 
 extension InfinityTableViewDelegate where Self: UIViewController {
     public func startInfinityTableView(infinityTableView infinityTable:InfinityTableView, withDelegate: InfinityTableViewDelegate) {
-        tableViewEngine = TableViewEngine(infinityTableView: infinityTable, delegate: withDelegate)
-//        InfinityEngineRoom.sharedInstances.append(TableViewEngine(infinityTableView: infinityTable, delegate: withDelegate))
+        InfinityEngineRoom.sharedInstances.append(TableViewEngine(infinityTableView: infinityTable, delegate: withDelegate))
     }
 }

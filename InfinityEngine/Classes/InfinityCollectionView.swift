@@ -29,17 +29,20 @@ import UIKit
  - parameter collectionViewCells:       Will need to define the name of your cells and id.
  - parameter modifiers:                 See InfinityModiers - modifiers the behavior of InfinityEngine, 
                                         in reference to a UICollectionView.
-  
  */
 
 public struct InfinityCollectionView {
     let collectionView: UICollectionView!
-    let collectionViewCells: [(nib: UINib, id: String)]!
+    let collectionViewCellNibNames: [String]!
+    let collectionViewLoadingCellINibName: String!
     let modifiers: InfinityModifers!
     
-    public init(collectionView: UICollectionView!, collectionViewCells: [(nib: UINib, id: String)]!, modifiers: InfinityModifers? = InfinityModifers()) {
+    public init(collectionView: UICollectionView, collectionViewCellNibNames: [String], collectionViewLoadingCellINibName: String,
+                modifiers: InfinityModifers? = InfinityModifers()) {
+        
         self.collectionView = collectionView
-        self.collectionViewCells = collectionViewCells
+        self.collectionViewCellNibNames = collectionViewCellNibNames
+        self.collectionViewLoadingCellINibName = collectionViewLoadingCellINibName
         self.modifiers = modifiers
     }
 }
@@ -55,6 +58,7 @@ public struct InfinityCollectionView {
 
 public protocol InfinityCollectionViewDelegate: InfinityView {
     func infinityCellItemForIndexPath(indexPath: NSIndexPath, placeholder:Bool) -> UICollectionViewCell
+    func infinityLoadingReusableView(indexPath: NSIndexPath, lastPageHit:Bool) -> UICollectionReusableView
 }
 
 /**
@@ -69,7 +73,6 @@ public protocol InfinityCollectionViewDelegate: InfinityView {
 
 extension InfinityCollectionViewDelegate where Self: UIViewController {
     public func startInfinityCollectionView(infinityCollectionView infinityCollection:InfinityCollectionView, withDelegate: InfinityCollectionViewDelegate) {
-        //self.collectionViewEngine = CollectionViewEngine(infinityCollectionView: infinityCollection, delegate: withDelegate)
         InfinityEngineRoom.sharedInstances.append(CollectionViewEngine(infinityCollectionView: infinityCollection, delegate: withDelegate))
     }
 }

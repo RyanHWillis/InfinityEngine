@@ -13,10 +13,6 @@ class TestCollectionViewController: UIViewController, InfinityCollectionViewDele
     
     @IBOutlet weak var testCollectionView: UICollectionView!
     
-    //var collectionViewEngine: CollectionViewEngine!
-    
-    //var collectionViewEngine: CollectionViewEngine!
-    
     init() {
         super.init(nibName: "TestCollectionViewController", bundle: NSBundle.mainBundle())
     }
@@ -28,9 +24,9 @@ class TestCollectionViewController: UIViewController, InfinityCollectionViewDele
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        startInfinityCollectionView(infinityCollectionView: InfinityCollectionView(collectionView: self.testCollectionView,
-                                    collectionViewCells: [(UINib(nibName: "TestCollectionViewCell",
-                                    bundle: NSBundle.mainBundle()), "TestCollectionViewCell")]),
+        let collectionView:InfinityCollectionView = InfinityCollectionView(collectionView: self.testCollectionView, collectionViewCellNibNames: ["TestCollectionViewCell"], collectionViewLoadingCellINibName: "LoadingCollectionViewCell")
+        
+        startInfinityCollectionView(infinityCollectionView: collectionView,
                                     withDelegate: self)
     }
     
@@ -44,6 +40,12 @@ class TestCollectionViewController: UIViewController, InfinityCollectionViewDele
             cell.title.text = String(indexPath.row) + " Live"
         }
         
+        return cell
+    }
+    
+    func infinityLoadingReusableView(indexPath: NSIndexPath, lastPageHit: Bool) -> UICollectionReusableView {
+        let cell = self.testCollectionView.dequeueReusableSupplementaryViewOfKind(UICollectionElementKindSectionFooter,
+                withReuseIdentifier: "LoadingCollectionViewCell", forIndexPath: indexPath)
         return cell
     }
     

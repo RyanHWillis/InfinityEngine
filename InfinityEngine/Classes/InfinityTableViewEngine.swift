@@ -17,7 +17,7 @@
 
 import UIKit
 
-public final class TableViewEngine: NSObject {
+internal final class TableViewEngine: NSObject {
     
     let reloadControl = UIRefreshControl()
     
@@ -45,11 +45,13 @@ public final class TableViewEngine: NSObject {
         self.infinityTableView.tableView.separatorStyle = .None
         
         // Register All Posible Nibs
-        for cellTuple in self.infinityTableView.tableViewCells {
-            self.infinityTableView.tableView.registerNib(cellTuple.nib, forCellReuseIdentifier: cellTuple.id)
+        for nibName in self.infinityTableView.tableViewCellNibNames {
+            self.infinityTableView.tableView.registerNib(UINib(nibName: nibName, bundle: NSBundle.mainBundle()), forCellReuseIdentifier: nibName)
         }
-
-        self.infinityTableView.tableView.registerNib(UINib(nibName: "LoadingTableViewCell", bundle: NSBundle.mainBundle()), forCellReuseIdentifier: "LoadingTableViewCell")
+        
+        // Register Loading Cell
+        let loadingCellNibName:String = self.infinityTableView.tableViewLoadingCellINibName
+        self.infinityTableView.tableView.registerNib(UINib(nibName: loadingCellNibName, bundle: NSBundle.mainBundle()), forCellReuseIdentifier: loadingCellNibName)
 
 
         // Refresh Control

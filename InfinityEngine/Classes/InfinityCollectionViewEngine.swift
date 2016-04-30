@@ -17,7 +17,7 @@ import UIKit
  - Hybrid: For general-purpose transportation.
  */
 
-public final class CollectionViewEngine: NSObject {
+internal final class CollectionViewEngine: NSObject {
     
     let reloadControl = UIRefreshControl()
     
@@ -42,13 +42,16 @@ public final class CollectionViewEngine: NSObject {
         self.infinitCollectionView.collectionView.dataSource = self
         
         // Register All Posible Nibs
-        for cellTuple in self.infinitCollectionView.collectionViewCells {
-            self.infinitCollectionView.collectionView.registerNib(cellTuple.nib, forCellWithReuseIdentifier: cellTuple.id)
+        for nibName in self.infinitCollectionView.collectionViewCellNibNames {
+            self.infinitCollectionView.collectionView.registerNib(UINib(nibName: nibName, bundle: NSBundle.mainBundle()), forCellWithReuseIdentifier: nibName)
         }
-        //
-        //        self.infinitCollectionView.collectionView.registerNib(UINib(nibName: "LoadingCollectionViewCell",
-        //            bundle: NSBundle.mainBundle()), forSupplementaryViewOfKind: UICollectionElementKindSectionFooter,
-        //                                            withReuseIdentifier: "LoadingCollectionViewCell")
+        
+        // Register Loading Cell
+        
+        let loadingCellID = self.infinitCollectionView.collectionViewLoadingCellINibName
+        self.infinitCollectionView.collectionView.registerNib(UINib(nibName: loadingCellID,
+            bundle: NSBundle.mainBundle()), forSupplementaryViewOfKind: UICollectionElementKindSectionFooter,
+                                            withReuseIdentifier: loadingCellID)
         
         // Refresh Control
         self.reloadControl.addTarget(self, action: #selector(CollectionViewEngine.reloadFromRefreshControl), forControlEvents: UIControlEvents.ValueChanged)
@@ -94,21 +97,15 @@ extension CollectionViewEngine: InfinityDataEngineDelegate {
             return
         }
         
-        _ = self.engine.splitIndexPaths(indexs)
-        
-        //        dispatch_async(dispatch_get_main_queue(), { () -> Void in
-        //            self.infinitCollectionView.collectionView.performBatchUpdates({ () -> Void in
-        //                self.engine.data = self.engine.dataFactory(payload)
-        //                self.infinitCollectionView.collectionView.reloadItemsAtIndexPaths(indexPathTuple.reloadIndexPaths)
-        //                self.infinitCollectionView.collectionView.insertItemsAtIndexPaths(indexPathTuple.insertIndexPaths)
-        //                }, completion: nil)
-        //        })
-        
-        
-        if self.engine.modifiers.forceReload == false {
-            self.engine.data = self.engine.dataFactory(payload)
-            self.infinitCollectionView.collectionView.reloadData()
-        }
+        let indexPathTuple = self.engine.splitIndexPaths(indexs)
+
+        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+            self.infinitCollectionView.collectionView.performBatchUpdates({ () -> Void in
+                self.engine.data = self.engine.dataFactory(payload)
+                self.infinitCollectionView.collectionView.reloadItemsAtIndexPaths(indexPathTuple.reloadIndexPaths)
+                self.infinitCollectionView.collectionView.insertItemsAtIndexPaths(indexPathTuple.insertIndexPaths)
+                }, completion: nil)
+        })
     }
     
     func updateControllerView(atIndexes indexes: [NSIndexPath]?) {
@@ -155,6 +152,16 @@ extension CollectionViewEngine: UICollectionViewDataSource {
 extension CollectionViewEngine: UICollectionViewDelegate {
     public func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         self.delegate.infinityDidSelectItemAtIndexPath(indexPath)
+    }
+    
+    public func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String,
+                        atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
+        
+        if kind == UICollectionElementKindSectionFooter {
+            return self.delegate.infinityLoadingReusableView(indexPath, lastPageHit: self.engine.lastPageHit)
+        } else {
+            return UICollectionReusableView()
+        }
     }
 }
 
