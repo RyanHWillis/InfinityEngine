@@ -17,7 +17,7 @@
 
 import UIKit
 
-internal final class TableViewEngine: NSObject {
+public final class TableViewEngine: NSObject {
     
     let reloadControl = UIRefreshControl()
     

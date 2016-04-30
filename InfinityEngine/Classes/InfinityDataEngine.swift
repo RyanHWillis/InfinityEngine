@@ -31,7 +31,7 @@ import UIKit
  - Hybrid: For general-purpose transportation.
  */
 
-internal protocol InfinityDataEngineDelegate: class {
+protocol InfinityDataEngineDelegate: class {
     func getData(atPage page: Int, withModifiers modifiers: InfinityModifers, completion: (responsePayload: ResponsePayload) -> ())
     func buildIndexsForInsert(dataCount count: Int) -> [NSIndexPath]
     func updateControllerView(atIndexes indexes: [NSIndexPath]?)
@@ -47,7 +47,7 @@ internal protocol InfinityDataEngineDelegate: class {
  - Hybrid: For general-purpose transportation.
  */
 
-internal final class InfinityEngine: NSObject {
+public final class InfinityEngine: NSObject {
     
     //MARK: - VARS
     var page:NSInteger!

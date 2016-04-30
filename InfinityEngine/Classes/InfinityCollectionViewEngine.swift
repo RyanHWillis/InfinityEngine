@@ -17,7 +17,7 @@ import UIKit
  - Hybrid: For general-purpose transportation.
  */
 
-internal final class CollectionViewEngine: NSObject {
+public final class CollectionViewEngine: NSObject {
     
     let reloadControl = UIRefreshControl()
     
