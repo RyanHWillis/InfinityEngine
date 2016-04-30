@@ -7,8 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		10876D4D392C42596B301AF80B63EDDA /* ReplaceMe.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5261785B644BA9E18A1864A56E06A6F /* ReplaceMe.swift */; };
 		1BEA4D26DEF7E57F356F8D1E0A7377D1 /* Pods-InfinityEngine_Example-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 9916A9A6F410710EC34C6B119089B827 /* Pods-InfinityEngine_Example-dummy.m */; };
+		35F4AFC41CD4F76D0090728B /* InfinityEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35F4AFBC1CD4F76D0090728B /* InfinityEngine.swift */; };
+		35F4AFC51CD4F76D0090728B /* InfinityModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35F4AFBD1CD4F76D0090728B /* InfinityModifiers.swift */; };
+		35F4AFC61CD4F76D0090728B /* InfinityResponsePayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35F4AFBE1CD4F76D0090728B /* InfinityResponsePayload.swift */; };
+		35F4AFC71CD4F76D0090728B /* InfinityDataEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35F4AFBF1CD4F76D0090728B /* InfinityDataEngine.swift */; };
+		35F4AFC81CD4F76D0090728B /* InfinityTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35F4AFC01CD4F76D0090728B /* InfinityTableView.swift */; };
+		35F4AFC91CD4F76D0090728B /* InfinityTableViewEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35F4AFC11CD4F76D0090728B /* InfinityTableViewEngine.swift */; };
+		35F4AFCA1CD4F76D0090728B /* InfinityCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35F4AFC21CD4F76D0090728B /* InfinityCollectionView.swift */; };
+		35F4AFCB1CD4F76D0090728B /* InfinityCollectionViewEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35F4AFC31CD4F76D0090728B /* InfinityCollectionViewEngine.swift */; };
 		5768D7A487F7E97A8B4E27ABF10A0AC3 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3997E5D2953ECDF377B85B234FDF550D /* Foundation.framework */; };
 		5BB5F5FD564DF09EFA5A471E2FD21E0A /* Pods-InfinityEngine_Tests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = A6A355E2CE1E3C740EC20C38F5F63100 /* Pods-InfinityEngine_Tests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		60C8F52BF53D4C662BF7DC267BBE5A61 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3997E5D2953ECDF377B85B234FDF550D /* Foundation.framework */; };
@@ -41,6 +48,14 @@
 		1C1D40890F10CD8F80AA631954073226 /* InfinityEngine.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = InfinityEngine.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		27C0416E04F210F300FF7DB578648768 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2C850F0C4531194D44724A51FB11989F /* Pods-InfinityEngine_Tests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-InfinityEngine_Tests-acknowledgements.plist"; sourceTree = "<group>"; };
+		35F4AFBC1CD4F76D0090728B /* InfinityEngine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfinityEngine.swift; sourceTree = "<group>"; };
+		35F4AFBD1CD4F76D0090728B /* InfinityModifiers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfinityModifiers.swift; sourceTree = "<group>"; };
+		35F4AFBE1CD4F76D0090728B /* InfinityResponsePayload.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfinityResponsePayload.swift; sourceTree = "<group>"; };
+		35F4AFBF1CD4F76D0090728B /* InfinityDataEngine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfinityDataEngine.swift; sourceTree = "<group>"; };
+		35F4AFC01CD4F76D0090728B /* InfinityTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfinityTableView.swift; sourceTree = "<group>"; };
+		35F4AFC11CD4F76D0090728B /* InfinityTableViewEngine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfinityTableViewEngine.swift; sourceTree = "<group>"; };
+		35F4AFC21CD4F76D0090728B /* InfinityCollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfinityCollectionView.swift; sourceTree = "<group>"; };
+		35F4AFC31CD4F76D0090728B /* InfinityCollectionViewEngine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfinityCollectionViewEngine.swift; sourceTree = "<group>"; };
 		3997E5D2953ECDF377B85B234FDF550D /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.2.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		4792DC04EF2F9AA0B963E97E51800B3A /* InfinityEngine-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "InfinityEngine-umbrella.h"; sourceTree = "<group>"; };
 		4810F28E2181E57B0D7FA50B462C97AF /* Pods-InfinityEngine_Example-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-InfinityEngine_Example-resources.sh"; sourceTree = "<group>"; };
@@ -68,7 +83,6 @@
 		E13DCF6404FF391430AC8DA3D8B11A0C /* Pods-InfinityEngine_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-InfinityEngine_Example.release.xcconfig"; sourceTree = "<group>"; };
 		E93EB68C3BAF5640365CE4E75B146776 /* InfinityEngine.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = InfinityEngine.modulemap; sourceTree = "<group>"; };
 		EF45A29165BEB138658F682E2867C83D /* Pods-InfinityEngine_Tests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = "Pods-InfinityEngine_Tests.modulemap"; sourceTree = "<group>"; };
-		F5261785B644BA9E18A1864A56E06A6F /* ReplaceMe.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ReplaceMe.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -110,7 +124,14 @@
 		14A23F076385ED19213FB34D995022C4 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				F5261785B644BA9E18A1864A56E06A6F /* ReplaceMe.swift */,
+				35F4AFBC1CD4F76D0090728B /* InfinityEngine.swift */,
+				35F4AFBD1CD4F76D0090728B /* InfinityModifiers.swift */,
+				35F4AFBE1CD4F76D0090728B /* InfinityResponsePayload.swift */,
+				35F4AFBF1CD4F76D0090728B /* InfinityDataEngine.swift */,
+				35F4AFC01CD4F76D0090728B /* InfinityTableView.swift */,
+				35F4AFC11CD4F76D0090728B /* InfinityTableViewEngine.swift */,
+				35F4AFC21CD4F76D0090728B /* InfinityCollectionView.swift */,
+				35F4AFC31CD4F76D0090728B /* InfinityCollectionViewEngine.swift */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -319,7 +340,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0720;
-				LastUpgradeCheck = 0700;
+				LastUpgradeCheck = 0730;
 			};
 			buildConfigurationList = 2D8E8EC45A3A1A1D94AE762CB5028504 /* Build configuration list for PBXProject "Pods" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -361,8 +382,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				35F4AFC41CD4F76D0090728B /* InfinityEngine.swift in Sources */,
 				E2EE5E974BA1CBF3485F61CF4A07F12C /* InfinityEngine-dummy.m in Sources */,
-				10876D4D392C42596B301AF80B63EDDA /* ReplaceMe.swift in Sources */,
+				35F4AFC61CD4F76D0090728B /* InfinityResponsePayload.swift in Sources */,
+				35F4AFC91CD4F76D0090728B /* InfinityTableViewEngine.swift in Sources */,
+				35F4AFCB1CD4F76D0090728B /* InfinityCollectionViewEngine.swift in Sources */,
+				35F4AFC81CD4F76D0090728B /* InfinityTableView.swift in Sources */,
+				35F4AFC51CD4F76D0090728B /* InfinityModifiers.swift in Sources */,
+				35F4AFCA1CD4F76D0090728B /* InfinityCollectionView.swift in Sources */,
+				35F4AFC71CD4F76D0090728B /* InfinityDataEngine.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -549,6 +577,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MODULEMAP_FILE = "Target Support Files/InfinityEngine/InfinityEngine.modulemap";
 				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = "${PRODUCT_BUNDLE_IDENTIFIER}";
 				PRODUCT_NAME = InfinityEngine;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
@@ -645,6 +674,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MODULEMAP_FILE = "Target Support Files/InfinityEngine/InfinityEngine.modulemap";
 				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "${PRODUCT_BUNDLE_IDENTIFIER}";
 				PRODUCT_NAME = InfinityEngine;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
