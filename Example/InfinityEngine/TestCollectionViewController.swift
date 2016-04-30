@@ -57,7 +57,7 @@ class TestCollectionViewController: UIViewController, InfinityCollectionViewDele
         
         let data:String = "test"
         var datas:[AnyObject] = [AnyObject]()
-
+        
         datas.append(data)
         datas.append(data)
         datas.append(data)
