@@ -74,6 +74,8 @@ public final class InfinityEngine: NSObject {
     }
     
     func performDataFetch() {
+        
+        if self.lastPageHit == true { return }
  
         print("Infinty - ", #function)
         
