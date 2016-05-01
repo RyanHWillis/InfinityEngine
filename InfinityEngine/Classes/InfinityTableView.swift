@@ -56,9 +56,14 @@ public struct InfinityTableView {
  */
 
 
-public protocol InfinityTableViewDelegate: InfinityView {
+public protocol InfinityTableViewProtocol: InfinityTableViewProtocolOptional, InfinityDataSource {
     func infinityCellForIndexPath(indexPath: NSIndexPath, placeholder:Bool) -> UITableViewCell
     func infinityLoadingCell(indexPath: NSIndexPath) -> UITableViewCell
+    func infinityTableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat
+}
+
+@objc public protocol InfinityTableViewProtocolOptional: class {
+    optional func infinityTableView(tableView: UITableView, heightForLoadingCellAtIndexPath indexPath: NSIndexPath) -> CGFloat
 }
 
 /**
@@ -71,8 +76,8 @@ public protocol InfinityTableViewDelegate: InfinityView {
  */
 
 
-extension InfinityTableViewDelegate where Self: UIViewController {
-    public func startInfinityTableView(infinityTableView infinityTable:InfinityTableView, withDelegate: InfinityTableViewDelegate) {
+extension InfinityTableViewProtocol where Self: UIViewController {
+    public func startInfinityTableView(infinityTableView infinityTable:InfinityTableView, withDelegate: InfinityTableViewProtocol) {
         InfinityEngineRoom.sharedInstances.append(TableViewEngine(infinityTableView: infinityTable, delegate: withDelegate))
     }
 }

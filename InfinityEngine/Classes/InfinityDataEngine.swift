@@ -102,7 +102,7 @@ public final class InfinityEngine: NSObject {
             self.delegate.dataEngine(responsePayload: responsePayload, withIndexPaths: indexs)
             
             self.delegate.updateControllerView(atIndexes: indexs)
-            
+
         }
     }
     
@@ -167,12 +167,15 @@ public final class InfinityEngine: NSObject {
             if indexPath.row == self.dataCount() - 1 {
                 self.performDataFetch()
             }
-            
-//            if let numbItems = self.data?.count {
-//                if (numbItems - kBufferItems) == indexPath.row {
-//                    self.performDataFetch()
-//                }
-//            }
         }
     }
+}
+
+func delay(delay:Double, closure:()->()) {
+    dispatch_after(
+        dispatch_time(
+            DISPATCH_TIME_NOW,
+            Int64(delay * Double(NSEC_PER_SEC))
+        ),
+        dispatch_get_main_queue(), closure)
 }

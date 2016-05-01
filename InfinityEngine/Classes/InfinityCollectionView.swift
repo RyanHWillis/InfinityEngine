@@ -56,7 +56,7 @@ public struct InfinityCollectionView {
  - parameter Hybrid: For general-purpose transportation.
  */
 
-public protocol InfinityCollectionViewDelegate: InfinityView {
+public protocol InfinityCollectionViewDelegate: InfinityDataSource {
     func infinityCellItemForIndexPath(indexPath: NSIndexPath, placeholder:Bool) -> UICollectionViewCell
     func infinityLoadingReusableView(indexPath: NSIndexPath, lastPageHit:Bool) -> UICollectionReusableView
 }

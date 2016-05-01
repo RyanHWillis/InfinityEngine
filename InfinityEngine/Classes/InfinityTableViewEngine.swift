@@ -23,18 +23,17 @@ public final class TableViewEngine: NSObject {
     
     var infinityTableView: InfinityTableView!
     var engine:InfinityEngine!
-    var delegate: InfinityTableViewDelegate!
+    var delegate: InfinityTableViewProtocol!
     
     // MARK: - Lifecycle
     
-    init(infinityTableView:InfinityTableView, delegate:InfinityTableViewDelegate) {
+    init(infinityTableView:InfinityTableView, delegate:InfinityTableViewProtocol) {
         super.init()
         self.infinityTableView = infinityTableView
         self.delegate = delegate
         self.engine = InfinityEngine(infinityModifiers: infinityTableView.modifiers, withDelegate: self)
         
         self.setupTableView()
-        self.engine.performDataFetch()
     }
     
     func setupTableView() {
@@ -183,7 +182,14 @@ extension TableViewEngine: UITableViewDataSource {
             if indexNum == kPlaceHolderCellCount - 1 {
                 
                 if self.infinityTableView.modifiers.infiniteScroll == true {
+                    
+                    // Becuase we have no tableview did finish loading callbacks,
+                    // we'll calculate when to start data fetch when last placeholder cell
+                    // has loaded
+                    
+                    self.engine.performDataFetch()
                     return self.delegate.infinityLoadingCell(indexPath)
+                    
                 } else {
                     return self.delegate.infinityCellForIndexPath(indexPath, placeholder: true)
                 }
@@ -226,6 +232,36 @@ extension TableViewEngine:UITableViewDelegate {
         self.delegate.infinityDidSelectItemAtIndexPath(indexPath)
     }
     public func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        return 25.0
+        
+        // Check our indexdBy Type
+        var indexNum:Int = 0
+        if self.infinityTableView.modifiers.indexedBy == .Section {
+            indexNum = indexPath.section
+        } else {
+            indexNum = indexPath.row
+        }
+        
+        if self.engine.page == 1 {
+            if indexNum == kPlaceHolderCellCount - 1 {
+                if self.infinityTableView.modifiers.infiniteScroll == true {
+                    return kLoadingCellHeight
+                } else {
+                    return self.delegate.infinityTableView(self.infinityTableView.tableView, heightForRowAtIndexPath: indexPath)
+                }
+            } else {
+                return self.delegate.infinityTableView(self.infinityTableView.tableView, heightForRowAtIndexPath: indexPath)
+            }
+            
+        } else {
+            if self.engine.dataCount() == indexNum {
+                if self.infinityTableView.modifiers.infiniteScroll == true {
+                    return kLoadingCellHeight
+                } else {
+                    return self.delegate.infinityTableView(self.infinityTableView.tableView, heightForRowAtIndexPath: indexPath)
+                }
+            } else {
+                return self.delegate.infinityTableView(self.infinityTableView.tableView, heightForRowAtIndexPath: indexPath)
+            }
+        }
     }
 }

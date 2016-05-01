@@ -9,9 +9,10 @@
 import UIKit
 import InfinityEngine
 
-class TestTableViewController: UIViewController, InfinityTableViewDelegate {
+class TestTableViewController: UIViewController, InfinityTableViewProtocol {
     
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var tableView2: UITableView!
     
     init() {
         super.init(nibName: "TestTableViewController", bundle: NSBundle.mainBundle())
@@ -30,6 +31,14 @@ class TestTableViewController: UIViewController, InfinityTableViewDelegate {
             tableViewCellNibNames: ["TestTableViewCell"], tableViewLoadingCellINibName: "LoadingTableViewCell")
         
         startInfinityTableView(infinityTableView: tableViewStruct, withDelegate: self)
+
+        /*
+        
+        let tableViewStruct2:InfinityTableView = InfinityTableView(tableView: self.tableView2,
+                                                                  tableViewCellNibNames: ["TestTableViewCell"], tableViewLoadingCellINibName: "LoadingTableViewCell")
+        
+        startInfinityTableView(infinityTableView: tableViewStruct2, withDelegate: self)
+        */
     }
     
     func infinityCellForIndexPath(indexPath: NSIndexPath, placeholder: Bool) -> UITableViewCell {
@@ -39,6 +48,9 @@ class TestTableViewController: UIViewController, InfinityTableViewDelegate {
         } else {
             cell.contentView.backgroundColor = UIColor.orangeColor()
         }
+        
+        cell.label.text = "Row " + String(indexPath.row)
+        
         return cell
     }
     
@@ -52,7 +64,7 @@ class TestTableViewController: UIViewController, InfinityTableViewDelegate {
         
     }
     
-    var count = 0
+    //var count = 0
     func infinityData(atPage page: Int, withModifiers modifiers: InfinityModifers, completion: (responsePayload: ResponsePayload) -> ()) {
         let data:String = "test"
         var datas:[AnyObject] = [AnyObject]()
@@ -69,15 +81,18 @@ class TestTableViewController: UIViewController, InfinityTableViewDelegate {
         datas.append(data)
         
         
-        count = count + 1
-        
-        var bool = false
-        if count == 3 {
-            bool = true
-        }
-        
-        delay(1.0) {
-            completion(responsePayload: ResponsePayload(data: datas, count: 10, lastPage: bool, perPage: 10, total: 10))
-        }
+//        count = count + 1
+//        
+//        var bool = false
+//        if count == 3 {
+//            bool = true
+//        }
+        //delay(1.0) {
+            completion(responsePayload: ResponsePayload(data: datas, count: 10, lastPage: false, perPage: 10, total: 10))
+        //}
+    }
+    
+    func infinityTableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        return 1.0
     }
 }

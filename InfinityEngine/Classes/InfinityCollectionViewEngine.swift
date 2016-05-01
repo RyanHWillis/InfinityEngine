@@ -162,7 +162,7 @@ extension CollectionViewEngine: UICollectionViewDelegate {
         } else {
             return UICollectionReusableView()
         }
-    }
+    }    
 }
 
 extension CollectionViewEngine: UICollectionViewDelegateFlowLayout {

@@ -83,7 +83,7 @@ public struct InfinityModifers {
  
  */
 
-public protocol InfinityView: class {
+public protocol InfinityDataSource: class {
     func infinityDidSelectItemAtIndexPath(indexPath: NSIndexPath)
     func infinityData(atPage page: Int, withModifiers modifiers: InfinityModifers, completion: (responsePayload: ResponsePayload) -> ())
 }
