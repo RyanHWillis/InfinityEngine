@@ -128,10 +128,6 @@ public final class InfinityEngine: NSObject {
         self.data?.removeAll()
         self.delegate.updateControllerView(atIndexes: nil)
     }
-    
-    func indexPathSplitter() {
-        
-    }
 
     func splitIndexPaths(indexPaths: [NSIndexPath]) -> (reloadIndexPaths: [NSIndexPath], insertIndexPaths: [NSIndexPath]) {
         
