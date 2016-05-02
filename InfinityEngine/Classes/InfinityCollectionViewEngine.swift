@@ -60,7 +60,6 @@ public final class CollectionViewEngine: NSObject {
     
     func reloadFromRefreshControl() {
         self.engine.resetData()
-        self.reloadControl.endRefreshing()
         self.engine.performDataFetch()
     }
     
@@ -73,6 +72,11 @@ extension CollectionViewEngine: InfinityDataEngineDelegate {
     
     func getData(atPage page: Int, withModifiers modifiers: InfinityModifers, completion: (responsePayload: ResponsePayload) -> ()) {
         self.delegate.infinityData(atPage: page, withModifiers: modifiers) { (responsePayload) in
+            
+            if self.reloadControl.refreshing {
+                self.reloadControl.endRefreshing()
+            }
+            
             completion(responsePayload: responsePayload)
         }
     }

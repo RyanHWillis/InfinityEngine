@@ -57,7 +57,7 @@ public struct InfinityTableView {
 
 
 public protocol InfinityTableViewProtocol: InfinityTableViewProtocolOptional, InfinityDataSource {
-    func infinityCellForIndexPath(indexPath: NSIndexPath, placeholder:Bool) -> UITableViewCell
+    func infinityCellForIndexPath(indexPath: NSIndexPath, withData data:[AnyObject]?, withPlaceholder placeholder:Bool) -> UITableViewCell
     func infinityLoadingCell(indexPath: NSIndexPath) -> UITableViewCell
     func infinityTableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat
 }

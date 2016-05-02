@@ -41,29 +41,6 @@ class TestTableViewController: UIViewController, InfinityTableViewProtocol {
         */
     }
     
-    func infinityCellForIndexPath(indexPath: NSIndexPath, placeholder: Bool) -> UITableViewCell {
-        let cell = self.tableView.dequeueReusableCellWithIdentifier("TestTableViewCell", forIndexPath: indexPath) as! TestTableViewCell
-        if placeholder == true {
-            cell.contentView.backgroundColor = UIColor.redColor()
-        } else {
-            cell.contentView.backgroundColor = UIColor.orangeColor()
-        }
-        
-        cell.label.text = "Row " + String(indexPath.row)
-        
-        return cell
-    }
-    
-    func infinityLoadingCell(indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = self.tableView.dequeueReusableCellWithIdentifier("LoadingTableViewCell", forIndexPath: indexPath) as! LoadingTableViewCell
-        cell.backgroundColor = UIColor.purpleColor()
-        return cell
-    }
-    
-    func infinityDidSelectItemAtIndexPath(indexPath: NSIndexPath) {
-        
-    }
-    
     var count = 0
     func infinityData(atPage page: Int, withModifiers modifiers: InfinityModifers, completion: (responsePayload: ResponsePayload) -> ()) {
         
@@ -95,6 +72,32 @@ class TestTableViewController: UIViewController, InfinityTableViewProtocol {
             completion(responsePayload: ResponsePayload(data: datas, count: 10, lastPage: bool, perPage: 10, total: 10))
         }
     }
+    
+    func infinityCellForIndexPath(indexPath: NSIndexPath, withData data: [AnyObject]?, withPlaceholder placeholder: Bool) -> UITableViewCell {
+        
+        let cell = self.tableView.dequeueReusableCellWithIdentifier("TestTableViewCell", forIndexPath: indexPath) as! TestTableViewCell
+        if placeholder == true {
+            cell.contentView.backgroundColor = UIColor.redColor()
+        } else {
+            cell.contentView.backgroundColor = UIColor.orangeColor()
+        }
+        
+        cell.label.text = "Row " + String(indexPath.row)
+        
+        return cell
+    }
+    
+    func infinityLoadingCell(indexPath: NSIndexPath) -> UITableViewCell {
+        let cell = self.tableView.dequeueReusableCellWithIdentifier("LoadingTableViewCell", forIndexPath: indexPath) as! LoadingTableViewCell
+        cell.backgroundColor = UIColor.purpleColor()
+        return cell
+    }
+    
+    func infinityDidSelectItemAtIndexPath(indexPath: NSIndexPath) {
+        
+    }
+    
+
     
     func infinityTableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         return 30.0

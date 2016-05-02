@@ -60,7 +60,6 @@ public final class TableViewEngine: NSObject {
     
     func reloadFromRefreshControl() {
         self.engine.resetData()
-        self.reloadControl.endRefreshing()
     }
 }
 
@@ -68,6 +67,11 @@ extension TableViewEngine: InfinityDataEngineDelegate {
     
     func getData(atPage page: Int, withModifiers modifiers: InfinityModifers, completion: (responsePayload: ResponsePayload) -> ()) {
         self.delegate.infinityData(atPage: page, withModifiers: modifiers) { (responsePayload) in
+            
+            if self.reloadControl.refreshing {
+                self.reloadControl.endRefreshing()
+            }
+            
             completion(responsePayload: responsePayload)
         }
     }
@@ -187,11 +191,11 @@ extension TableViewEngine: UITableViewDataSource {
                     return self.delegate.infinityLoadingCell(indexPath)
                     
                 } else {
-                    return self.delegate.infinityCellForIndexPath(indexPath, placeholder: true)
+                    return self.delegate.infinityCellForIndexPath(indexPath, withData: self.engine.data, withPlaceholder: true)
                 }
                 
             } else {
-                return self.delegate.infinityCellForIndexPath(indexPath, placeholder: true)
+                return self.delegate.infinityCellForIndexPath(indexPath, withData: self.engine.data, withPlaceholder: true)
             }
             
         } else {
@@ -203,20 +207,20 @@ extension TableViewEngine: UITableViewDataSource {
                     if self.engine.dataCount() > 0 {
                         return self.delegate.infinityLoadingCell(indexPath)
                     } else {
-                        return self.delegate.infinityCellForIndexPath(indexPath, placeholder: true)
+                        return self.delegate.infinityCellForIndexPath(indexPath, withData: self.engine.data, withPlaceholder: true)
                     }
                     
                 } else {
-                    return self.delegate.infinityCellForIndexPath(indexPath, placeholder: false)
+                    return self.delegate.infinityCellForIndexPath(indexPath, withData: self.engine.data, withPlaceholder: false)
                 }
                 
             } else {
                 
                 // Check if there was no data returned from the response
                 if self.engine.dataCount() == 0 {
-                    return self.delegate.infinityCellForIndexPath(indexPath, placeholder: true)
+                    return self.delegate.infinityCellForIndexPath(indexPath, withData: self.engine.data, withPlaceholder: true)
                 } else {
-                    return self.delegate.infinityCellForIndexPath(indexPath, placeholder: false)
+                    return self.delegate.infinityCellForIndexPath(indexPath, withData: self.engine.data, withPlaceholder: false)
                 }
             }
         }
