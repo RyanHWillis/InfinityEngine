@@ -64,8 +64,12 @@ class TestTableViewController: UIViewController, InfinityTableViewProtocol {
         
     }
     
-    //var count = 0
+    var count = 0
     func infinityData(atPage page: Int, withModifiers modifiers: InfinityModifers, completion: (responsePayload: ResponsePayload) -> ()) {
+        
+        
+        print(page)
+        
         let data:String = "test"
         var datas:[AnyObject] = [AnyObject]()
         
@@ -81,18 +85,18 @@ class TestTableViewController: UIViewController, InfinityTableViewProtocol {
         datas.append(data)
         
         
-//        count = count + 1
-//        
-//        var bool = false
-//        if count == 3 {
-//            bool = true
-//        }
-        //delay(1.0) {
-            completion(responsePayload: ResponsePayload(data: datas, count: 10, lastPage: false, perPage: 10, total: 10))
-        //}
+        count = count + 1
+        
+        var bool = false
+        if count == 3 {
+            bool = true
+        }
+        delay(3.0) {
+            completion(responsePayload: ResponsePayload(data: datas, count: 10, lastPage: bool, perPage: 10, total: 10))
+        }
     }
     
     func infinityTableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        return 1.0
+        return 30.0
     }
 }

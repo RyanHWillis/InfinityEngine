@@ -30,6 +30,11 @@ class TestCollectionViewController: UIViewController, InfinityCollectionViewDele
                                     withDelegate: self)
     }
     
+    override func viewDidDisappear(animated: Bool) {
+        super.viewDidDisappear(animated)
+        cleanUp()
+    }
+    
     //MARK - Infinty Delegates
     
     func infinityCellItemForIndexPath(indexPath: NSIndexPath, placeholder: Bool) -> UICollectionViewCell {
@@ -70,9 +75,9 @@ class TestCollectionViewController: UIViewController, InfinityCollectionViewDele
         datas.append(data)
 
         
-        delay(3.0) {
+        //delay(3.0) {
             completion(responsePayload: ResponsePayload(data: datas, count: 10, lastPage: false, perPage: 10, total: 10))
-        }
+        //}
     }
 }
 

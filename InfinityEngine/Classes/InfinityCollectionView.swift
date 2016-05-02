@@ -75,4 +75,8 @@ extension InfinityCollectionViewDelegate where Self: UIViewController {
     public func startInfinityCollectionView(infinityCollectionView infinityCollection:InfinityCollectionView, withDelegate: InfinityCollectionViewDelegate) {
         InfinityEngineRoom.sharedInstances.append(CollectionViewEngine(infinityCollectionView: infinityCollection, delegate: withDelegate))
     }
+    
+    public func cleanUp() {
+        InfinityEngineRoom.sharedInstances.removeAll()
+    }
 }

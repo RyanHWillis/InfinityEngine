@@ -54,17 +54,13 @@ public final class TableViewEngine: NSObject {
 
 
         // Refresh Control
-        self.reloadControl.addTarget(self, action: #selector(TableViewEngine.reloadTableView), forControlEvents: UIControlEvents.ValueChanged)
+        self.reloadControl.addTarget(self, action: #selector(TableViewEngine.reloadFromRefreshControl), forControlEvents: UIControlEvents.ValueChanged)
         self.infinityTableView.tableView.addSubview(self.reloadControl)
     }
     
     func reloadFromRefreshControl() {
         self.engine.resetData()
         self.reloadControl.endRefreshing()
-    }
-    
-    func reloadTableView(indexes:[NSIndexPath]?) {
-        self.infinityTableView.tableView.reloadData()
     }
 }
 
@@ -263,5 +259,5 @@ extension TableViewEngine:UITableViewDelegate {
                 return self.delegate.infinityTableView(self.infinityTableView.tableView, heightForRowAtIndexPath: indexPath)
             }
         }
-    }
+    }    
 }

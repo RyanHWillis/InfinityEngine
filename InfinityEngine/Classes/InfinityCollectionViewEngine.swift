@@ -189,7 +189,7 @@ extension CollectionViewEngine: UICollectionViewDelegateFlowLayout {
     
     public func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
                                sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-        return CGSize(width: UIScreen.mainScreen().bounds.size.width / 2 - CGFloat(10.0), height: 215.0)
+        return CGSize(width: UIScreen.mainScreen().bounds.size.width / 20 - CGFloat(10.0), height: 1.0)
     }
 }
 

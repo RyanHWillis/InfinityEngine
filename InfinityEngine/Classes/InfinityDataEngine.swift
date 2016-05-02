@@ -126,7 +126,7 @@ public final class InfinityEngine: NSObject {
         self.page = 1
         self.lastPageHit = false
         self.data?.removeAll()
-        self.performDataFetch()
+        self.delegate.updateControllerView(atIndexes: nil)
     }
     
     func indexPathSplitter() {
