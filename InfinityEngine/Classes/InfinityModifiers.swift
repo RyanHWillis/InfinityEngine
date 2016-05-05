@@ -27,7 +27,7 @@ import UIKit
 
 let kLoadingCellHeight:CGFloat      = 50.0
 let kBufferItems:Int                = 10
-let kPlaceHolderCellCount:Int       = 4
+let kPlaceHolderCellCount:Int       = 8
 
 /**
  Used to represent what the paging request for the next response payload to InfinityEngine should be based on.
@@ -85,5 +85,5 @@ public struct InfinityModifers {
 
 public protocol InfinityDataSource: class {
     func infinityDidSelectItemAtIndexPath(indexPath: NSIndexPath)
-    func infinityData(atPage page: Int, withModifiers modifiers: InfinityModifers, completion: (responsePayload: ResponsePayload) -> ())
+    func infinityData(atPage page: Int, withModifiers modifiers: InfinityModifers, forSession sessionID:String, completion: (responsePayload: ResponsePayload) -> ())
 }

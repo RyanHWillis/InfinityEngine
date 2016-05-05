@@ -55,6 +55,8 @@ public final class InfinityEngine: NSObject {
     var reloadControl:UIRefreshControl!
     var modifiers: InfinityModifers!
     
+    var sessionID:String!
+    
     //MARK: - DATA
     var data: [AnyObject]? = [AnyObject]()
     var delegate: InfinityDataEngineDelegate!
@@ -67,6 +69,7 @@ public final class InfinityEngine: NSObject {
         self.reloadControl = UIRefreshControl()
         self.modifiers = modifers
         self.delegate = delegate
+        self.sessionID = self.randomAlphaNumericString()
     }
     
     override init() {
@@ -77,7 +80,7 @@ public final class InfinityEngine: NSObject {
         
         if self.lastPageHit == true { return }
  
-        print("Infinty - ", #function)
+        //print("Infinty - ", #function)
         
         self.delegate.getData(atPage: self.page, withModifiers: self.modifiers) { (responsePayload) in
             
@@ -126,6 +129,7 @@ public final class InfinityEngine: NSObject {
         self.page = 1
         self.lastPageHit = false
         self.data?.removeAll()
+        self.sessionID = self.randomAlphaNumericString()
         self.delegate.updateControllerView(atIndexes: nil)
     }
 
@@ -164,6 +168,21 @@ public final class InfinityEngine: NSObject {
                 self.performDataFetch()
             }
         }
+    }
+    
+    func randomAlphaNumericString() -> String {
+        
+        let allowedChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+        let allowedCharsCount = UInt32(allowedChars.characters.count)
+        var randomString = ""
+        
+        for _ in (0..<100) {
+            let randomNum = Int(arc4random_uniform(allowedCharsCount))
+            let newCharacter = allowedChars[allowedChars.startIndex.advancedBy(randomNum)]
+            randomString += String(newCharacter)
+        }
+        
+        return randomString
     }
 }
 

@@ -32,8 +32,9 @@ public final class TableViewEngine: NSObject {
         self.infinityTableView = infinityTableView
         self.delegate = delegate
         self.engine = InfinityEngine(infinityModifiers: infinityTableView.modifiers, withDelegate: self)
-        
         self.setupTableView()
+        
+        self.initiateEngine()
     }
     
     func setupTableView() {
@@ -58,21 +59,64 @@ public final class TableViewEngine: NSObject {
         self.infinityTableView.tableView.addSubview(self.reloadControl)
     }
     
-    func reloadFromRefreshControl() {
-        self.engine.resetData()
+    func initiateEngine() {
+        delay(0.3) {
+            self.engine.performDataFetch()
+        }
     }
+    
+    func reloadFromRefreshControl() {
+        self.previousPage = 0
+        self.engine.resetData()
+        self.initiateEngine()
+    }
+    
+    
+    var previousPage: Int = 0
 }
 
 extension TableViewEngine: InfinityDataEngineDelegate {
     
     func getData(atPage page: Int, withModifiers modifiers: InfinityModifers, completion: (responsePayload: ResponsePayload) -> ()) {
-        self.delegate.infinityData(atPage: page, withModifiers: modifiers) { (responsePayload) in
+        self.delegate.infinityData(atPage: page, withModifiers: modifiers, forSession: self.engine.sessionID) { (responsePayload) in
             
-            if self.reloadControl.refreshing {
-                self.reloadControl.endRefreshing()
+            if responsePayload.session != self.engine.sessionID {
+                print("INFINITY ENGINE: - Recieving data from pre-refresh session, discarding.")
+                return
             }
             
-            completion(responsePayload: responsePayload)
+            
+            if page > self.previousPage {
+                
+                if self.reloadControl.refreshing {
+
+                    if page == 1 {
+                        self.previousPage = page
+
+                        print("Start Again")
+                        self.reloadControl.endRefreshing()
+                        completion(responsePayload: responsePayload)
+                    } else {
+                        
+                        // Forget the response, its old arnd we're now reloading - we'll only respond to the first page now.
+                        print("Error 1")
+                        return
+                    }
+                    
+                } else {
+                    
+                    if page == self.previousPage + 1 {
+                        
+                        self.previousPage = page
+                        completion(responsePayload: responsePayload)
+                        
+                    } else {
+                        print("Error 2")
+                    }
+                }
+            } else {
+                print("INFINITY ENGINE: - You seem to be feeding me duplicate pages (\(page)), that i've already processed.")
+            }
         }
     }
     
@@ -97,10 +141,16 @@ extension TableViewEngine: InfinityDataEngineDelegate {
             }
         }
         
+        // Protect against negative indexes - it can happen, believe me.
+        let beggingIndexCount:Int = self.engine.dataCount()
+        let endIndexCount:Int = self.engine.dataCount() + numbObj
         
-        for index in (self.engine.dataCount())...(self.engine.dataCount() + numbObj) {
-            let indexPath = NSIndexPath(forRow: index, inSection: 0)
-            indexs.append(indexPath)
+        // As long as we're not gonna cause an infinite loop, lets build those new indexes between corresponding values.
+        if beggingIndexCount < endIndexCount {
+            for index in (beggingIndexCount)...(endIndexCount) {
+                let indexPath = NSIndexPath(forRow: index, inSection: 0)
+                indexs.append(indexPath)
+            }
         }
         
         return indexs
@@ -187,7 +237,7 @@ extension TableViewEngine: UITableViewDataSource {
                     // we'll calculate when to start data fetch when last placeholder cell
                     // has loaded
                     
-                    self.engine.performDataFetch()
+//                    self.engine.performDataFetch()
                     return self.delegate.infinityLoadingCell(indexPath)
                     
                 } else {

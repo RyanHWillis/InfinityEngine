@@ -58,7 +58,7 @@ class TestCollectionViewController: UIViewController, InfinityCollectionViewDele
         
     }
     
-    func infinityData(atPage page: Int, withModifiers modifiers: InfinityModifers, completion: (responsePayload: ResponsePayload) -> ()) {
+    func infinityData(atPage page: Int, withModifiers modifiers: InfinityModifers, forSession sessionID:String, completion: (responsePayload: ResponsePayload) -> ()) {
         
         let data:String = "test"
         var datas:[AnyObject] = [AnyObject]()
@@ -76,7 +76,7 @@ class TestCollectionViewController: UIViewController, InfinityCollectionViewDele
 
         
         //delay(3.0) {
-            completion(responsePayload: ResponsePayload(data: datas, count: 10, lastPage: false, perPage: 10, total: 10))
+        completion(responsePayload: ResponsePayload(data: datas, count: 10, lastPage: false, perPage: 10, total: 10, page: page, session: sessionID))
         //}
     }
 }

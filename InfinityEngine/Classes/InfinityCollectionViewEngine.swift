@@ -71,13 +71,22 @@ public final class CollectionViewEngine: NSObject {
 extension CollectionViewEngine: InfinityDataEngineDelegate {
     
     func getData(atPage page: Int, withModifiers modifiers: InfinityModifers, completion: (responsePayload: ResponsePayload) -> ()) {
-        self.delegate.infinityData(atPage: page, withModifiers: modifiers) { (responsePayload) in
+        self.delegate.infinityData(atPage: page, withModifiers: modifiers, forSession: "blah") { (responsePayload) in
             
             if self.reloadControl.refreshing {
-                self.reloadControl.endRefreshing()
+                
+                if page == 1 {
+                    self.reloadControl.endRefreshing()
+                    completion(responsePayload: responsePayload)
+                } else {
+                    
+                    // Forget the response, its old and we're now reloading
+                    return
+                }
+                
+            } else {
+                completion(responsePayload: responsePayload)
             }
-            
-            completion(responsePayload: responsePayload)
         }
     }
     
@@ -194,7 +203,7 @@ extension CollectionViewEngine: UICollectionViewDelegateFlowLayout {
     
     public func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
                                sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-        return CGSize(width: UIScreen.mainScreen().bounds.size.width / 3 - CGFloat(10.0), height: 35.0)
+        return CGSize(width: UIScreen.mainScreen().bounds.size.width / 20 - CGFloat(10.0), height: 1.0)
     }
 }
 
