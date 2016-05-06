@@ -80,45 +80,10 @@ extension TableViewEngine: InfinityDataEngineDelegate {
     func getData(atPage page: Int, withModifiers modifiers: InfinityModifers, completion: (responsePayload: ResponsePayload) -> ()) {
         self.delegate.infinityData(atPage: page, withModifiers: modifiers, forSession: self.engine.sessionID) { (responsePayload) in
             
-            if self.responseIsValid(atPage: page, withResponsePayload: responsePayload) == true {
+            if self.engine.responseIsValid(atPage: page, withReloadControl: self.reloadControl, withResponsePayload: responsePayload) == true {
                 completion(responsePayload: responsePayload)
             }
         }
-    }
-    
-    func responseIsValid(atPage page:Int, withResponsePayload response:ResponsePayload) -> Bool {
-        
-        // Check that the response is from the same session
-        if response.session != self.engine.sessionID {
-            print("INFINITY ENGINE: - Recieving data from pre-refresh session, discarding.")
-            return false
-        }
-        
-        // Ensure our rsponse is still not the same/previous page
-        if page > self.previousPage {
-            
-            if self.reloadControl.refreshing {
-                
-                if page == 1 {
-                    self.previousPage = page
-                    self.reloadControl.endRefreshing()
-                    return true
-                }
-                
-            } else {
-                
-                if page == self.previousPage + 1 {
-                    self.previousPage = page
-                    return true
-                }
-            }
-            
-        } else {
-            print("INFINITY ENGINE: - You seem to be feeding me duplicate " +
-                "pages (\(page)), that i've already processed.")
-        }
-        
-        return false
     }
     
     func buildIndexsForInsert(dataCount count: Int) -> [NSIndexPath] {

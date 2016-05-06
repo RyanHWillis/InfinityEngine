@@ -54,7 +54,6 @@ public final class InfinityEngine: NSObject {
     var previousPage: NSInteger = 0
     
     var lastPageHit:Bool!
-    var reloadControl:UIRefreshControl!
     var modifiers: InfinityModifers!
     
     var sessionID:String!
@@ -69,7 +68,6 @@ public final class InfinityEngine: NSObject {
         self.page = 1
         self.previousPage = 0
         self.lastPageHit = false
-        self.reloadControl = UIRefreshControl()
         self.modifiers = modifers
         self.delegate = delegate
         self.sessionID = self.randomAlphaNumericString()
@@ -112,7 +110,40 @@ public final class InfinityEngine: NSObject {
         }
     }
     
-
+    func responseIsValid(atPage page:Int, withReloadControl refreshControl: UIRefreshControl, withResponsePayload response:ResponsePayload) -> Bool {
+        
+        // Check that the response is from the same session
+        if response.session != self.sessionID {
+            print("INFINITY ENGINE: - Recieving data from pre-refresh session, discarding.")
+            return false
+        }
+        
+        // Ensure our rsponse is still not the same/previous page
+        if page > self.previousPage {
+            
+            if refreshControl.refreshing {
+                
+                if page == 1 {
+                    self.previousPage = page
+                    refreshControl.endRefreshing()
+                    return true
+                }
+                
+            } else {
+                
+                if page == self.previousPage + 1 {
+                    self.previousPage = page
+                    return true
+                }
+            }
+            
+        } else {
+            print("INFINITY ENGINE: - You seem to be feeding me duplicate " +
+                "pages (\(page)), that i've already processed.")
+        }
+        
+        return false
+    }
     
     func dataCount() -> Int {
         guard let dataToCount = self.data else {

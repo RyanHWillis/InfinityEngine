@@ -58,7 +58,11 @@ class TestCollectionViewController: UIViewController, InfinityCollectionViewDele
         
     }
     
+    var count = 0
     func infinityData(atPage page: Int, withModifiers modifiers: InfinityModifers, forSession sessionID:String, completion: (responsePayload: ResponsePayload) -> ()) {
+        
+        
+        print(page)
         
         let data:String = "test"
         var datas:[AnyObject] = [AnyObject]()
@@ -73,11 +77,25 @@ class TestCollectionViewController: UIViewController, InfinityCollectionViewDele
         datas.append(data)
         datas.append(data)
         datas.append(data)
-
         
-        //delay(3.0) {
-        completion(responsePayload: ResponsePayload(data: datas, count: 10, lastPage: false, perPage: 10, total: 10, page: page, session: sessionID))
-        //}
+        
+        count = count + 1
+        
+        var bool = false
+        if count == 3 {
+            bool = true
+        }
+        delay(3.0) {
+            completion(responsePayload: ResponsePayload(data: datas, count: 10, lastPage: bool, perPage: 10, total: 10, page: page, session: sessionID))
+        }
+        
+        delay(4.5) {
+            completion(responsePayload: ResponsePayload(data: datas, count: 10, lastPage: bool, perPage: 10, total: 10, page: page, session: sessionID))
+        }
+        
+        delay(6.0) {
+            completion(responsePayload: ResponsePayload(data: datas, count: 10, lastPage: bool, perPage: 10, total: 10, page: page, session: sessionID))
+        }
     }
 }
 

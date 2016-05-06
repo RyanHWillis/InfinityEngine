@@ -40,6 +40,7 @@ public final class CollectionViewEngine: NSObject {
         // Set Table View Instance With Appropriate Object
         self.infinitCollectionView.collectionView.delegate = self
         self.infinitCollectionView.collectionView.dataSource = self
+        self.infinitCollectionView.collectionView.alwaysBounceVertical = true
         
         // Register All Posible Nibs
         for nibName in self.infinitCollectionView.collectionViewCellNibNames {
@@ -71,20 +72,9 @@ public final class CollectionViewEngine: NSObject {
 extension CollectionViewEngine: InfinityDataEngineDelegate {
     
     func getData(atPage page: Int, withModifiers modifiers: InfinityModifers, completion: (responsePayload: ResponsePayload) -> ()) {
-        self.delegate.infinityData(atPage: page, withModifiers: modifiers, forSession: "blah") { (responsePayload) in
+        self.delegate.infinityData(atPage: page, withModifiers: modifiers, forSession: self.engine.sessionID) { (responsePayload) in
             
-            if self.reloadControl.refreshing {
-                
-                if page == 1 {
-                    self.reloadControl.endRefreshing()
-                    completion(responsePayload: responsePayload)
-                } else {
-                    
-                    // Forget the response, its old and we're now reloading
-                    return
-                }
-                
-            } else {
+            if self.engine.responseIsValid(atPage: page, withReloadControl: self.reloadControl, withResponsePayload: responsePayload) == true {
                 completion(responsePayload: responsePayload)
             }
         }
@@ -203,7 +193,7 @@ extension CollectionViewEngine: UICollectionViewDelegateFlowLayout {
     
     public func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
                                sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-        return CGSize(width: UIScreen.mainScreen().bounds.size.width / 20 - CGFloat(10.0), height: 1.0)
+        return CGSize(width: UIScreen.mainScreen().bounds.size.width - CGFloat(10.0), height: 30.0)
     }
 }
 
