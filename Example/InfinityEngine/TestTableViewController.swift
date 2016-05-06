@@ -32,18 +32,18 @@ class TestTableViewController: UIViewController, InfinityTableViewProtocol {
         
         startInfinityTableView(infinityTableView: tableViewStruct, withDelegate: self)
 
-        /*
-        
-        let tableViewStruct2:InfinityTableView = InfinityTableView(tableView: self.tableView2,
-                                                                  tableViewCellNibNames: ["TestTableViewCell"], tableViewLoadingCellINibName: "LoadingTableViewCell")
-        
-        startInfinityTableView(infinityTableView: tableViewStruct2, withDelegate: self)
-        */
+//        
+//        
+//        let tableViewStruct2:InfinityTableView = InfinityTableView(tableView: self.tableView2,
+//                                                                  tableViewCellNibNames: ["TestTableViewCell"], tableViewLoadingCellINibName: "LoadingTableViewCell")
+//        
+//        startInfinityTableView(infinityTableView: tableViewStruct2, withDelegate: self)
+ 
     }
     
     var count = 0
-    func infinityData(atPage page: Int, withModifiers modifiers: InfinityModifers, forSession sessionID:String, completion: (responsePayload: ResponsePayload) -> ()) {
-        
+    func infinityData(atPage page: Int, withModifiers modifiers: InfinityModifers,
+                             forSession sessionID:String, completion: (responsePayload: ResponsePayload) -> ()) {
         
         print(page)
         

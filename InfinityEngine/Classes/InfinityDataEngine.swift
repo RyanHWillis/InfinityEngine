@@ -51,6 +51,8 @@ public final class InfinityEngine: NSObject {
     
     //MARK: - VARS
     var page:NSInteger!
+    var previousPage: NSInteger = 0
+    
     var lastPageHit:Bool!
     var reloadControl:UIRefreshControl!
     var modifiers: InfinityModifers!
@@ -65,6 +67,7 @@ public final class InfinityEngine: NSObject {
         super.init()
         
         self.page = 1
+        self.previousPage = 0
         self.lastPageHit = false
         self.reloadControl = UIRefreshControl()
         self.modifiers = modifers
@@ -83,7 +86,7 @@ public final class InfinityEngine: NSObject {
         //print("Infinty - ", #function)
         
         self.delegate.getData(atPage: self.page, withModifiers: self.modifiers) { (responsePayload) in
-            
+                        
             self.page = self.page + 1
             
             // Let's Check If Our Last Page Has Been Hit
@@ -109,6 +112,8 @@ public final class InfinityEngine: NSObject {
         }
     }
     
+
+    
     func dataCount() -> Int {
         guard let dataToCount = self.data else {
             return 0
@@ -127,6 +132,7 @@ public final class InfinityEngine: NSObject {
     
     func resetData() {
         self.page = 1
+        self.previousPage = 0
         self.lastPageHit = false
         self.data?.removeAll()
         self.sessionID = self.randomAlphaNumericString()
