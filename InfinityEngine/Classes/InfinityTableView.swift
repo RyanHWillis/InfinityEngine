@@ -80,4 +80,8 @@ extension InfinityTableViewProtocol where Self: UIViewController {
     public func startInfinityTableView(infinityTableView infinityTable:InfinityTableView, withDelegate: InfinityTableViewProtocol) {
         InfinityEngineRoom.sharedInstances.append(TableViewEngine(infinityTableView: infinityTable, delegate: withDelegate))
     }
+    
+    public func updateInfintyData() {
+        
+    }
 }

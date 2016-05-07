@@ -34,7 +34,7 @@ class TestCollectionViewController: UIViewController, InfinityCollectionViewDele
         super.viewDidDisappear(animated)
         cleanUp()
     }
-    
+
     //MARK - Infinty Delegates
     
     func infinityCellItemForIndexPath(indexPath: NSIndexPath, placeholder: Bool) -> UICollectionViewCell {
