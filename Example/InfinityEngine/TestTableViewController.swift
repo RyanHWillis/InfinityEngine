@@ -79,6 +79,10 @@ class TestTableViewController: UIViewController, InfinityTableViewProtocol {
         delay(6.0) {
             completion(responsePayload: ResponsePayload(data: datas, count: 10, lastPage: bool, perPage: 10, total: 10, page: page, session: sessionID))
         }
+        
+        delay(7.0) {
+            completion(responsePayload: ResponsePayload(data: datas, count: 10, lastPage: bool, perPage: 10, total: 10, page: page, session: sessionID))
+        }
     }
     
     func infinityCellForIndexPath(indexPath: NSIndexPath, withData data: [AnyObject]?, withPlaceholder placeholder: Bool) -> UITableViewCell {
