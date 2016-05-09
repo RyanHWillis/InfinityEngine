@@ -68,7 +68,7 @@ public protocol InfinityTableViewProtocol: InfinityTableViewProtocolOptional, In
 
 /**
  Defines a Protocol to be Implemented on a UIViewControl
- 
+ ∫
  - parameter Road: For streets or trails.
  - parameter Touring: For long journeys.
  - parameter Cruiser: For casual trips around town.
@@ -81,7 +81,11 @@ extension InfinityTableViewProtocol where Self: UIViewController {
         InfinityEngineRoom.sharedTableInstances.append(TableViewEngine(infinityTableView: infinityTable, delegate: withDelegate))
     }
     
-    public func updateInfintyData() {
+    public func resetInfinityTable() {
         
+        for collectionInstance in InfinityEngineRoom.sharedTableInstances {
+            collectionInstance.engine.resetData()
+            collectionInstance.initiateEngine()
+        }
     }
 }
