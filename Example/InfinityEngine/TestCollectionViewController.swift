@@ -32,9 +32,12 @@ class TestCollectionViewController: UIViewController, InfinityCollectionViewDele
     
     override func viewDidDisappear(animated: Bool) {
         super.viewDidDisappear(animated)
-        cleanUp()
     }
 
+    @IBAction func reset(sender: AnyObject) {
+        resetInfinityCollection()        
+    }
+    
     //MARK - Infinty Delegates
     
     func infinityCellItemForIndexPath(indexPath: NSIndexPath, placeholder: Bool) -> UICollectionViewCell {
@@ -79,22 +82,22 @@ class TestCollectionViewController: UIViewController, InfinityCollectionViewDele
         datas.append(data)
         
         
-        count = count + 1
-        
-        var bool = false
-        if count == 3 {
-            bool = true
-        }
+//        count = count + 1
+//        
+//        var bool = false
+//        if count == 5 {
+//            bool = true
+//        }
         delay(3.0) {
-            completion(responsePayload: ResponsePayload(data: datas, count: 10, lastPage: bool, perPage: 10, total: 10, page: page, session: sessionID))
+            completion(responsePayload: ResponsePayload(data: datas, count: 10, lastPage: false, perPage: 10, total: 10, page: page, session: sessionID))
         }
         
         delay(4.5) {
-            completion(responsePayload: ResponsePayload(data: datas, count: 10, lastPage: bool, perPage: 10, total: 10, page: page, session: sessionID))
+            completion(responsePayload: ResponsePayload(data: datas, count: 10, lastPage: false, perPage: 10, total: 10, page: page, session: sessionID))
         }
         
         delay(6.0) {
-            completion(responsePayload: ResponsePayload(data: datas, count: 10, lastPage: bool, perPage: 10, total: 10, page: page, session: sessionID))
+            completion(responsePayload: ResponsePayload(data: datas, count: 10, lastPage: false, perPage: 10, total: 10, page: page, session: sessionID))
         }
     }
 }

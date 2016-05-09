@@ -33,7 +33,7 @@ public final class CollectionViewEngine: NSObject {
         self.delegate = delegate
         self.engine = InfinityEngine(infinityModifiers: infinitCollectionView.modifiers, withDelegate: self)
         self.setupCollectionView()
-        self.engine.performDataFetch()
+        self.initiateEngine()
     }
     
     func setupCollectionView() {
@@ -57,6 +57,12 @@ public final class CollectionViewEngine: NSObject {
         // Refresh Control
         self.reloadControl.addTarget(self, action: #selector(CollectionViewEngine.reloadFromRefreshControl), forControlEvents: UIControlEvents.ValueChanged)
         self.infinitCollectionView.collectionView.addSubview(self.reloadControl)
+    }
+    
+    func initiateEngine() {
+        delay(0.3) {
+            self.engine.performDataFetch()
+        }
     }
     
     func reloadFromRefreshControl() {
@@ -172,28 +178,45 @@ extension CollectionViewEngine: UICollectionViewDelegate {
 extension CollectionViewEngine: UICollectionViewDelegateFlowLayout {
     public func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
                                insetForSectionAtIndex section: Int) -> UIEdgeInsets {
-        return UIEdgeInsetsMake(4, 4, 4, 4)
+        
+        if let layout = self.delegate.infinity?(collectionView, layout: collectionViewLayout, insetForSectionAtIndex: section) {
+            return layout
+        } else {
+            return UIEdgeInsetsMake(4, 4, 4, 4)
+        }
     }
     
     public func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
                                minimumInteritemSpacingForSectionAtIndex section: Int) -> CGFloat {
-        return 4
+        if let layout = self.delegate.infinity?(collectionView, layout: collectionViewLayout, minimumInteritemSpacingForSectionAtIndex: section) {
+            return layout
+        } else {
+            return 4
+        }
     }
     
     public func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
                                minimumLineSpacingForSectionAtIndex section: Int) -> CGFloat {
-        return 4
+        if let layout = self.delegate.infinity?(collectionView, layout: collectionViewLayout, minimumLineSpacingForSectionAtIndex: section) {
+            return layout
+        } else {
+            return 4
+        }
     }
     
     public func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
                                referenceSizeForFooterInSection section: Int) -> CGSize {
         return CGSize(width: UIScreen.mainScreen().bounds.size.width, height: kLoadingCellHeight)
-        
     }
     
     public func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
                                sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-        return CGSize(width: UIScreen.mainScreen().bounds.size.width - CGFloat(10.0), height: 30.0)
+        
+        if let layout = self.delegate.infinity?(collectionView, layout: collectionViewLayout, sizeForItemAtIndexPath: indexPath) {
+            return layout
+        } else {
+            return CGSize(width: UIScreen.mainScreen().bounds.size.width - CGFloat(10.0), height: 30.0)
+        }
     }
 }
 

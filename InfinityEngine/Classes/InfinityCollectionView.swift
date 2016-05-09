@@ -56,9 +56,16 @@ public struct InfinityCollectionView {
  - parameter Hybrid: For general-purpose transportation.
  */
 
-public protocol InfinityCollectionViewDelegate: InfinityDataSource {
+public protocol InfinityCollectionViewDelegate: InfinityDataSource, InfinityCollectionViewProtocolOptional {
     func infinityCellItemForIndexPath(indexPath: NSIndexPath, placeholder:Bool) -> UICollectionViewCell
     func infinityLoadingReusableView(indexPath: NSIndexPath, lastPageHit:Bool) -> UICollectionReusableView
+}
+
+@objc public protocol InfinityCollectionViewProtocolOptional: class {
+    optional func infinity(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAtIndex section: Int) -> UIEdgeInsets
+    optional func infinity(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAtIndex section: Int) -> CGFloat
+    optional func infinity(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAtIndex section: Int) -> CGFloat
+    optional func infinity(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize
 }
 
 /**
@@ -73,10 +80,14 @@ public protocol InfinityCollectionViewDelegate: InfinityDataSource {
 
 extension InfinityCollectionViewDelegate where Self: UIViewController {
     public func startInfinityCollectionView(infinityCollectionView infinityCollection:InfinityCollectionView, withDelegate: InfinityCollectionViewDelegate) {
-        InfinityEngineRoom.sharedInstances.append(CollectionViewEngine(infinityCollectionView: infinityCollection, delegate: withDelegate))
+        InfinityEngineRoom.sharedCollectionInstances.append(CollectionViewEngine(infinityCollectionView: infinityCollection, delegate: withDelegate))
     }
     
-    public func cleanUp() {
-        InfinityEngineRoom.sharedInstances.removeAll()
+    public func resetInfinityCollection() {
+        
+        for collectionInstance in InfinityEngineRoom.sharedCollectionInstances {
+            collectionInstance.engine.resetData()
+            collectionInstance.initiateEngine()
+        }
     }
 }
