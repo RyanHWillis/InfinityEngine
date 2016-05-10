@@ -36,7 +36,10 @@ protocol InfinityDataEngineDelegate: class {
     func buildIndexsForInsert(dataCount count: Int) -> [NSIndexPath]
     func updateControllerView(atIndexes indexes: [NSIndexPath]?)
     func dataEngine(responsePayload payload: ResponsePayload, withIndexPaths indexPaths: [NSIndexPath]?)
+    func dataDidRespond(withData data:[AnyObject])
 }
+
+
 
 /**
  Constructural modifers that change behavior.

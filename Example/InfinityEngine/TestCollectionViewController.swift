@@ -40,6 +40,10 @@ class TestCollectionViewController: UIViewController, InfinityCollectionViewDele
     
     //MARK - Infinty Delegates
     
+    func infinintyDataResponse(withData data: [AnyObject]) {
+        
+    }
+    
     func infinityCellItemForIndexPath(indexPath: NSIndexPath, placeholder: Bool) -> UICollectionViewCell {
         let cell = self.testCollectionView.dequeueReusableCellWithReuseIdentifier("TestCollectionViewCell", forIndexPath: indexPath) as! TestCollectionViewCell
         if placeholder == true {
@@ -60,6 +64,7 @@ class TestCollectionViewController: UIViewController, InfinityCollectionViewDele
     func infinityDidSelectItemAtIndexPath(indexPath: NSIndexPath) {
         
     }
+    
     
     var count = 0
     func infinityData(atPage page: Int, withModifiers modifiers: InfinityModifers, forSession sessionID:String, completion: (responsePayload: ResponsePayload) -> ()) {

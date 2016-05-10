@@ -86,6 +86,10 @@ extension CollectionViewEngine: InfinityDataEngineDelegate {
         }
     }
     
+    func dataDidRespond(withData data: [AnyObject]) {
+        self.delegate.infinintyDataResponse?(withData: data)
+    }
+    
     func buildIndexsForInsert(dataCount count: Int) -> [NSIndexPath] {
         var indexs = [NSIndexPath]()
         

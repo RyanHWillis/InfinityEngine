@@ -45,6 +45,10 @@ class TestTableViewController: UIViewController, InfinityTableViewProtocol {
         resetInfinityTable()
     }
     
+    func infinintyDataResponse(withData data: [AnyObject]) {
+        
+    }
+    
     var count = 0
     func infinityData(atPage page: Int, withModifiers modifiers: InfinityModifers,
                              forSession sessionID:String, completion: (responsePayload: ResponsePayload) -> ()) {

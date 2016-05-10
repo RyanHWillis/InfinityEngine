@@ -83,7 +83,16 @@ public struct InfinityModifers {
  
  */
 
-public protocol InfinityDataSource: class {
+public protocol InfinityDataSource: InfinityDataEngineDelegateOptional {
     func infinityDidSelectItemAtIndexPath(indexPath: NSIndexPath)
     func infinityData(atPage page: Int, withModifiers modifiers: InfinityModifers, forSession sessionID:String, completion: (responsePayload: ResponsePayload) -> ())
 }
+
+// TODO: - THIS DOES SOMETHING I THINK.. FIX ME :(
+
+@objc public protocol InfinityDataEngineDelegateOptional: class {
+    optional func infinintyDataResponse(withData data:[AnyObject])
+}
+
+
+
