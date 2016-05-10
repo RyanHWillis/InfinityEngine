@@ -41,7 +41,7 @@ class TestCollectionViewController: UIViewController, InfinityCollectionViewDele
     //MARK - Infinty Delegates
     
     func infinintyDataResponse(withData data: [AnyObject]) {
-        
+        print(data)
     }
     
     func infinityCellItemForIndexPath(indexPath: NSIndexPath, placeholder: Bool) -> UICollectionViewCell {
