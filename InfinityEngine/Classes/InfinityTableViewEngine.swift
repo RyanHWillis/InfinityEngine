@@ -171,11 +171,11 @@ extension TableViewEngine: InfinityDataEngineDelegate {
 
 extension TableViewEngine: UITableViewDataSource {
     
-    public func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
     }
     
-    public func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if self.engine.dataCount() == 0 && self.engine.page == 1 {
             return kPlaceHolderCellCount
         } else {
@@ -192,7 +192,7 @@ extension TableViewEngine: UITableViewDataSource {
         }
     }
     
-    public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         // Calculate if we are used force reload
         if self.infinityTableView.modifiers.infiniteScroll == true {
             self.engine.infinteScrollMonitor(indexPath)
@@ -257,10 +257,12 @@ extension TableViewEngine: UITableViewDataSource {
 }
 
 extension TableViewEngine:UITableViewDelegate {
-    public func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         self.delegate.infinityDidSelectItemAtIndexPath(indexPath)
     }
-    public func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         
         // Check our indexdBy Type
         var indexNum:Int = 0
