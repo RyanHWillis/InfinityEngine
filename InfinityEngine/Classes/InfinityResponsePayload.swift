@@ -27,6 +27,9 @@
   - parameter lastPage: For casual trips around town.
   - parameter perPage: For general-purpose transportation.
   - parameter total: For general-purpose transportation.
+  - parameter page: The current page we are on data-wise.
+  - parameter session: Represents the current data session the framework is recieving data from. Creates new session on refresh or start.
+
  */
 
 public struct ResponsePayload {

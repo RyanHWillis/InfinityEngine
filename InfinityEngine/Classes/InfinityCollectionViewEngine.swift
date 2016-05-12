@@ -23,15 +23,10 @@
 import UIKit
 
 /**
- Constructural modifers that change behavior.
- 
- - Road: For streets or trails.
- - Touring: For long journeys.
- - Cruiser: For casual trips around town.
- - Hybrid: For general-purpose transportation.
+ Constructs an internal NSObject, used to represent a UICollectionView into InfinityCollectionView.
  */
 
-public final class CollectionViewEngine: NSObject {
+internal final class CollectionViewEngine: NSObject {
     
     let reloadControl = UIRefreshControl()
     

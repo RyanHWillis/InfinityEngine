@@ -21,17 +21,12 @@
 // THE SOFTWARE.
 
 /**
- Constructural modifers that change behavior.
- 
- - Road: For streets or trails.
- - Touring: For long journeys.
- - Cruiser: For casual trips around town.
- - Hybrid: For general-purpose transportation.
+ Constructs an internal NSObject, used to represent a UITableView into InfinityTableView.
  */
 
 import UIKit
 
-public final class TableViewEngine: NSObject {
+internal final class TableViewEngine: NSObject {
     
     let reloadControl = UIRefreshControl()
     

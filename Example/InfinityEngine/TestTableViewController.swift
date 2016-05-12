@@ -12,7 +12,6 @@ import InfinityEngine
 class TestTableViewController: UIViewController, InfinityTableViewProtocol {
     
     @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var tableView2: UITableView!
     
     init() {
         super.init(nibName: "TestTableViewController", bundle: NSBundle.mainBundle())
@@ -31,14 +30,6 @@ class TestTableViewController: UIViewController, InfinityTableViewProtocol {
             tableViewCellNibNames: ["TestTableViewCell"], tableViewLoadingCellINibName: "LoadingTableViewCell")
         
         startInfinityTableView(infinityTableView: tableViewStruct, withDelegate: self)
-
-//        
-//        
-//        let tableViewStruct2:InfinityTableView = InfinityTableView(tableView: self.tableView2,
-//                                                                  tableViewCellNibNames: ["TestTableViewCell"], tableViewLoadingCellINibName: "LoadingTableViewCell")
-//        
-//        startInfinityTableView(infinityTableView: tableViewStruct2, withDelegate: self)
- 
     }
     
     @IBAction func reset(sender: AnyObject) {

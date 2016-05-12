@@ -28,7 +28,7 @@ import UIKit
  Holds a strong memory reference to our Infinity Object.
  */
 
-public class InfinityEngineRoom {
+internal class InfinityEngineRoom {
     static var sharedTableInstances = [TableViewEngine]()
     static var sharedCollectionInstances = [CollectionViewEngine]()
 }

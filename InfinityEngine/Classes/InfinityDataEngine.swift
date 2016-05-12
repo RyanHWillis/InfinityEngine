@@ -23,15 +23,10 @@
 import UIKit
 
 /**
- Constructural modifers that change behavior.
- 
- - Road: For streets or trails.
- - Touring: For long journeys.
- - Cruiser: For casual trips around town.
- - Hybrid: For general-purpose transportation.
+ Constructural Protocols that are used to power the data engine. You should not alter or be accessing these.
  */
 
-protocol InfinityDataEngineDelegate: class {
+internal protocol InfinityDataEngineDelegate: class {
     func getData(atPage page: Int, withModifiers modifiers: InfinityModifers, completion: (responsePayload: ResponsePayload) -> ())
     func buildIndexsForInsert(dataCount count: Int) -> [NSIndexPath]
     func updateControllerView(atIndexes indexes: [NSIndexPath]?)
@@ -42,24 +37,18 @@ protocol InfinityDataEngineDelegate: class {
 
 
 /**
- Constructural modifers that change behavior.
- 
- - Road: For streets or trails.
- - Touring: For long journeys.
- - Cruiser: For casual trips around town.
- - Hybrid: For general-purpose transportation.
+ Constructs an internal NSObject, used to represents the engine room for data delegation into InfinityCollectionView & InfinityTableView.
  */
 
-public final class InfinityEngine: NSObject {
+internal final class InfinityEngine: NSObject {
     
-    //MARK: - VARS
+    //MARK: - Monitiors
     var page:NSInteger!
     var previousPage: NSInteger = 0
-    
+    var sessionID:String!
     var lastPageHit:Bool!
     var modifiers: InfinityModifers!
     
-    var sessionID:String!
     
     //MARK: - DATA
     var data: [AnyObject]? = [AnyObject]()
@@ -75,16 +64,10 @@ public final class InfinityEngine: NSObject {
         self.delegate = delegate
         self.sessionID = self.randomAlphaNumericString()
     }
-    
-    override init() {
-        super.init()
-    }
-    
+
     func performDataFetch() {
         
         if self.lastPageHit == true { return }
- 
-        //print("Infinty - ", #function)
         
         self.delegate.getData(atPage: self.page, withModifiers: self.modifiers) { (responsePayload) in
                         

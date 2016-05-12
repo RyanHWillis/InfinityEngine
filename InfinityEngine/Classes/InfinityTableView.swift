@@ -29,7 +29,6 @@ import UIKit
  - parameter tableViewCells:            Will need to define the name of your cells and id.
  - parameter modifiers:                 See InfinityModiers - modifiers the behavior of InfinityEngine,
                                         in reference to a UICollectionView.
- 
  */
 
 public struct InfinityTableView {
@@ -49,10 +48,9 @@ public struct InfinityTableView {
 /**
  Defines a Protocol to be Implemented on a UIViewControl
  
- - parameter Road: For streets or trails.
- - parameter Touring: For long journeys.
- - parameter Cruiser: For casual trips around town.
- - parameter Hybrid: For general-purpose transportation.
+ - func infinityCellForIndexPath:       Used to return the the corect cell in either placeholder, or live data state.
+ - func infinityLoadingCell:            Used to return the desired loading cell you would like to appear at the bottom of the pages InfinityTableView.
+ - func infinityTableView:              Used to define the height of each cell, excluding the loading cell.
  */
 
 
@@ -62,17 +60,21 @@ public protocol InfinityTableViewProtocol: InfinityTableViewProtocolOptional, In
     func infinityTableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat
 }
 
+/**
+ Defines an Optional Protocol to be Implemented on a UIViewControl
+ 
+ - func infinityTableView:              Used to return the loading cell height, else the default will be kLoadingCellHeight.
+ */
+
 @objc public protocol InfinityTableViewProtocolOptional: class {
     optional func infinityTableView(tableView: UITableView, heightForLoadingCellAtIndexPath indexPath: NSIndexPath) -> CGFloat
 }
 
 /**
- Defines a Protocol to be Implemented on a UIViewControl
- ∫
- - parameter Road: For streets or trails.
- - parameter Touring: For long journeys.
- - parameter Cruiser: For casual trips around town.
- - parameter Hybrid: For general-purpose transportation.
+ Defines an extension to be Implemented on a UIViewController
+ 
+ - func startInfinityTableView:         Used to start the InfinityTableView session.
+ - func resetInfinityTable:             Used to reset/restart the InfinityTableView session.
  */
 
 

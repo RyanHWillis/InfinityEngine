@@ -25,10 +25,10 @@ import UIKit
 /**
  Defines a struct used when incoporating an InfinteCollectionView.
  
- - parameter collectionView:            Reference to a UICollectionView, whether it be an Object or IBOutlet reference.
- - parameter collectionViewCells:       Will need to define the name of your cells and id.
- - parameter modifiers:                 See InfinityModiers - modifiers the behavior of InfinityEngine, 
-                                        in reference to a UICollectionView.
+ - parameter collectionView:                Reference to a UICollectionView, whether it be an Object or IBOutlet reference.
+ - parameter collectionViewCells:           Will need to define the name of your cells and id.
+ - parameter modifiers:                     See InfinityModiers - modifiers the behavior of InfinityEngine,
+                                            in reference to a UICollectionView.
  */
 
 public struct InfinityCollectionView {
@@ -50,16 +50,18 @@ public struct InfinityCollectionView {
 /**
  Defines a Protocol to be Implemented on a UIViewControl
  
- - parameter Road: For streets or trails.
- - parameter Touring: For long journeys.
- - parameter Cruiser: For casual trips around town.
- - parameter Hybrid: For general-purpose transportation.
+ - func infinityCellItemForIndexPath:       Used to return the the corect cell in either placeholder, or live data state.
+ - func infinityLoadingReusableView:        Used to return the desired loading cell you would like to appear at the bottom of the pages InfinityTableView.
  */
 
 public protocol InfinityCollectionViewDelegate: InfinityDataSource, InfinityCollectionViewProtocolOptional {
     func infinityCellItemForIndexPath(indexPath: NSIndexPath, placeholder:Bool) -> UICollectionViewCell
     func infinityLoadingReusableView(indexPath: NSIndexPath, lastPageHit:Bool) -> UICollectionReusableView
 }
+
+/**
+ Defines an Optional Protocol Used to set the layout of your InfnityCollectionView cells.
+ */
 
 @objc public protocol InfinityCollectionViewProtocolOptional: class {
     optional func infinity(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAtIndex section: Int) -> UIEdgeInsets
@@ -69,12 +71,10 @@ public protocol InfinityCollectionViewDelegate: InfinityDataSource, InfinityColl
 }
 
 /**
- Defines a Protocol to be Implemented on a UIViewControl
- 
- - parameter Road: For streets or trails.
- - parameter Touring: For long journeys.
- - parameter Cruiser: For casual trips around town.
- - parameter Hybrid: For general-purpose transportation.
+ Defines an extension to be Implemented on a UIViewController
+
+ - func startInfinityCollectionView:        Used to start the InfinityTableView session.
+ - func resetInfinityCollection:            Used to reset/restart the InfinityTableView session.
  */
 
 

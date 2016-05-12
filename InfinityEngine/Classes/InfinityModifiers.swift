@@ -73,13 +73,10 @@ public struct InfinityModifers {
 }
 
 /**
- Constructural modifers that change behavior.
+ Constructural sources for abstract data
  
- - parameter infiniteScroll:        Whether our data is paged, or delivered all at first response payload.
- - parameter forceReload:           If data should append, or reload the entire view.
- - parameter indexedBy:             Represents what paging request should be based on.
- - parameter uriSuffix:             Appends to a URI.
- - parameter requestParamters:      Populates request form data.
+ - func infinityDidSelectItemAtIndexPath:        Get the selected infinity cell at its current index.
+ - func infinityData:                            Retreives the appropaite data to feed into the framework
  
  */
 
@@ -88,11 +85,6 @@ public protocol InfinityDataSource: InfinityDataEngineDelegateOptional {
     func infinityData(atPage page: Int, withModifiers modifiers: InfinityModifers, forSession sessionID:String, completion: (responsePayload: ResponsePayload) -> ())
 }
 
-// TODO: - THIS DOES SOMETHING I THINK.. FIX ME :(
-
 @objc public protocol InfinityDataEngineDelegateOptional: class {
     optional func infinintyDataResponse(withData data:[AnyObject]?)
 }
-
-
-
