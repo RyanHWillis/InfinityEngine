@@ -91,7 +91,7 @@ public protocol InfinityDataSource: InfinityDataEngineDelegateOptional {
 // TODO: - THIS DOES SOMETHING I THINK.. FIX ME :(
 
 @objc public protocol InfinityDataEngineDelegateOptional: class {
-    optional func infinintyDataResponse(withData data:[AnyObject])
+    optional func infinintyDataResponse(withData data:[AnyObject]?)
 }
 
 

@@ -45,7 +45,7 @@ class TestTableViewController: UIViewController, InfinityTableViewProtocol {
         resetInfinityTable()
     }
     
-    func infinintyDataResponse(withData data: [AnyObject]) {
+    func infinintyDataResponse(withData data: [AnyObject]?) {
         
     }
     

@@ -36,7 +36,7 @@ protocol InfinityDataEngineDelegate: class {
     func buildIndexsForInsert(dataCount count: Int) -> [NSIndexPath]
     func updateControllerView(atIndexes indexes: [NSIndexPath]?)
     func dataEngine(responsePayload payload: ResponsePayload, withIndexPaths indexPaths: [NSIndexPath]?)
-    func dataDidRespond(withData data:[AnyObject])
+    func dataDidRespond(withData data:[AnyObject]?)
 }
 
 
@@ -109,6 +109,8 @@ public final class InfinityEngine: NSObject {
             self.delegate.dataEngine(responsePayload: responsePayload, withIndexPaths: indexs)
             
             self.delegate.updateControllerView(atIndexes: indexs)
+            
+            self.delegate.dataDidRespond(withData: self.data)
 
         }
     }

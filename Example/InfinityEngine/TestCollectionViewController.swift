@@ -40,7 +40,7 @@ class TestCollectionViewController: UIViewController, InfinityCollectionViewDele
     
     //MARK - Infinty Delegates
     
-    func infinintyDataResponse(withData data: [AnyObject]) {
+    func infinintyDataResponse(withData data: [AnyObject]?) {
         print(data)
     }
     

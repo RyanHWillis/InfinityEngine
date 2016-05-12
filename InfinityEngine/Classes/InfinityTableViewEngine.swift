@@ -100,7 +100,7 @@ extension TableViewEngine: InfinityDataEngineDelegate {
         }
     }
     
-    func dataDidRespond(withData data: [AnyObject]) {
+    func dataDidRespond(withData data: [AnyObject]?) {
         self.delegate.infinintyDataResponse?(withData: data)
     }
     

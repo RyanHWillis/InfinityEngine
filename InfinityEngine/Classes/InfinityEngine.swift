@@ -31,10 +31,6 @@ import UIKit
 public class InfinityEngineRoom {
     static var sharedTableInstances = [TableViewEngine]()
     static var sharedCollectionInstances = [CollectionViewEngine]()
-    
-    public func clear() {
-        
-    }
 }
 
 
