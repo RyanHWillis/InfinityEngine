@@ -20,7 +20,8 @@ class HomeViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        print("Hello Ryan!")
+        print("Moose")
         self.title = "Infinity Engine Sample"
     }
 
