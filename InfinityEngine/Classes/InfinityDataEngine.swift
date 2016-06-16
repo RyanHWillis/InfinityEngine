@@ -86,7 +86,7 @@ internal final class InfinityEngine: NSObject {
             /*------------------------------------------------------------------------*/
             var indexs:[NSIndexPath]?
             if !self.modifiers.forceReload {
-                indexs = self.delegate.buildIndexsForInsert(dataCount: responsePayload.count)
+                indexs = self.delegate.buildIndexsForInsert(dataCount: responsePayload.data.count)
             }
             
             self.delegate.dataEngine(responsePayload: responsePayload, withIndexPaths: indexs)

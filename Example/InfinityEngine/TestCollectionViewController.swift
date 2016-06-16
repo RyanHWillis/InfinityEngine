@@ -104,7 +104,7 @@ class TestCollectionViewController: UIViewController, InfinityCollectionViewDele
 
         
         delay(0.0) {
-            completion(responsePayload: ResponsePayload(data: datas, count: 10, lastPage: bool, perPage: 10, total: 10, page: page, session: sessionID))
+            completion(responsePayload: ResponsePayload(data: datas, lastPage: bool, perPage: 10, total: 10, page: page, session: sessionID))
         }
     }
 }
