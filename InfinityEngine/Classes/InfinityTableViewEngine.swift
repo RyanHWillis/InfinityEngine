@@ -273,7 +273,7 @@ extension TableViewEngine:UITableViewDelegate {
         if self.engine.page == 1 {
             if indexNum == kPlaceHolderCellCount - 1 {
                 if self.infinityTableView.modifiers.infiniteScroll == true {
-                    return kLoadingCellHeight
+                    return kCellHeight
                 } else {
                     return self.delegate.infinityTableView(self.infinityTableView.tableView, heightForRowAtIndexPath: indexPath)
                 }
@@ -284,7 +284,7 @@ extension TableViewEngine:UITableViewDelegate {
         } else {
             if self.engine.dataCount() == indexNum {
                 if self.infinityTableView.modifiers.infiniteScroll == true {
-                    return kLoadingCellHeight
+                    return kCellHeight
                 } else {
                     return self.delegate.infinityTableView(self.infinityTableView.tableView, heightForRowAtIndexPath: indexPath)
                 }

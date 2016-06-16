@@ -96,14 +96,14 @@ class TestCollectionViewController: UIViewController, InfinityCollectionViewDele
         count = count + 1
         
         var bool = false
-        if count == 2 {
+        if count == 4 {
             bool = true
         }
         
         print(bool)
 
         
-        delay(0.0) {
+        delay(1.0) {
             completion(responsePayload: ResponsePayload(data: datas, lastPage: bool, perPage: 10, total: 10, page: page, session: sessionID))
         }
     }

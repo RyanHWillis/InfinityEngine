@@ -68,6 +68,7 @@ public protocol InfinityCollectionViewDelegate: InfinityDataSource, InfinityColl
     optional func infinity(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAtIndex section: Int) -> CGFloat
     optional func infinity(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAtIndex section: Int) -> CGFloat
     optional func infinity(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize
+    optional func infinity(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForLoadingItemAtIndexPath section: Int) -> CGSize
 }
 
 /**

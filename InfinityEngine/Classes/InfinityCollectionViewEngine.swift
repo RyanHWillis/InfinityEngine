@@ -57,7 +57,6 @@ internal final class CollectionViewEngine: NSObject {
         }
         
         // Register Loading Cell
-        
         let loadingCellID = self.infinitCollectionView.collectionViewLoadingCellINibName
         self.infinitCollectionView.collectionView.registerNib(UINib(nibName: loadingCellID,
             bundle: NSBundle.mainBundle()), forSupplementaryViewOfKind: UICollectionElementKindSectionFooter,
@@ -83,7 +82,6 @@ internal final class CollectionViewEngine: NSObject {
 }
 
 extension CollectionViewEngine: InfinityDataEngineDelegate {
-    
     func getData(atPage page: Int, withModifiers modifiers: InfinityModifers, completion: (responsePayload: ResponsePayload) -> ()) {
         self.delegate.infinityData(atPage: page, withModifiers: modifiers, forSession: self.engine.sessionID) { (responsePayload) in
             
@@ -135,24 +133,17 @@ extension CollectionViewEngine: InfinityDataEngineDelegate {
             return
         }
         
-        if self.engine.modifiers.forceReload == true {
-            self.infinitCollectionView.collectionView.reloadData()
-        }
+        if self.engine.modifiers.forceReload == true { self.infinitCollectionView.collectionView.reloadData() }
     }
 }
 
 extension CollectionViewEngine: UICollectionViewDataSource {
-    
     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
         return 1
     }
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if self.engine.dataCount() == 0 {
-            return kPlaceHolderCellCount
-        } else {
-            return self.engine.dataCount()
-        }
+        if self.engine.dataCount() == 0 { return kPlaceHolderCellCount } else { return self.engine.dataCount() }
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
@@ -176,7 +167,7 @@ extension CollectionViewEngine: UICollectionViewDelegate {
     }
     
     func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String,
-                        atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
+        atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
         
         if kind == UICollectionElementKindSectionFooter {
             return self.delegate.infinityLoadingReusableView(indexPath, lastPageHit: self.engine.lastPageHit)
@@ -188,51 +179,39 @@ extension CollectionViewEngine: UICollectionViewDelegate {
 
 extension CollectionViewEngine: UICollectionViewDelegateFlowLayout {
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
-                               insetForSectionAtIndex section: Int) -> UIEdgeInsets {
+        insetForSectionAtIndex section: Int) -> UIEdgeInsets {
         
-        if let layout = self.delegate.infinity?(collectionView, layout: collectionViewLayout, insetForSectionAtIndex: section) {
-            return layout
-        } else {
-            return UIEdgeInsetsMake(4, 4, 4, 4)
-        }
+        return self.delegate.infinity?(collectionView, layout: collectionViewLayout, insetForSectionAtIndex: section) ?? UIEdgeInsetsMake(0.0, 0.0, 0.0, 0.0)
     }
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
-                               minimumInteritemSpacingForSectionAtIndex section: Int) -> CGFloat {
-        if let layout = self.delegate.infinity?(collectionView, layout: collectionViewLayout, minimumInteritemSpacingForSectionAtIndex: section) {
-            return layout
-        } else {
-            return 4
-        }
+        minimumInteritemSpacingForSectionAtIndex section: Int) -> CGFloat {
+        
+        return self.delegate.infinity?(collectionView, layout: collectionViewLayout, minimumInteritemSpacingForSectionAtIndex: section) ?? 0.0
     }
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
-                               minimumLineSpacingForSectionAtIndex section: Int) -> CGFloat {
-        if let layout = self.delegate.infinity?(collectionView, layout: collectionViewLayout, minimumLineSpacingForSectionAtIndex: section) {
-            return layout
-        } else {
-            return 4
-        }
+        minimumLineSpacingForSectionAtIndex section: Int) -> CGFloat {
+        
+        return self.delegate.infinity?(collectionView, layout: collectionViewLayout, minimumLineSpacingForSectionAtIndex: section) ?? 0.0
     }
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
-                               referenceSizeForFooterInSection section: Int) -> CGSize {
+        referenceSizeForFooterInSection section: Int) -> CGSize {
+        
         if self.engine.lastPageHit == true {
             return CGSize(width: 0.1, height: 0.1)
-
         } else {
-            return CGSize(width: UIScreen.mainScreen().bounds.size.width, height: kLoadingCellHeight)
+            return self.delegate.infinity?(collectionView, layout: collectionViewLayout, sizeForLoadingItemAtIndexPath: section) ??
+                CGSize(width: UIScreen.mainScreen().bounds.size.width, height: kCellHeight)
         }
     }
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
-                               sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
+        sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
         
-        if let layout = self.delegate.infinity?(collectionView, layout: collectionViewLayout, sizeForItemAtIndexPath: indexPath) {
-            return layout
-        } else {
-            return CGSize(width: UIScreen.mainScreen().bounds.size.width - CGFloat(10.0), height: 30.0)
-        }
+        return self.delegate.infinity?(collectionView, layout: collectionViewLayout, sizeForItemAtIndexPath: indexPath) ??
+            CGSize(width: UIScreen.mainScreen().bounds.size.width, height: kCellHeight)
     }
 }
 
