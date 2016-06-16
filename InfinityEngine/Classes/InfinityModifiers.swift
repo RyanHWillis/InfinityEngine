@@ -82,7 +82,7 @@ public struct InfinityModifers {
 
 public protocol InfinityDataSource: InfinityDataEngineDelegateOptional {
     func infinityDidSelectItemAtIndexPath(indexPath: NSIndexPath)
-    func infinityData(atPage page: Int, withModifiers modifiers: InfinityModifers, forSession sessionID:String, completion: (responsePayload: ResponsePayload) -> ())
+    func infinityData(atPage page: Int, withModifiers modifiers: InfinityModifers, forSession session:String, completion: (responsePayload: ResponsePayload) -> ())
 }
 
 @objc public protocol InfinityDataEngineDelegateOptional: class {

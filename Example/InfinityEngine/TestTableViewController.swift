@@ -42,7 +42,7 @@ class TestTableViewController: UIViewController, InfinityTableViewProtocol {
     
     var count = 0
     func infinityData(atPage page: Int, withModifiers modifiers: InfinityModifers,
-                             forSession sessionID:String, completion: (responsePayload: ResponsePayload) -> ()) {
+                             forSession session:String, completion: (responsePayload: ResponsePayload) -> ()) {
         
         print(page)
         
@@ -68,19 +68,19 @@ class TestTableViewController: UIViewController, InfinityTableViewProtocol {
             bool = true
         }
         delay(3.0) {
-            completion(responsePayload: ResponsePayload(data: datas, lastPage: bool, total: 10, page: page, session: sessionID))
+            completion(responsePayload: ResponsePayload(data: datas, lastPage: bool, page: page, session: session))
         }
         
         delay(4.5) {
-            completion(responsePayload: ResponsePayload(data: datas, lastPage: bool, total: 10, page: page, session: sessionID))
+            completion(responsePayload: ResponsePayload(data: datas, lastPage: bool, page: page, session: session))
         }
         
         delay(6.0) {
-            completion(responsePayload: ResponsePayload(data: datas, lastPage: bool, total: 10, page: page, session: sessionID))
+            completion(responsePayload: ResponsePayload(data: datas, lastPage: bool, page: page, session: session))
         }
         
         delay(7.0) {
-            completion(responsePayload: ResponsePayload(data: datas, lastPage: bool, total: 10, page: page, session: sessionID))
+            completion(responsePayload: ResponsePayload(data: datas, lastPage: bool, page: page, session: session))
         }
     }
     

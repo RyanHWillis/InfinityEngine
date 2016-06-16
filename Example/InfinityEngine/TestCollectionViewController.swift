@@ -73,7 +73,7 @@ class TestCollectionViewController: UIViewController, InfinityCollectionViewDele
                 
     }
     
-    func infinityData(atPage page: Int, withModifiers modifiers: InfinityModifers, forSession sessionID:String, completion: (responsePayload: ResponsePayload) -> ()) {
+    func infinityData(atPage page: Int, withModifiers modifiers: InfinityModifers, forSession session:String, completion: (responsePayload: ResponsePayload) -> ()) {
         
         
         print(page)
@@ -104,7 +104,7 @@ class TestCollectionViewController: UIViewController, InfinityCollectionViewDele
 
         
         delay(1.0) {
-            completion(responsePayload: ResponsePayload(data: datas, lastPage: bool, total: 10, page: page, session: sessionID))
+            completion(responsePayload: ResponsePayload(data: datas, lastPage: bool, page: page, session: session))
         }
     }
 }
