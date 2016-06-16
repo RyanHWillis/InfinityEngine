@@ -69,9 +69,7 @@ internal final class CollectionViewEngine: NSObject {
     }
     
     func initiateEngine() {
-        delay(0.3) {
-            self.engine.performDataFetch()
-        }
+        self.engine.performDataFetch()
     }
     
     func reloadFromRefreshControl() {
@@ -219,7 +217,12 @@ extension CollectionViewEngine: UICollectionViewDelegateFlowLayout {
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
                                referenceSizeForFooterInSection section: Int) -> CGSize {
-        return CGSize(width: UIScreen.mainScreen().bounds.size.width, height: kLoadingCellHeight)
+        if self.engine.lastPageHit == true {
+            return CGSize(width: 0.1, height: 0.1)
+
+        } else {
+            return CGSize(width: UIScreen.mainScreen().bounds.size.width, height: kLoadingCellHeight)
+        }
     }
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,

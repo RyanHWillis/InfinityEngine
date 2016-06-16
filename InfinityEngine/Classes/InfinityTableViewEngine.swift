@@ -69,9 +69,7 @@ internal final class TableViewEngine: NSObject {
     }
     
     func initiateEngine() {
-        delay(0.3) {
-            self.engine.performDataFetch()
-        }
+        self.engine.performDataFetch()
     }
     
     func reloadFromRefreshControl() {

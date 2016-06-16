@@ -13,6 +13,8 @@ class TestCollectionViewController: UIViewController, InfinityCollectionViewDele
     
     @IBOutlet weak var testCollectionView: UICollectionView!
     
+    var count = 0
+    
     init() {
         super.init(nibName: "TestCollectionViewController", bundle: NSBundle.mainBundle())
     }
@@ -35,13 +37,19 @@ class TestCollectionViewController: UIViewController, InfinityCollectionViewDele
     }
 
     @IBAction func reset(sender: AnyObject) {
+        count = 0
         resetInfinityCollection()        
     }
     
     //MARK - Infinty Delegates
     
     func infinintyDataResponse(withData data: [AnyObject]?) {
-        print(data)
+        
+//        init(infiniteScroll infinite: Bool! = true, forceReload force: Bool! = false,
+//                            indexedBy type: IndexType = .Row, uriSuffix suffix: String? = nil,
+//                                      requestParamters params: [String : AnyObject]? = nil) {
+        
+            let infinity:InfinityModifers = InfinityModifers(infiniteScroll: true, forceReload: true, indexedBy: .Row, uriSuffix: nil, requestParamters: nil)
     }
     
     func infinityCellItemForIndexPath(indexPath: NSIndexPath, placeholder: Bool) -> UICollectionViewCell {
@@ -62,11 +70,9 @@ class TestCollectionViewController: UIViewController, InfinityCollectionViewDele
     }
     
     func infinityDidSelectItemAtIndexPath(indexPath: NSIndexPath) {
-        
+                
     }
     
-    
-    var count = 0
     func infinityData(atPage page: Int, withModifiers modifiers: InfinityModifers, forSession sessionID:String, completion: (responsePayload: ResponsePayload) -> ()) {
         
         
@@ -87,22 +93,18 @@ class TestCollectionViewController: UIViewController, InfinityCollectionViewDele
         datas.append(data)
         
         
-//        count = count + 1
-//        
-//        var bool = false
-//        if count == 5 {
-//            bool = true
-//        }
-        delay(3.0) {
-            completion(responsePayload: ResponsePayload(data: datas, count: 10, lastPage: false, perPage: 10, total: 10, page: page, session: sessionID))
+        count = count + 1
+        
+        var bool = false
+        if count == 2 {
+            bool = true
         }
         
-        delay(4.5) {
-            completion(responsePayload: ResponsePayload(data: datas, count: 10, lastPage: false, perPage: 10, total: 10, page: page, session: sessionID))
-        }
+        print(bool)
+
         
-        delay(6.0) {
-            completion(responsePayload: ResponsePayload(data: datas, count: 10, lastPage: false, perPage: 10, total: 10, page: page, session: sessionID))
+        delay(0.0) {
+            completion(responsePayload: ResponsePayload(data: datas, count: 10, lastPage: bool, perPage: 10, total: 10, page: page, session: sessionID))
         }
     }
 }
