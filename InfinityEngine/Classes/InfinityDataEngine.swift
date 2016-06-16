@@ -78,10 +78,6 @@ internal final class InfinityEngine: NSObject {
             
             self.lastPageHit = responsePayload.lastPage
             
-            if responsePayload.total < responsePayload.perPage {
-                self.lastPageHit = true
-            }
-            
             // Build Indexes Depending On Results Returned
             /*------------------------------------------------------------------------*/
             var indexs:[NSIndexPath]?
