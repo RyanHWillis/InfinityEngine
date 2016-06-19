@@ -22,7 +22,7 @@
 
 import UIKit
 
-/**
+/** 
  Constructs an internal NSObject, used to represent a UICollectionView into InfinityCollectionView.
  */
 
