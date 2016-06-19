@@ -5,6 +5,8 @@
 [![License](https://img.shields.io/cocoapods/l/InfinityEngine.svg?style=flat)](http://cocoapods.org/pods/InfinityEngine)
 [![Platform](https://img.shields.io/cocoapods/p/InfinityEngine.svg?style=flat)](http://cocoapods.org/pods/InfinityEngine)
 
+![alt text](Example/collectionview.gif "UICollectionView")
+
 ## Features
 + Elegant TableView & CollectionView paged data handling
 + Progressive Protocol Implemtation
