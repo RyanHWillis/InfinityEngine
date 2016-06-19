@@ -2,9 +2,31 @@
     <img src="https://cdn.rawgit.com/RyanHWillis/InfinityEngine/master/Example/infinityenginelogo.jpg"  width="600" height="150" alt="Infinity Engine Logo">
 </p>
 
-[![Version](https://img.shields.io/cocoapods/v/InfinityEngine.svg?style=flat)](http://cocoapods.org/pods/InfinityEngine)
-[![License](https://img.shields.io/cocoapods/l/InfinityEngine.svg?style=flat)](http://cocoapods.org/pods/InfinityEngine)
-[![Platform](https://img.shields.io/cocoapods/p/InfinityEngine.svg?style=flat)](http://cocoapods.org/pods/InfinityEngine)
+<p align="center">
+    <img src="https://img.shields.io/badge/platform-ios-lightgrey.svg"
+         alt="Platform">
+    <img src="https://img.shields.io/cocoapods/v/InfinityEngine.svg?style=flat"
+         alt="Version">
+    <img src="https://img.shields.io/cocoapods/l/InfinityEngine.svg?style=flat"
+         alt="License">
+    <img src="https://img.shields.io/badge/language-swift-orange.svg"
+         alt="Language: Swift">
+    <img src="https://img.shields.io/cocoapods/dt/InfinityEngine.svg"
+         alt="Downloads: Swift">
+    <img src="https://img.shields.io/github/commits-since/RyanHWillis/InfinityEngine/1.3.2.svg"
+         alt="CommitsSince: Swift">
+</p>
+
+<p align="center">
+    <img src="https://img.shields.io/github/stars/badges/shields.svg?style=social&label=Star"
+         alt="Star: Swift">
+    <img src="https://img.shields.io/github/forks/badges/shields.svg?style=social&label=Fork"
+         alt="Fork: Swift">
+    <img src="https://img.shields.io/github/stars/badges/shields.svg?style=social&label=Watch"
+         alt="Star: Swift">  
+    <img src="https://img.shields.io/github/stars/badges/shields.svg?style=social&label=Follow"
+         alt="Star: Swift">
+</p>
 
 Infinity Engine is an Elegant TableView & CollectionView paged data handling solution, for use with local/external data - to deliever an infinite scrolling experience.
 
