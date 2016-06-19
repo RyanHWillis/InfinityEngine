@@ -31,8 +31,12 @@
 Infinity Engine is an Elegant TableView & CollectionView paged data handling solution, for use with local/external data - to deliever an infinite scrolling experience.
 
 ### UITableView & UICollectionView
-![alt tag](https://cdn.rawgit.com/RyanHWillis/InfinityEngine/master/Example/collectionview.gif)
-![alt tag](https://cdn.rawgit.com/RyanHWillis/InfinityEngine/master/Example/tableview.gif)
+<p align="center">
+    <img src="https://cdn.rawgit.com/RyanHWillis/InfinityEngine/master/Example/collectionview.gif"
+         alt="TableView">
+    <img src="https://cdn.rawgit.com/RyanHWillis/InfinityEngine/master/Example/tableview.gif"
+         alt="CollectionView">
+</p>
 
 ## Features
 + Elegant TableView & CollectionView paged data handling
