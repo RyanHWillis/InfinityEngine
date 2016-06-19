@@ -92,3 +92,24 @@ extension InfinityTableViewProtocol where Self: UIViewController {
         }
     }
 }
+
+/**
+ Defines an extension to be Implemented on a UIView
+ 
+ - func startInfinityTableView:         Used to start the InfinityTableView session.
+ - func resetInfinityTable:             Used to reset/restart the InfinityTableView session.
+ */
+
+extension InfinityTableViewProtocol where Self: UIView {
+    public func startInfinityTableView(infinityTableView infinityTable:InfinityTableView, withDelegate: InfinityTableViewProtocol) {
+        InfinityEngineRoom.sharedTableInstances.append(TableViewEngine(infinityTableView: infinityTable, delegate: withDelegate))
+    }
+    
+    public func resetInfinityTable() {
+        
+        for collectionInstance in InfinityEngineRoom.sharedTableInstances {
+            collectionInstance.engine.resetData()
+            collectionInstance.initiateEngine()
+        }
+    }
+}

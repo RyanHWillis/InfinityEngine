@@ -86,7 +86,27 @@ extension InfinityCollectionViewDelegate where Self: UIViewController {
     }
     
     public func resetInfinityCollection() {
-        
+        for collectionInstance in InfinityEngineRoom.sharedCollectionInstances {
+            collectionInstance.engine.resetData()
+            collectionInstance.initiateEngine()
+        }
+    }
+}
+
+/**
+ Defines an extension to be Implemented on a UIView
+ 
+ - func startInfinityCollectionView:        Used to start the InfinityTableView session.
+ - func resetInfinityCollection:            Used to reset/restart the InfinityTableView session.
+ */
+
+
+extension InfinityCollectionViewDelegate where Self: UIView {
+    public func startInfinityCollectionView(infinityCollectionView infinityCollection:InfinityCollectionView, withDelegate: InfinityCollectionViewDelegate) {
+        InfinityEngineRoom.sharedCollectionInstances.append(CollectionViewEngine(infinityCollectionView: infinityCollection, delegate: withDelegate))
+    }
+    
+    public func resetInfinityCollection() {
         for collectionInstance in InfinityEngineRoom.sharedCollectionInstances {
             collectionInstance.engine.resetData()
             collectionInstance.initiateEngine()
