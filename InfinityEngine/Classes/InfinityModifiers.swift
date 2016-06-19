@@ -59,16 +59,18 @@ public struct InfinityModifers {
     let indexedBy:IndexType!
     let uriSuffix:String?
     let requestParamters:[String : AnyObject]?
+    let refreshControl:Bool?
     
     public init(infiniteScroll infinite: Bool! = true, forceReload force: Bool! = false,
-                        indexedBy type: IndexType = .Row, uriSuffix suffix: String? = nil,
-                                  requestParamters params: [String : AnyObject]? = nil) {
+                indexedBy type: IndexType = .Row, uriSuffix suffix: String? = nil,
+                requestParamters params: [String : AnyObject]? = nil, refreshControl defaultControl: Bool? = true) {
         
         self.infiniteScroll = infinite
         self.forceReload = force
         self.indexedBy = type
         self.uriSuffix = suffix
         self.requestParamters = params
+        self.refreshControl = defaultControl
     }
 }
 
@@ -81,7 +83,6 @@ public struct InfinityModifers {
  */
 
 public protocol InfinityDataSource: InfinityDataEngineDelegateOptional {
-    func infinityDidSelectItemAtIndexPath(indexPath: NSIndexPath)
     func infinityData(atPage page: Int, withModifiers modifiers: InfinityModifers, forSession session:String, completion: (responsePayload: ResponsePayload) -> ())
 }
 

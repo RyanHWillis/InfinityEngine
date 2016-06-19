@@ -28,11 +28,10 @@ import UIKit
 
 internal final class TableViewEngine: NSObject {
     
-    let reloadControl = UIRefreshControl()
-    
     var infinityTableView: InfinityTableView!
     var engine:InfinityEngine!
     var delegate: InfinityTableViewProtocol!
+    var reloadControl:UIRefreshControl?
     
     // MARK: - Lifecycle
     
@@ -64,8 +63,11 @@ internal final class TableViewEngine: NSObject {
 
 
         // Refresh Control
-        self.reloadControl.addTarget(self, action: #selector(TableViewEngine.reloadFromRefreshControl), forControlEvents: UIControlEvents.ValueChanged)
-        self.infinityTableView.tableView.addSubview(self.reloadControl)
+        if self.engine.modifiers.refreshControl == true {
+            self.reloadControl = UIRefreshControl()
+            self.reloadControl?.addTarget(self, action: #selector(TableViewEngine.reloadFromRefreshControl), forControlEvents: UIControlEvents.ValueChanged)
+            self.infinityTableView.tableView.addSubview(self.reloadControl!)
+        }
     }
     
     func initiateEngine() {
@@ -257,7 +259,7 @@ extension TableViewEngine: UITableViewDataSource {
 extension TableViewEngine:UITableViewDelegate {
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        self.delegate.infinityDidSelectItemAtIndexPath(indexPath)
+        self.delegate.infinityDidSelectItemAtIndexPath?(indexPath)
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {

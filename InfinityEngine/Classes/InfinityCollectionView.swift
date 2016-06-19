@@ -64,6 +64,7 @@ public protocol InfinityCollectionViewDelegate: InfinityDataSource, InfinityColl
  */
 
 @objc public protocol InfinityCollectionViewProtocolOptional: class {
+    optional func infinityDidSelectItemAtIndexPath(indexPath: NSIndexPath)
     optional func infinity(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAtIndex section: Int) -> UIEdgeInsets
     optional func infinity(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAtIndex section: Int) -> CGFloat
     optional func infinity(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAtIndex section: Int) -> CGFloat

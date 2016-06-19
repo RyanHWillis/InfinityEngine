@@ -28,12 +28,11 @@ import UIKit
 
 internal final class CollectionViewEngine: NSObject {
     
-    let reloadControl = UIRefreshControl()
-    
     var infinitCollectionView: InfinityCollectionView!
     var engine:InfinityEngine!
     var delegate: InfinityCollectionViewDelegate!
-    
+    var reloadControl:UIRefreshControl?
+
     // MARK: - Lifecycle
     
     init(infinityCollectionView:InfinityCollectionView, delegate:InfinityCollectionViewDelegate) {
@@ -63,8 +62,11 @@ internal final class CollectionViewEngine: NSObject {
                                             withReuseIdentifier: loadingCellID)
         
         // Refresh Control
-        self.reloadControl.addTarget(self, action: #selector(CollectionViewEngine.reloadFromRefreshControl), forControlEvents: UIControlEvents.ValueChanged)
-        self.infinitCollectionView.collectionView.addSubview(self.reloadControl)
+        if self.engine.modifiers.refreshControl == true {
+            self.reloadControl = UIRefreshControl()
+            self.reloadControl?.addTarget(self, action: #selector(CollectionViewEngine.reloadFromRefreshControl), forControlEvents: UIControlEvents.ValueChanged)
+            self.infinitCollectionView.collectionView.addSubview(self.reloadControl!)
+        }
     }
     
     func initiateEngine() {
@@ -163,7 +165,7 @@ extension CollectionViewEngine: UICollectionViewDataSource {
 
 extension CollectionViewEngine: UICollectionViewDelegate {
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        self.delegate.infinityDidSelectItemAtIndexPath(indexPath)
+        self.delegate.infinityDidSelectItemAtIndexPath?(indexPath)
     }
     
     func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String,

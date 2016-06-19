@@ -67,6 +67,7 @@ public protocol InfinityTableViewProtocol: InfinityTableViewProtocolOptional, In
  */
 
 @objc public protocol InfinityTableViewProtocolOptional: class {
+    optional func infinityDidSelectItemAtIndexPath(indexPath: NSIndexPath)
     optional func infinityTableView(tableView: UITableView, heightForLoadingCellAtIndexPath indexPath: NSIndexPath) -> CGFloat
 }
 

@@ -9,10 +9,11 @@
 import UIKit
 import InfinityEngine
 
-class TestTableViewController: UIViewController, InfinityTableViewProtocol {
+class TestTableViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
-    
+    var count = 0
+
     init() {
         super.init(nibName: "TestTableViewController", bundle: NSBundle.mainBundle())
     }
@@ -24,10 +25,10 @@ class TestTableViewController: UIViewController, InfinityTableViewProtocol {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.tableView.backgroundColor = UIColor.lightGrayColor()
+        let modifiers:InfinityModifers = InfinityModifers(infiniteScroll: true, forceReload: false, indexedBy: .Row, uriSuffix: nil, requestParamters: nil, refreshControl: true)
         
         let tableViewStruct:InfinityTableView = InfinityTableView(tableView: self.tableView,
-            tableViewCellNibNames: ["TestTableViewCell"], tableViewLoadingCellINibName: "LoadingTableViewCell")
+            tableViewCellNibNames: ["TestTableViewCell"], tableViewLoadingCellINibName: "LoadingTableViewCell", modifiers: modifiers)
         
         startInfinityTableView(infinityTableView: tableViewStruct, withDelegate: self)
     }
@@ -35,16 +36,15 @@ class TestTableViewController: UIViewController, InfinityTableViewProtocol {
     @IBAction func reset(sender: AnyObject) {
         resetInfinityTable()
     }
-    
-    func infinintyDataResponse(withData data: [AnyObject]?) {
-        
-    }
-    
-    var count = 0
+}
+
+extension TestTableViewController: InfinityTableViewProtocol {
     func infinityData(atPage page: Int, withModifiers modifiers: InfinityModifers,
                              forSession session:String, completion: (responsePayload: ResponsePayload) -> ()) {
-        
-        print(page)
+
+        if page == 1 {
+            count = 0
+        }
         
         let data:String = "test"
         var datas:[AnyObject] = [AnyObject]()
@@ -67,6 +67,10 @@ class TestTableViewController: UIViewController, InfinityTableViewProtocol {
         if count == 3 {
             bool = true
         }
+        
+        // I'm returning more than one completiton here...to demonstrate multiple responses for a single session for a page will be ignored.
+        // You only need to return one completion per page request.
+        
         delay(3.0) {
             completion(responsePayload: ResponsePayload(data: datas, lastPage: bool, page: page, session: session))
         }
@@ -103,12 +107,6 @@ class TestTableViewController: UIViewController, InfinityTableViewProtocol {
         cell.backgroundColor = UIColor.purpleColor()
         return cell
     }
-    
-    func infinityDidSelectItemAtIndexPath(indexPath: NSIndexPath) {
-        
-    }
-    
-
     
     func infinityTableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         return 30.0

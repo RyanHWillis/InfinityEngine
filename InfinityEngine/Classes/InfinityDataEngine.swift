@@ -94,7 +94,7 @@ internal final class InfinityEngine: NSObject {
         }
     }
     
-    func responseIsValid(atPage page:Int, withReloadControl refreshControl: UIRefreshControl, withResponsePayload response:ResponsePayload) -> Bool {
+    func responseIsValid(atPage page:Int, withReloadControl refreshControl: UIRefreshControl?, withResponsePayload response:ResponsePayload) -> Bool {
         
         // Check that the response is from the same session
         if response.session != self.sessionID {
@@ -105,11 +105,11 @@ internal final class InfinityEngine: NSObject {
         // Ensure our rsponse is still not the same/previous page
         if page > self.previousPage {
             
-            if refreshControl.refreshing {
+            if let refreshing = refreshControl?.refreshing where refreshing == true  {
                 
                 if page == 1 {
                     self.previousPage = page
-                    refreshControl.endRefreshing()
+                    refreshControl?.endRefreshing()
                     return true
                 }
                 

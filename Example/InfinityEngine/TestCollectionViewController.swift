@@ -9,10 +9,9 @@
 import UIKit
 import InfinityEngine
 
-class TestCollectionViewController: UIViewController, InfinityCollectionViewDelegate {
+class TestCollectionViewController: UIViewController {
     
     @IBOutlet weak var testCollectionView: UICollectionView!
-    
     var count = 0
     
     init() {
@@ -25,33 +24,21 @@ class TestCollectionViewController: UIViewController, InfinityCollectionViewDele
     
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        let modifiers:InfinityModifers = InfinityModifers(infiniteScroll: true, forceReload: false, indexedBy: .Row, uriSuffix: nil, requestParamters: nil, refreshControl: true)
         
-        let collectionView:InfinityCollectionView = InfinityCollectionView(collectionView: self.testCollectionView, collectionViewCellNibNames: ["TestCollectionViewCell"], collectionViewLoadingCellINibName: "LoadingCollectionViewCell")
+        let collectionView:InfinityCollectionView = InfinityCollectionView(collectionView: self.testCollectionView, collectionViewCellNibNames: ["TestCollectionViewCell"], collectionViewLoadingCellINibName: "LoadingCollectionViewCell",  modifiers: modifiers)
         
         startInfinityCollectionView(infinityCollectionView: collectionView,
                                     withDelegate: self)
     }
-    
-    override func viewDidDisappear(animated: Bool) {
-        super.viewDidDisappear(animated)
-    }
 
     @IBAction func reset(sender: AnyObject) {
-        count = 0
         resetInfinityCollection()        
     }
-    
-    //MARK - Infinty Delegates
-    
-    func infinintyDataResponse(withData data: [AnyObject]?) {
-        
-//        init(infiniteScroll infinite: Bool! = true, forceReload force: Bool! = false,
-//                            indexedBy type: IndexType = .Row, uriSuffix suffix: String? = nil,
-//                                      requestParamters params: [String : AnyObject]? = nil) {
-        
-            let infinity:InfinityModifers = InfinityModifers(infiniteScroll: true, forceReload: true, indexedBy: .Row, uriSuffix: nil, requestParamters: nil)
-    }
-    
+}
+
+extension TestCollectionViewController: InfinityCollectionViewDelegate {
     func infinityCellItemForIndexPath(indexPath: NSIndexPath, placeholder: Bool) -> UICollectionViewCell {
         let cell = self.testCollectionView.dequeueReusableCellWithReuseIdentifier("TestCollectionViewCell", forIndexPath: indexPath) as! TestCollectionViewCell
         if placeholder == true {
@@ -65,18 +52,15 @@ class TestCollectionViewController: UIViewController, InfinityCollectionViewDele
     
     func infinityLoadingReusableView(indexPath: NSIndexPath, lastPageHit: Bool) -> UICollectionReusableView {
         let cell = self.testCollectionView.dequeueReusableSupplementaryViewOfKind(UICollectionElementKindSectionFooter,
-                withReuseIdentifier: "LoadingCollectionViewCell", forIndexPath: indexPath)
+                                                                                  withReuseIdentifier: "LoadingCollectionViewCell", forIndexPath: indexPath)
         return cell
-    }
-    
-    func infinityDidSelectItemAtIndexPath(indexPath: NSIndexPath) {
-                
     }
     
     func infinityData(atPage page: Int, withModifiers modifiers: InfinityModifers, forSession session:String, completion: (responsePayload: ResponsePayload) -> ()) {
         
-        
-        print(page)
+        if page == 1 {
+            count = 0
+        }
         
         let data:String = "test"
         var datas:[AnyObject] = [AnyObject]()
@@ -92,7 +76,6 @@ class TestCollectionViewController: UIViewController, InfinityCollectionViewDele
         datas.append(data)
         datas.append(data)
         
-        
         count = count + 1
         
         var bool = false
@@ -100,20 +83,9 @@ class TestCollectionViewController: UIViewController, InfinityCollectionViewDele
             bool = true
         }
         
-        print(bool)
-
-        
         delay(1.0) {
             completion(responsePayload: ResponsePayload(data: datas, lastPage: bool, page: page, session: session))
         }
     }
 }
 
-func delay(delay:Double, closure:()->()) {
-    dispatch_after(
-        dispatch_time(
-            DISPATCH_TIME_NOW,
-            Int64(delay * Double(NSEC_PER_SEC))
-        ),
-        dispatch_get_main_queue(), closure)
-}
