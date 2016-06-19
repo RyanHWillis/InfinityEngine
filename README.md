@@ -6,8 +6,8 @@
 [![Platform](https://img.shields.io/cocoapods/p/InfinityEngine.svg?style=flat)](http://cocoapods.org/pods/InfinityEngine)
 
 ### UITableView & UICollectionView
-![alt text](Example/tableview.gif "UICollectionView")
-![alt text](Example/collectionview.gif "UICollectionView")
+![alt tag](https://cdn.rawgit.com/RyanHWillis/InfinityEngine/master/Example/collectionview.gif)
+![alt tag](https://cdn.rawgit.com/RyanHWillis/InfinityEngine/master/Example/tableview.gif)
 
 ## Features
 + Elegant TableView & CollectionView paged data handling
