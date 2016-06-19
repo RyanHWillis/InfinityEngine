@@ -1,6 +1,5 @@
 # InfinityEngine
 
-[![CI Status](http://img.shields.io/travis/RyanHWillis/InfinityEngine.svg?style=flat)](https://travis-ci.org/RyanHWillis/InfinityEngine)
 [![Version](https://img.shields.io/cocoapods/v/InfinityEngine.svg?style=flat)](http://cocoapods.org/pods/InfinityEngine)
 [![License](https://img.shields.io/cocoapods/l/InfinityEngine.svg?style=flat)](http://cocoapods.org/pods/InfinityEngine)
 [![Platform](https://img.shields.io/cocoapods/p/InfinityEngine.svg?style=flat)](http://cocoapods.org/pods/InfinityEngine)
