@@ -3,6 +3,13 @@
 </p>
 
 <p align="center">
+    <a href="https://github.com/RyanHWillis/InfinityEngine">Git Repo</a>
+  • <a href="https://cocoapods.org/pods/InfinityEngine">Cocoapod</a>
+  • <a href="https://opensource.org/licenses/MIT">License</a>
+</p>
+
+
+<p align="center">
     <img src="https://img.shields.io/badge/platform-ios-lightgrey.svg"
          alt="Platform">
     <img src="https://img.shields.io/cocoapods/v/InfinityEngine.svg?style=flat"
