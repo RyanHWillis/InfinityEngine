@@ -75,13 +75,9 @@ internal final class TableViewEngine: NSObject {
     }
     
     func reloadFromRefreshControl() {
-        self.previousPage = 0
         self.engine.resetData()
         self.initiateEngine()
     }
-    
-    
-    var previousPage: Int = 0
 }
 
 extension TableViewEngine: InfinityDataEngineDelegate {
