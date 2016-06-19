@@ -5,7 +5,7 @@
 [![License](https://img.shields.io/cocoapods/l/InfinityEngine.svg?style=flat)](http://cocoapods.org/pods/InfinityEngine)
 [![Platform](https://img.shields.io/cocoapods/p/InfinityEngine.svg?style=flat)](http://cocoapods.org/pods/InfinityEngine)
 
-## UITableView *First & UICollectionView *Second
+### UITableView & UICollectionView
 ![alt text](Example/tableview.gif "UICollectionView")
 ![alt text](Example/collectionview.gif "UICollectionView")
 
