@@ -6,6 +6,8 @@
 [![License](https://img.shields.io/cocoapods/l/InfinityEngine.svg?style=flat)](http://cocoapods.org/pods/InfinityEngine)
 [![Platform](https://img.shields.io/cocoapods/p/InfinityEngine.svg?style=flat)](http://cocoapods.org/pods/InfinityEngine)
 
+Infinity Engine is an Elegant TableView & CollectionView paged data handling solution, for use with local external data - which deliever an infinite scrolling experience 
+
 ### UITableView & UICollectionView
 ![alt tag](https://cdn.rawgit.com/RyanHWillis/InfinityEngine/master/Example/collectionview.gif)
 ![alt tag](https://cdn.rawgit.com/RyanHWillis/InfinityEngine/master/Example/tableview.gif)
