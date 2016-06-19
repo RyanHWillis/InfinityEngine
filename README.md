@@ -1,4 +1,6 @@
-# InfinityEngine
+<p align="center">
+    <img src="https://cdn.rawgit.com/RyanHWillis/InfinityEngine/master/Example/infinityenginelogo.jpg"  width="800" height="200" alt="Infinity Engine Logo">
+</p>
 
 [![Version](https://img.shields.io/cocoapods/v/InfinityEngine.svg?style=flat)](http://cocoapods.org/pods/InfinityEngine)
 [![License](https://img.shields.io/cocoapods/l/InfinityEngine.svg?style=flat)](http://cocoapods.org/pods/InfinityEngine)
