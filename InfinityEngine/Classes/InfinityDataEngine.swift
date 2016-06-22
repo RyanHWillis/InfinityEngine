@@ -74,7 +74,7 @@ internal final class InfinityEngine: NSObject {
             /*------------------------------------------------------------------------*/
             var indexs:[NSIndexPath]?
             if !self.modifiers.forceReload {
-                indexs = self.delegate?.buildIndexsForInsert(dataCount: responsePayload.dataCount)
+                indexs = self.delegate?.buildIndexsForInsert(dataCount: responsePayload.count)
             }
             
             self.delegate?.dataEngine(responsePayload: responsePayload, withIndexPaths: indexs)
@@ -119,7 +119,7 @@ internal final class InfinityEngine: NSObject {
     }
     
     func dataFactory(responsePayload:ResponsePayload) -> Int {
-        self.dataCount = self.dataCount + responsePayload.dataCount
+        self.dataCount = self.dataCount + responsePayload.count
         return self.dataCount
     }
     

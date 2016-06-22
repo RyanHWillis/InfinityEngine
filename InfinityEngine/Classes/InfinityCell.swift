@@ -35,10 +35,10 @@ public struct InfinityCells {
     let loadingCellName: String!
     let bundleIdentifier: String?
     
-    public init(cellNames names: [String], loadingCellName loadingCellName: String, customBundle: String?) {
+    public init(cellNames names: [String], loadingCellName name: String, customBundle: String?) {
         
         self.cellNames = names
-        self.loadingCellName = loadingCellName
+        self.loadingCellName = name
         self.bundleIdentifier = customBundle
     }
 }
