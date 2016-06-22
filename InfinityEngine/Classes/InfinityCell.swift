@@ -24,27 +24,21 @@
 /**
  Constructural modifers that change behavior.
  
-  - parameter data: For streets or trails.
-  - parameter count: For long journeys.
-  - parameter lastPage: For casual trips around town.
-  - parameter perPage: For general-purpose transportation.
-  - parameter total: For general-purpose transportation.
-  - parameter page: The current page we are on data-wise.
-  - parameter session: Represents the current data session the framework is recieving data from. Creates new session on refresh or start.
-
+ - parameter cellNames:         Takes an array of strings, representing the class names of the cells you would like to use.
+ - parameter loadingCellName:   Takes a string, representing the class name of the loading cell you would like to use.
+ - parameter bundleIdentifier:  An optional paramter, where if set overrides the default 'mainBundle' implemtnation with an identifer of your choosing.
+ 
  */
 
-public struct ResponsePayload {
+public struct InfinityCells {
+    let cellNames: [String]!
+    let loadingCellName: String!
+    let bundleIdentifier: String?
     
-    let data: [AnyObject]
-    let lastPage: Bool
-    let page: Int
-    let session: String
-    
-    public init(data: [AnyObject], lastPage: Bool, page: Int, session: String) {
-        self.data = data
-        self.lastPage = lastPage
-        self.page = page
-        self.session = session
+    public init(cellNames names: [String], loadingCellName loadingCellName: String, customBundle: String?) {
+        
+        self.cellNames = names
+        self.loadingCellName = loadingCellName
+        self.bundleIdentifier = customBundle
     }
 }

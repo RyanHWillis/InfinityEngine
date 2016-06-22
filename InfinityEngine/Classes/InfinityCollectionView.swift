@@ -22,34 +22,21 @@
 
 import UIKit
 
-public struct InfinityCollectionCells {
-    let cellNames: [String]!
-    let loadingCellName: String!
-    let bundleIdentifier: String?
-    
-    public init(cellNames names: [String], loadingCellName loadingCellName: String, customBundle: String?) {
-        
-        self.cellNames = names
-        self.loadingCellName = loadingCellName
-        self.bundleIdentifier = customBundle
-    }
-}
-
 /**
  Defines a struct used when incoporating an InfinteCollectionView.
  
  - parameter collectionView:                Reference to a UICollectionView, whether it be an Object or IBOutlet reference.
- - parameter collectionViewCells:           Will need to define the name of your cells and id.
+ - parameter cells:                     Will need to define the name of your cells, loading cel and bundle id.
  - parameter modifiers:                     See InfinityModiers - modifiers the behavior of InfinityEngine,
                                             in reference to a UICollectionView.
  */
 
 public struct InfinityCollectionView {
     let collectionView: UICollectionView!
-    let cells: InfinityCollectionCells!
+    let cells: InfinityCells!
     let modifiers: InfinityModifers!
     
-    public init(withCollectionView collectionView: UICollectionView, withCells cells:InfinityCollectionCells,
+    public init(withCollectionView collectionView: UICollectionView, withCells cells:InfinityCells,
                                    withModifiers modifiers: InfinityModifers? = InfinityModifers()) {
         
         self.collectionView = collectionView

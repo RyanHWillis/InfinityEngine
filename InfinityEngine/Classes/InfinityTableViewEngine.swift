@@ -52,14 +52,22 @@ internal final class TableViewEngine: NSObject {
         self.infinityTableView.tableView.dataSource = self
         self.infinityTableView.tableView.separatorStyle = .None
         
+        // Get the Bundle
+        var bundle:NSBundle!
+        if let identifier = self.infinityTableView.cells.bundleIdentifier {
+            bundle = NSBundle(identifier: identifier)
+        } else {
+            bundle = NSBundle.mainBundle()
+        }
+        
         // Register All Posible Nibs
-        for nibName in self.infinityTableView.tableViewCellNibNames {
-            self.infinityTableView.tableView.registerNib(UINib(nibName: nibName, bundle: NSBundle.mainBundle()), forCellReuseIdentifier: nibName)
+        for nibName in self.infinityTableView.cells.cellNames {
+            self.infinityTableView.tableView.registerNib(UINib(nibName: nibName, bundle: bundle), forCellReuseIdentifier: nibName)
         }
         
         // Register Loading Cell
-        let loadingCellNibName:String = self.infinityTableView.tableViewLoadingCellINibName
-        self.infinityTableView.tableView.registerNib(UINib(nibName: loadingCellNibName, bundle: NSBundle.mainBundle()), forCellReuseIdentifier: loadingCellNibName)
+        let loadingCellNibName:String = self.infinityTableView.cells.loadingCellName
+        self.infinityTableView.tableView.registerNib(UINib(nibName: loadingCellNibName, bundle: bundle), forCellReuseIdentifier: loadingCellNibName)
 
 
         // Refresh Control

@@ -25,11 +25,8 @@ class TestTableViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let modifiers:InfinityModifers = InfinityModifers(infiniteScroll: true, forceReload: false, indexedBy: .Row, uriSuffix: nil, requestParamters: nil, refreshControl: true)
-        
-        let tableViewStruct:InfinityTableView = InfinityTableView(tableView: self.tableView,
-            tableViewCellNibNames: ["TestTableViewCell"], tableViewLoadingCellINibName: "LoadingTableViewCell", modifiers: modifiers)
-        
+        let cells:InfinityCells = InfinityCells(cellNames: ["TestTableViewCell"], loadingCellName: "LoadingTableViewCell", customBundle: nil)
+        let tableViewStruct:InfinityTableView = InfinityTableView(withTableView: self.tableView, withCells: cells)
         startInfinityTableView(infinityTableView: tableViewStruct, withDelegate: self)
     }
     

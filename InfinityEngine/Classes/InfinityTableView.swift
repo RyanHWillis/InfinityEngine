@@ -26,21 +26,19 @@ import UIKit
  Defines a struct used when incoporating an InfinityTableView.
  
  - parameter tableView:                 Reference to a UICollectionView, whether it be an Object or IBOutlet reference.
- - parameter tableViewCells:            Will need to define the name of your cells and id.
+ - parameter cells:                     Will need to define the name of your cells, loading cel and bundle id.
  - parameter modifiers:                 See InfinityModiers - modifiers the behavior of InfinityEngine,
                                         in reference to a UICollectionView.
  */
 
 public struct InfinityTableView {
     let tableView: UITableView!
-    let tableViewCellNibNames: [String]!
-    let tableViewLoadingCellINibName: String!
+    let cells : InfinityCells!
     let modifiers: InfinityModifers!
     
-    public init(tableView: UITableView, tableViewCellNibNames: [String]!, tableViewLoadingCellINibName:String, modifiers: InfinityModifers? = InfinityModifers()) {
+    public init(withTableView tableView: UITableView, withCells cells: InfinityCells, withModifiers modifiers: InfinityModifers? = InfinityModifers()) {
         self.tableView = tableView
-        self.tableViewCellNibNames = tableViewCellNibNames
-        self.tableViewLoadingCellINibName = tableViewLoadingCellINibName
+        self.cells = cells
         self.modifiers = modifiers
     }
 }

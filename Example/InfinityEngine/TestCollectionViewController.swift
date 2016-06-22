@@ -25,7 +25,7 @@ class TestCollectionViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let cells:InfinityCollectionCells = InfinityCollectionCells(cellNames: ["TestCollectionViewCell"], loadingCellName: "LoadingCollectionViewCell", customBundle: nil)
+        let cells:InfinityCells = InfinityCells(cellNames: ["TestCollectionViewCell"], loadingCellName: "LoadingCollectionViewCell", customBundle: nil)
         startInfinityCollectionView(infinityCollectionView: InfinityCollectionView(withCollectionView: self.testCollectionView, withCells: cells), withDelegate: self)
     }
 
