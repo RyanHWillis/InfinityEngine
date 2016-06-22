@@ -110,14 +110,14 @@ extension TableViewEngine: InfinityDataEngineDelegate {
         
         if self.engine.lastPageHit == true {
             
-            if self.engine.dataCount() == 0 {
+            if self.engine.dataCount == 0 {
                 numbObj = count - 1
             } else {
                 numbObj = count - 2
             }
             
         } else {
-            if self.engine.dataCount() == 0 {
+            if self.engine.dataCount == 0 {
                 numbObj = count
             } else {
                 numbObj = count - 1
@@ -125,8 +125,8 @@ extension TableViewEngine: InfinityDataEngineDelegate {
         }
         
         // Protect against negative indexes - it can happen, believe me.
-        let beggingIndexCount:Int = self.engine.dataCount()
-        let endIndexCount:Int = self.engine.dataCount() + numbObj
+        let beggingIndexCount:Int = self.engine.dataCount
+        let endIndexCount:Int = self.engine.dataCount + numbObj
         
         // As long as we're not gonna cause an infinite loop, lets build those new indexes between corresponding values.
         if beggingIndexCount < endIndexCount {
@@ -140,7 +140,7 @@ extension TableViewEngine: InfinityDataEngineDelegate {
     }
     
     func dataEngine(responsePayload payload: ResponsePayload, withIndexPaths indexPaths: [NSIndexPath]?) {
-        self.engine.data = self.engine.dataFactory(payload)
+        self.engine.dataCount = self.engine.dataFactory(payload)
     }
     
     func updateControllerView(atIndexes indexes: [NSIndexPath]?) {
@@ -159,7 +159,7 @@ extension TableViewEngine: InfinityDataEngineDelegate {
             
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
                 
-                if self.engine.dataCount() <= kPlaceHolderCellCount {
+                if self.engine.dataCount <= kPlaceHolderCellCount {
                     self.infinityTableView.tableView.reloadData()
                 } else {
                     self.infinityTableView.tableView.beginUpdates()
@@ -180,17 +180,17 @@ extension TableViewEngine: UITableViewDataSource {
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if self.engine.dataCount() == 0 && self.engine.page == 1 {
+        if self.engine.dataCount == 0 && self.engine.page == 1 {
             return kPlaceHolderCellCount
         } else {
             if self.engine.lastPageHit == true {
-                return self.engine.dataCount()
+                return self.engine.dataCount
             } else {
                 
-                if self.engine.dataCount() == 0 {
-                    return self.engine.dataCount()
+                if self.engine.dataCount == 0 {
+                    return self.engine.dataCount
                 } else {
-                    return self.engine.dataCount() + 1
+                    return self.engine.dataCount + 1
                 }
             }
         }
@@ -216,44 +216,39 @@ extension TableViewEngine: UITableViewDataSource {
                 
                 if self.infinityTableView.modifiers.infiniteScroll == true {
                     
-                    // Becuase we have no tableview did finish loading callbacks,
-                    // we'll calculate when to start data fetch when last placeholder cell
-                    // has loaded
-                    
-//                    self.engine.performDataFetch()
                     return self.delegate.infinityLoadingCell(indexPath)
                     
                 } else {
-                    return self.delegate.infinityCellForIndexPath(indexPath, withData: self.engine.data, withPlaceholder: true)
+                    return self.delegate.infinityCellForIndexPath(indexPath, withPlaceholder: true)
                 }
                 
             } else {
-                return self.delegate.infinityCellForIndexPath(indexPath, withData: self.engine.data, withPlaceholder: true)
+                return self.delegate.infinityCellForIndexPath(indexPath, withPlaceholder: true)
             }
             
         } else {
             
-            if indexNum == self.engine.dataCount() {
+            if indexNum == self.engine.dataCount {
                 
                 if self.infinityTableView.modifiers.infiniteScroll == true {
                     
-                    if self.engine.dataCount() > 0 {
+                    if self.engine.dataCount > 0 {
                         return self.delegate.infinityLoadingCell(indexPath)
                     } else {
-                        return self.delegate.infinityCellForIndexPath(indexPath, withData: self.engine.data, withPlaceholder: true)
+                        return self.delegate.infinityCellForIndexPath(indexPath, withPlaceholder: true)
                     }
                     
                 } else {
-                    return self.delegate.infinityCellForIndexPath(indexPath, withData: self.engine.data, withPlaceholder: false)
+                    return self.delegate.infinityCellForIndexPath(indexPath, withPlaceholder: false)
                 }
                 
             } else {
                 
                 // Check if there was no data returned from the response
-                if self.engine.dataCount() == 0 {
-                    return self.delegate.infinityCellForIndexPath(indexPath, withData: self.engine.data, withPlaceholder: true)
+                if self.engine.dataCount == 0 {
+                    return self.delegate.infinityCellForIndexPath(indexPath, withPlaceholder: true)
                 } else {
-                    return self.delegate.infinityCellForIndexPath(indexPath, withData: self.engine.data, withPlaceholder: false)
+                    return self.delegate.infinityCellForIndexPath(indexPath, withPlaceholder: false)
                 }
             }
         }
@@ -288,7 +283,7 @@ extension TableViewEngine:UITableViewDelegate {
             }
             
         } else {
-            if self.engine.dataCount() == indexNum {
+            if self.engine.dataCount == indexNum {
                 if self.infinityTableView.modifiers.infiniteScroll == true {
                     return kCellHeight
                 } else {

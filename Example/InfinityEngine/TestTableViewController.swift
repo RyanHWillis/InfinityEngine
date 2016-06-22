@@ -69,23 +69,23 @@ extension TestTableViewController: InfinityTableViewProtocol {
         // You only need to return one completion per page request.
         
         delay(3.0) {
-            completion(responsePayload: ResponsePayload(data: datas, lastPage: bool, page: page, session: session))
+            completion(responsePayload: ResponsePayload(dataCount: 10, lastPage: bool, page: page, session: session))
         }
         
         delay(4.5) {
-            completion(responsePayload: ResponsePayload(data: datas, lastPage: bool, page: page, session: session))
+            completion(responsePayload: ResponsePayload(dataCount: 10, lastPage: bool, page: page, session: session))
         }
         
         delay(6.0) {
-            completion(responsePayload: ResponsePayload(data: datas, lastPage: bool, page: page, session: session))
+            completion(responsePayload: ResponsePayload(dataCount: 10, lastPage: bool, page: page, session: session))
         }
         
         delay(7.0) {
-            completion(responsePayload: ResponsePayload(data: datas, lastPage: bool, page: page, session: session))
+            completion(responsePayload: ResponsePayload(dataCount: 10, lastPage: bool, page: page, session: session))
         }
     }
     
-    func infinityCellForIndexPath(indexPath: NSIndexPath, withData data: [AnyObject]?, withPlaceholder placeholder: Bool) -> UITableViewCell {
+    func infinityCellForIndexPath(indexPath: NSIndexPath, withPlaceholder placeholder: Bool) -> UITableViewCell {
         
         let cell = self.tableView.dequeueReusableCellWithIdentifier("TestTableViewCell", forIndexPath: indexPath) as! TestTableViewCell
         if placeholder == true {

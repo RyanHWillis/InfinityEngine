@@ -113,7 +113,7 @@ extension CollectionViewEngine: InfinityDataEngineDelegate {
         
         let numbObj:Int = count - 1
         
-        for index in (self.engine.dataCount())...(self.engine.dataCount() + numbObj) {
+        for index in (self.engine.dataCount)...(self.engine.dataCount + numbObj) {
             let indexPath = NSIndexPath(forRow: index, inSection: 0)
             indexs.append(indexPath)
         }
@@ -125,7 +125,7 @@ extension CollectionViewEngine: InfinityDataEngineDelegate {
         
         // If there are no indexes, prepare for force refresh
         guard let indexs = indexPaths else {
-            self.engine.data = self.engine.dataFactory(payload)
+            self.engine.dataCount = self.engine.dataFactory(payload)
             return
         }
         
@@ -133,7 +133,7 @@ extension CollectionViewEngine: InfinityDataEngineDelegate {
 
         dispatch_async(dispatch_get_main_queue(), { () -> Void in
             self.infinitCollectionView.collectionView.performBatchUpdates({ () -> Void in
-                self.engine.data = self.engine.dataFactory(payload)
+                self.engine.dataCount = self.engine.dataFactory(payload)
                 self.infinitCollectionView.collectionView.reloadItemsAtIndexPaths(indexPathTuple.reloadIndexPaths)
                 self.infinitCollectionView.collectionView.insertItemsAtIndexPaths(indexPathTuple.insertIndexPaths)
                 }, completion: nil)
@@ -156,7 +156,7 @@ extension CollectionViewEngine: UICollectionViewDataSource {
     }
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if self.engine.dataCount() == 0 { return kPlaceHolderCellCount } else { return self.engine.dataCount() }
+        if self.engine.dataCount == 0 { return kPlaceHolderCellCount } else { return self.engine.dataCount }
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {

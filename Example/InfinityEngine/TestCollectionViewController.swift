@@ -80,7 +80,7 @@ extension TestCollectionViewController: InfinityCollectionViewDelegate {
         }
         
         delay(1.0) {
-            completion(responsePayload: ResponsePayload(data: datas, lastPage: bool, page: page, session: session))
+            completion(responsePayload: ResponsePayload(dataCount: 10, lastPage: bool, page: page, session: session))
         }
     }
 }

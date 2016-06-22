@@ -31,10 +31,7 @@ internal protocol InfinityDataEngineDelegate: class {
     func buildIndexsForInsert(dataCount count: Int) -> [NSIndexPath]
     func updateControllerView(atIndexes indexes: [NSIndexPath]?)
     func dataEngine(responsePayload payload: ResponsePayload, withIndexPaths indexPaths: [NSIndexPath]?)
-    func dataDidRespond(withData data:[AnyObject]?)
 }
-
-
 
 /**
  Constructs an internal NSObject, used to represents the engine room for data delegation into InfinityCollectionView & InfinityTableView.
@@ -49,27 +46,22 @@ internal final class InfinityEngine: NSObject {
     var lastPageHit:Bool!
     var modifiers: InfinityModifers!
     
-    
     //MARK: - DATA
-    var data: [AnyObject]? = [AnyObject]()
-    var delegate: InfinityDataEngineDelegate!
+    var dataCount:Int!
+    var delegate: InfinityDataEngineDelegate?
     
     init(infinityModifiers modifers:InfinityModifers, withDelegate delegate: InfinityDataEngineDelegate) {
         super.init()
-        
-        self.page = 1
-        self.previousPage = 0
-        self.lastPageHit = false
-        self.modifiers = modifers
         self.delegate = delegate
-        self.sessionID = self.randomAlphaNumericString()
+        self.modifiers = modifers
+        self.resetData()
     }
 
     func performDataFetch() {
         
         if self.lastPageHit == true { return }
         
-        self.delegate.getData(atPage: self.page, withModifiers: self.modifiers) { (responsePayload) in
+        self.delegate?.getData(atPage: self.page, withModifiers: self.modifiers) { (responsePayload) in
                         
             self.page = self.page + 1
             
@@ -82,15 +74,12 @@ internal final class InfinityEngine: NSObject {
             /*------------------------------------------------------------------------*/
             var indexs:[NSIndexPath]?
             if !self.modifiers.forceReload {
-                indexs = self.delegate.buildIndexsForInsert(dataCount: responsePayload.data.count)
+                indexs = self.delegate?.buildIndexsForInsert(dataCount: responsePayload.dataCount)
             }
             
-            self.delegate.dataEngine(responsePayload: responsePayload, withIndexPaths: indexs)
+            self.delegate?.dataEngine(responsePayload: responsePayload, withIndexPaths: indexs)
             
-            self.delegate.updateControllerView(atIndexes: indexs)
-            
-            self.delegate.dataDidRespond(withData: self.data)
-
+            self.delegate?.updateControllerView(atIndexes: indexs)
         }
     }
     
@@ -129,29 +118,18 @@ internal final class InfinityEngine: NSObject {
         return false
     }
     
-    func dataCount() -> Int {
-        guard let dataToCount = self.data else {
-            return 0
-        }
-        return dataToCount.count
-    }
-    
-    func dataFactory(responsePayload:ResponsePayload) -> [AnyObject]? {
-        
-        for data in responsePayload.data {
-            self.data?.append(data)
-        }
-        
-        return self.data
+    func dataFactory(responsePayload:ResponsePayload) -> Int {
+        self.dataCount = self.dataCount + responsePayload.dataCount
+        return self.dataCount
     }
     
     func resetData() {
         self.page = 1
         self.previousPage = 0
         self.lastPageHit = false
-        self.data?.removeAll()
+        self.dataCount = 0
         self.sessionID = self.randomAlphaNumericString()
-        self.delegate.updateControllerView(atIndexes: nil)
+        self.delegate?.updateControllerView(atIndexes: nil)
     }
 
     func splitIndexPaths(indexPaths: [NSIndexPath]) -> (reloadIndexPaths: [NSIndexPath], insertIndexPaths: [NSIndexPath]) {
@@ -176,7 +154,7 @@ internal final class InfinityEngine: NSObject {
         
         if self.modifiers.indexedBy == IndexType.Section {
             
-            if let numbItems = self.data?.count {
+            if let numbItems = self.dataCount {
                 if (numbItems - kBufferItems) == indexPath.section {
                     self.performDataFetch()
                 }
@@ -185,7 +163,7 @@ internal final class InfinityEngine: NSObject {
         } else {
             
             
-            if indexPath.row == self.dataCount() - 1 {
+            if indexPath.row == self.dataCount - 1 {
                 self.performDataFetch()
             }
         }

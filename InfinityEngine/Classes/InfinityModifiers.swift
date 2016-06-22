@@ -25,7 +25,7 @@ import UIKit
 
 //** Infinity Engine **//
 
-let kCellHeight:CGFloat      = 50.0
+let kCellHeight:CGFloat             = 50.0
 let kBufferItems:Int                = 8
 let kPlaceHolderCellCount:Int       = 8
 
