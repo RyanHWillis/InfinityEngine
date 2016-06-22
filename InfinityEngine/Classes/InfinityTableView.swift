@@ -33,12 +33,15 @@ import UIKit
 
 public struct InfinityTableView {
     let tableView: UITableView!
-    let cells : InfinityCells!
+    let cells: InfinityCells!
+    let delegate: InfinityTableViewProtocol!
     let modifiers: InfinityModifers!
     
-    public init(withTableView tableView: UITableView, withCells cells: InfinityCells, withModifiers modifiers: InfinityModifers? = InfinityModifers()) {
+    public init(withTableView tableView: UITableView, withCells cells: InfinityCells, withDelegate delegate:InfinityTableViewProtocol,
+                withModifiers modifiers: InfinityModifers? = InfinityModifers()) {
         self.tableView = tableView
         self.cells = cells
+        self.delegate = delegate
         self.modifiers = modifiers
     }
 }
@@ -78,8 +81,8 @@ public protocol InfinityTableViewProtocol: InfinityTableViewProtocolOptional, In
 
 
 extension InfinityTableViewProtocol where Self: UIViewController {
-    public func startInfinityTableView(infinityTableView infinityTable:InfinityTableView, withDelegate: InfinityTableViewProtocol) {
-        InfinityEngineRoom.sharedTableInstances.append(TableViewEngine(infinityTableView: infinityTable, delegate: withDelegate))
+    public func startInfinityTableView(infinityTableView infinityTable:InfinityTableView) {
+        InfinityEngineRoom.sharedTableInstances.append(TableViewEngine(infinityTableView: infinityTable, delegate: infinityTable.delegate))
     }
     
     public func resetInfinityTable() {
@@ -99,8 +102,8 @@ extension InfinityTableViewProtocol where Self: UIViewController {
  */
 
 extension InfinityTableViewProtocol where Self: UIView {
-    public func startInfinityTableView(infinityTableView infinityTable:InfinityTableView, withDelegate: InfinityTableViewProtocol) {
-        InfinityEngineRoom.sharedTableInstances.append(TableViewEngine(infinityTableView: infinityTable, delegate: withDelegate))
+    public func startInfinityTableView(infinityTableView infinityTable:InfinityTableView) {
+        InfinityEngineRoom.sharedTableInstances.append(TableViewEngine(infinityTableView: infinityTable, delegate: infinityTable.delegate))
     }
     
     public func resetInfinityTable() {

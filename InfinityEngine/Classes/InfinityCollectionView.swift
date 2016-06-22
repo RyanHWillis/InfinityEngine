@@ -32,15 +32,17 @@ import UIKit
  */
 
 public struct InfinityCollectionView {
-    let collectionView: UICollectionView!
-    let cells: InfinityCells!
+    let collectionView: UICollectionView
+    let cells: InfinityCells
+    let delegate: InfinityCollectionViewDelegate
     let modifiers: InfinityModifers!
     
-    public init(withCollectionView collectionView: UICollectionView, withCells cells:InfinityCells,
+    public init(withCollectionView collectionView: UICollectionView, withCells cells:InfinityCells, withDelegate delegate: InfinityCollectionViewDelegate,
                                    withModifiers modifiers: InfinityModifers? = InfinityModifers()) {
         
         self.collectionView = collectionView
         self.cells = cells
+        self.delegate = delegate
         self.modifiers = modifiers
     }
 }
@@ -79,8 +81,8 @@ public protocol InfinityCollectionViewDelegate: InfinityDataSource, InfinityColl
 
 
 extension InfinityCollectionViewDelegate where Self: UIViewController {
-    public func startInfinityCollectionView(infinityCollectionView infinityCollection:InfinityCollectionView, withDelegate: InfinityCollectionViewDelegate) {
-        InfinityEngineRoom.sharedCollectionInstances.append(CollectionViewEngine(infinityCollectionView: infinityCollection, delegate: withDelegate))
+    public func startInfinityCollectionView(infinityCollectionView infinityCollection:InfinityCollectionView) {
+        InfinityEngineRoom.sharedCollectionInstances.append(CollectionViewEngine(infinityCollectionView: infinityCollection, delegate: infinityCollection.delegate))
     }
     
     public func resetInfinityCollection() {
@@ -100,8 +102,8 @@ extension InfinityCollectionViewDelegate where Self: UIViewController {
 
 
 extension InfinityCollectionViewDelegate where Self: UIView {
-    public func startInfinityCollectionView(infinityCollectionView infinityCollection:InfinityCollectionView, withDelegate: InfinityCollectionViewDelegate) {
-        InfinityEngineRoom.sharedCollectionInstances.append(CollectionViewEngine(infinityCollectionView: infinityCollection, delegate: withDelegate))
+    public func startInfinityCollectionView(infinityCollectionView infinityCollection:InfinityCollectionView) {
+        InfinityEngineRoom.sharedCollectionInstances.append(CollectionViewEngine(infinityCollectionView: infinityCollection, delegate: infinityCollection.delegate))
     }
     
     public func resetInfinityCollection() {

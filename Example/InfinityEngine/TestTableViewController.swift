@@ -26,8 +26,8 @@ class TestTableViewController: UIViewController {
         super.viewDidLoad()
         
         let cells:InfinityCells = InfinityCells(cellNames: ["TestTableViewCell"], loadingCellName: "LoadingTableViewCell", customBundle: nil)
-        let tableViewStruct:InfinityTableView = InfinityTableView(withTableView: self.tableView, withCells: cells)
-        startInfinityTableView(infinityTableView: tableViewStruct, withDelegate: self)
+        let tableViewStruct:InfinityTableView = InfinityTableView(withTableView: self.tableView, withCells: cells, withDelegate: self)
+        startInfinityTableView(infinityTableView: tableViewStruct)
     }
     
     @IBAction func reset(sender: AnyObject) {

@@ -26,7 +26,8 @@ class TestCollectionViewController: UIViewController {
         super.viewDidLoad()
         
         let cells:InfinityCells = InfinityCells(cellNames: ["TestCollectionViewCell"], loadingCellName: "LoadingCollectionViewCell", customBundle: nil)
-        startInfinityCollectionView(infinityCollectionView: InfinityCollectionView(withCollectionView: self.testCollectionView, withCells: cells), withDelegate: self)
+        let infinityView:InfinityCollectionView = InfinityCollectionView(withCollectionView: self.testCollectionView, withCells: cells, withDelegate: self)
+        startInfinityCollectionView(infinityCollectionView: infinityView)
     }
 
     @IBAction func reset(sender: AnyObject) {
