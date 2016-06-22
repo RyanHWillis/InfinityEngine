@@ -42,22 +42,6 @@ extension TestTableViewController: InfinityTableViewProtocol {
         if page == 1 {
             count = 0
         }
-        
-        let data:String = "test"
-        var datas:[AnyObject] = [AnyObject]()
-        
-        datas.append(data)
-        datas.append(data)
-        datas.append(data)
-        datas.append(data)
-        datas.append(data)
-        datas.append(data)
-        datas.append(data)
-        datas.append(data)
-        datas.append(data)
-        datas.append(data)
-        
-        
         count = count + 1
         
         var bool = false
@@ -69,19 +53,19 @@ extension TestTableViewController: InfinityTableViewProtocol {
         // You only need to return one completion per page request.
         
         delay(3.0) {
-            completion(responsePayload: ResponsePayload(dataCount: 10, lastPage: bool, page: page, session: session))
+            completion(responsePayload: ResponsePayload(count: 10, lastPage: bool, page: page, session: session))
         }
         
         delay(4.5) {
-            completion(responsePayload: ResponsePayload(dataCount: 10, lastPage: bool, page: page, session: session))
+            completion(responsePayload: ResponsePayload(count: 10, lastPage: bool, page: page, session: session))
         }
         
         delay(6.0) {
-            completion(responsePayload: ResponsePayload(dataCount: 10, lastPage: bool, page: page, session: session))
+            completion(responsePayload: ResponsePayload(count: 10, lastPage: bool, page: page, session: session))
         }
         
         delay(7.0) {
-            completion(responsePayload: ResponsePayload(dataCount: 10, lastPage: bool, page: page, session: session))
+            completion(responsePayload: ResponsePayload(count: 10, lastPage: bool, page: page, session: session))
         }
     }
     

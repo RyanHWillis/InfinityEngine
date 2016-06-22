@@ -36,13 +36,13 @@
 
 public struct ResponsePayload {
     
-    let dataCount: Int
+    let count: Int
     let lastPage: Bool
     let page: Int
     let session: String
     
-    public init(dataCount: Int, lastPage: Bool, page: Int, session: String) {
-        self.dataCount = dataCount
+    public init(count: Int, lastPage: Bool, page: Int, session: String) {
+        self.count = count
         self.lastPage = lastPage
         self.page = page
         self.session = session
