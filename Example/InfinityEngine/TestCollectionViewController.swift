@@ -24,13 +24,9 @@ class TestCollectionViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        let modifiers:InfinityModifers = InfinityModifers(infiniteScroll: true, forceReload: false, indexedBy: .Row, uriSuffix: nil, requestParamters: nil, refreshControl: true)
         
-        let collectionView:InfinityCollectionView = InfinityCollectionView(collectionView: self.testCollectionView, collectionViewCellNibNames: ["TestCollectionViewCell"], collectionViewLoadingCellINibName: "LoadingCollectionViewCell",  modifiers: modifiers)
-        
-        startInfinityCollectionView(infinityCollectionView: collectionView,
-                                    withDelegate: self)
+        let cells:InfinityCollectionCells = InfinityCollectionCells(cellNames: ["TestCollectionViewCell"], loadingCellName: "LoadingCollectionViewCell", customBundle: nil)
+        startInfinityCollectionView(infinityCollectionView: InfinityCollectionView(withCollectionView: self.testCollectionView, withCells: cells), withDelegate: self)
     }
 
     @IBAction func reset(sender: AnyObject) {

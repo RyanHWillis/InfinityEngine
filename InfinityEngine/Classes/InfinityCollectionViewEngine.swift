@@ -50,16 +50,27 @@ internal final class CollectionViewEngine: NSObject {
         self.infinitCollectionView.collectionView.dataSource = self
         self.infinitCollectionView.collectionView.alwaysBounceVertical = true
         
+        
+        // Get the Bundle 
+        var bundle:NSBundle!
+        if let identifier = self.infinitCollectionView.cells.bundleIdentifier {
+            bundle = NSBundle(identifier: identifier)
+        } else {
+            bundle = NSBundle.mainBundle()
+        }
+        
         // Register All Posible Nibs
-        for nibName in self.infinitCollectionView.collectionViewCellNibNames {
-            self.infinitCollectionView.collectionView.registerNib(UINib(nibName: nibName, bundle: NSBundle.mainBundle()), forCellWithReuseIdentifier: nibName)
+        for nibName in self.infinitCollectionView.cells.cellNames {
+            self.infinitCollectionView.collectionView.registerNib(UINib(nibName: nibName, bundle: bundle), forCellWithReuseIdentifier: nibName)
         }
         
         // Register Loading Cell
-        let loadingCellID = self.infinitCollectionView.collectionViewLoadingCellINibName
+        let loadingCellID = self.infinitCollectionView.cells.loadingCellName
+        
         self.infinitCollectionView.collectionView.registerNib(UINib(nibName: loadingCellID,
-            bundle: NSBundle.mainBundle()), forSupplementaryViewOfKind: UICollectionElementKindSectionFooter,
-                                            withReuseIdentifier: loadingCellID)
+            bundle: bundle), forSupplementaryViewOfKind: UICollectionElementKindSectionFooter,
+                             withReuseIdentifier: loadingCellID)
+        
         
         // Refresh Control
         if self.engine.modifiers.refreshControl == true {

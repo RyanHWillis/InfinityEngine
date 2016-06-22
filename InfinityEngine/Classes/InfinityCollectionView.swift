@@ -22,6 +22,19 @@
 
 import UIKit
 
+public struct InfinityCollectionCells {
+    let cellNames: [String]!
+    let loadingCellName: String!
+    let bundleIdentifier: String?
+    
+    public init(cellNames names: [String], loadingCellName loadingCellName: String, customBundle: String?) {
+        
+        self.cellNames = names
+        self.loadingCellName = loadingCellName
+        self.bundleIdentifier = customBundle
+    }
+}
+
 /**
  Defines a struct used when incoporating an InfinteCollectionView.
  
@@ -33,16 +46,14 @@ import UIKit
 
 public struct InfinityCollectionView {
     let collectionView: UICollectionView!
-    let collectionViewCellNibNames: [String]!
-    let collectionViewLoadingCellINibName: String!
+    let cells: InfinityCollectionCells!
     let modifiers: InfinityModifers!
     
-    public init(collectionView: UICollectionView, collectionViewCellNibNames: [String], collectionViewLoadingCellINibName: String,
-                modifiers: InfinityModifers? = InfinityModifers()) {
+    public init(withCollectionView collectionView: UICollectionView, withCells cells:InfinityCollectionCells,
+                                   withModifiers modifiers: InfinityModifers? = InfinityModifers()) {
         
         self.collectionView = collectionView
-        self.collectionViewCellNibNames = collectionViewCellNibNames
-        self.collectionViewLoadingCellINibName = collectionViewLoadingCellINibName
+        self.cells = cells
         self.modifiers = modifiers
     }
 }
