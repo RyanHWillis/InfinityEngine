@@ -66,7 +66,7 @@ extension TestCollectionViewController: InfinityCollectionViewDelegate {
         }
         
         delay(1.0) { // < Simulates Delay we would expect from an API
-            completion(responsePayload: ResponsePayload(count: 10, lastPage: bool, page: page, session: session))
+            completion(responsePayload: ResponsePayload(count: 10, lastPage: bool, session: session))
         }
     }
 }

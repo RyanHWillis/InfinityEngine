@@ -53,19 +53,19 @@ extension TestTableViewController: InfinityTableViewProtocol {
         // You only need to return one completion per page request.
         
         delay(3.0) {
-            completion(responsePayload: ResponsePayload(count: 10, lastPage: bool, page: page, session: session))
+            completion(responsePayload: ResponsePayload(count: 10, lastPage: bool, session: session))
         }
         
         delay(4.5) {
-            completion(responsePayload: ResponsePayload(count: 10, lastPage: bool, page: page, session: session))
+            completion(responsePayload: ResponsePayload(count: 10, lastPage: bool, session: session))
         }
         
         delay(6.0) {
-            completion(responsePayload: ResponsePayload(count: 10, lastPage: bool, page: page, session: session))
+            completion(responsePayload: ResponsePayload(count: 10, lastPage: bool, session: session))
         }
         
         delay(7.0) {
-            completion(responsePayload: ResponsePayload(count: 10, lastPage: bool, page: page, session: session))
+            completion(responsePayload: ResponsePayload(count: 10, lastPage: bool, session: session))
         }
     }
     

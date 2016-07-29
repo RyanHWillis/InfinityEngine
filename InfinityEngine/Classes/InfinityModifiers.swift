@@ -61,7 +61,7 @@ public struct InfinityModifers {
     let requestParamters:[String : AnyObject]?
     let refreshControl:Bool?
     
-    public init(infiniteScroll infinite: Bool! = true, forceReload force: Bool! = false,
+    public init(infiniteScroll infinite: Bool! = true, forceReload force: Bool! = true,
                 indexedBy type: IndexType = .Row, uriSuffix suffix: String? = nil,
                 requestParamters params: [String : AnyObject]? = nil, refreshControl defaultControl: Bool? = true) {
         
