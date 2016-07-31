@@ -36,11 +36,11 @@
 
 public struct ResponsePayload {
     
-    let count: Int
+    var count = [Int]()
     let lastPage: Bool
     let session: String
     
-    public init(count: Int, lastPage: Bool, session: String) {
+    public init(count: [Int], lastPage: Bool, session: String) {
         self.count = count
         self.lastPage = lastPage
         self.session = session

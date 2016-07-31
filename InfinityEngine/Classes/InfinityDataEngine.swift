@@ -28,7 +28,7 @@ import UIKit
 
 internal protocol InfinityDataEngineDelegate: class {
     func getData(atPage page: Int, withModifiers modifiers: InfinityModifers, completion: (responsePayload: ResponsePayload) -> ())
-    func buildIndexsForInsert(dataCount count: Int) -> [NSIndexPath]
+    func buildIndexsForInsert(dataCount count: [Int]) -> [NSIndexPath]
     func updateControllerView(atIndexes indexes: [NSIndexPath]?)
     func dataEngine(responsePayload payload: ResponsePayload, withIndexPaths indexPaths: [NSIndexPath]?)
 }
@@ -45,9 +45,10 @@ internal final class InfinityEngine: NSObject {
     var sessionID:String!
     var lastPageHit:Bool!
     var modifiers: InfinityModifers!
+    var loading = false
     
     //MARK: - DATA
-    var dataCount:Int!
+    var dataCount = [Int]()
     var delegate: InfinityDataEngineDelegate?
     
     init(infinityModifiers modifers:InfinityModifers, withDelegate delegate: InfinityDataEngineDelegate) {
@@ -61,6 +62,7 @@ internal final class InfinityEngine: NSObject {
         
         if self.lastPageHit == true { return }
         
+        self.loading = true
         self.delegate?.getData(atPage: self.page, withModifiers: self.modifiers) { (responsePayload) in
                         
             self.page = self.page + 1
@@ -80,6 +82,8 @@ internal final class InfinityEngine: NSObject {
             self.delegate?.dataEngine(responsePayload: responsePayload, withIndexPaths: indexs)
             
             self.delegate?.updateControllerView(atIndexes: indexs)
+            
+            self.loading = false
         }
     }
     
@@ -118,8 +122,8 @@ internal final class InfinityEngine: NSObject {
         return false
     }
     
-    func dataFactory(responsePayload:ResponsePayload) -> Int {
-        self.dataCount = self.dataCount + responsePayload.count
+    func dataFactory(responsePayload:ResponsePayload) -> [Int] {
+        self.dataCount = responsePayload.count
         return self.dataCount
     }
     
@@ -127,7 +131,7 @@ internal final class InfinityEngine: NSObject {
         self.page = 1
         self.previousPage = 0
         self.lastPageHit = false
-        self.dataCount = 0
+        self.dataCount = []
         self.sessionID = self.randomAlphaNumericString()
         self.delegate?.updateControllerView(atIndexes: nil)
     }
@@ -150,22 +154,16 @@ internal final class InfinityEngine: NSObject {
         return (reloadIndexPaths, insertIndexPaths)
     }
     
-    func infinteScrollMonitor(indexPath:NSIndexPath) {
+    func infinteScrollMonitor(scrollView:UIScrollView) {
         
-        if self.modifiers.indexedBy == IndexType.Section {
-            
-            if let numbItems = self.dataCount {
-                if (numbItems - kBufferItems) == indexPath.section {
-                    self.performDataFetch()
-                }
-            }
-            
-        } else {
-            
-            
-            if indexPath.row == self.dataCount - 1 {
-                self.performDataFetch()
-            }
+        if self.loading { return }
+        
+        let height = scrollView.frame.size.height
+        let contentYOffset = scrollView.contentOffset.y
+        let distance = scrollView.contentSize.height - contentYOffset
+        
+        if distance < height {
+            self.performDataFetch()
         }
     }
     

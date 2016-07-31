@@ -27,7 +27,7 @@ import UIKit
 
 let kCellHeight:CGFloat             = 50.0
 let kBufferItems:Int                = 8
-let kPlaceHolderCellCount:Int       = 8
+let kPlaceHolderCellCount:Int       = 14
 
 /**
  Used to represent what the paging request for the next response payload to InfinityEngine should be based on.

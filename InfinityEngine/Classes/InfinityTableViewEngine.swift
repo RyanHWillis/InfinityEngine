@@ -30,15 +30,15 @@ internal final class TableViewEngine: NSObject {
     
     var infinityTableView: InfinityTableView!
     var engine:InfinityEngine!
-    var delegate: InfinityTableViewProtocol!
+    var dataSource: InfinityTableDataSource!
     var reloadControl:UIRefreshControl?
     
     // MARK: - Lifecycle
     
-    init(infinityTableView:InfinityTableView, delegate:InfinityTableViewProtocol) {
+    init(infinityTableView:InfinityTableView, dataSource:InfinityTableDataSource) {
         super.init()
         self.infinityTableView = infinityTableView
-        self.delegate = delegate
+        self.dataSource = dataSource
         self.engine = InfinityEngine(infinityModifiers: infinityTableView.modifiers, withDelegate: self)
         self.setupTableView()
         
@@ -46,7 +46,7 @@ internal final class TableViewEngine: NSObject {
     }
     
     func setupTableView() {
-        
+            
         // Set Table View Instance With Appropriate Object
         self.infinityTableView.tableView.delegate = self
         self.infinityTableView.tableView.dataSource = self
@@ -91,7 +91,7 @@ internal final class TableViewEngine: NSObject {
 extension TableViewEngine: InfinityDataEngineDelegate {
     
     func getData(atPage page: Int, withModifiers modifiers: InfinityModifers, completion: (responsePayload: ResponsePayload) -> ()) {
-        self.delegate.infinityData(atPage: page, withModifiers: modifiers, forSession: self.engine.sessionID) { (responsePayload) in
+        self.dataSource.infinityData(atPage: page, withModifiers: modifiers, forSession: self.engine.sessionID) { (responsePayload) in
             
             if self.engine.responseIsValid(atPage: page, withReloadControl: self.reloadControl, withResponsePayload: responsePayload) == true {
                 completion(responsePayload: responsePayload)
@@ -100,42 +100,42 @@ extension TableViewEngine: InfinityDataEngineDelegate {
     }
     
     func dataDidRespond(withData data: [AnyObject]?) {
-        self.delegate.infinintyDataResponse?(withData: data)
+        self.dataSource.infinintyDataResponse?(withData: data)
     }
     
-    func buildIndexsForInsert(dataCount count: Int) -> [NSIndexPath] {
+    func buildIndexsForInsert(dataCount count: [Int]) -> [NSIndexPath] {
         var indexs = [NSIndexPath]()
-        
-        var numbObj:Int
-        
-        if self.engine.lastPageHit == true {
-            
-            if self.engine.dataCount == 0 {
-                numbObj = count - 1
-            } else {
-                numbObj = count - 2
-            }
-            
-        } else {
-            if self.engine.dataCount == 0 {
-                numbObj = count
-            } else {
-                numbObj = count - 1
-            }
-        }
-        
-        // Protect against negative indexes - it can happen, believe me.
-        let beggingIndexCount:Int = self.engine.dataCount
-        let endIndexCount:Int = self.engine.dataCount + numbObj
-        
-        // As long as we're not gonna cause an infinite loop, lets build those new indexes between corresponding values.
-        if beggingIndexCount < endIndexCount {
-            for index in (beggingIndexCount)...(endIndexCount) {
-                let indexPath = NSIndexPath(forRow: index, inSection: 0)
-                indexs.append(indexPath)
-            }
-        }
-        
+//        
+//        var numbObj:Int
+//        
+//        if self.engine.lastPageHit == true {
+//            
+//            if self.engine.dataCount == 0 {
+//                numbObj = count - 1
+//            } else {
+//                numbObj = count - 2
+//            }
+//            
+//        } else {
+//            if self.engine.dataCount == 0 {
+//                numbObj = count
+//            } else {
+//                numbObj = count - 1
+//            }
+//        }
+//        
+//        // Protect against negative indexes - it can happen, believe me.
+//        let beggingIndexCount:Int = self.engine.dataCount
+//        let endIndexCount:Int = self.engine.dataCount + numbObj
+//        
+//        // As long as we're not gonna cause an infinite loop, lets build those new indexes between corresponding values.
+//        if beggingIndexCount < endIndexCount {
+//            for index in (beggingIndexCount)...(endIndexCount) {
+//                let indexPath = NSIndexPath(forRow: index, inSection: 0)
+//                indexs.append(indexPath)
+//            }
+//        }
+//        
         return indexs
     }
     
@@ -159,7 +159,7 @@ extension TableViewEngine: InfinityDataEngineDelegate {
             
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
                 
-                if self.engine.dataCount <= kPlaceHolderCellCount {
+                if self.engine.dataCount[0] <= kPlaceHolderCellCount {
                     self.infinityTableView.tableView.reloadData()
                 } else {
                     self.infinityTableView.tableView.beginUpdates()
@@ -171,127 +171,78 @@ extension TableViewEngine: InfinityDataEngineDelegate {
             })
         }
     }
+    
+    func scrollViewDidScroll(scrollView: UIScrollView) {
+        if self.infinityTableView.modifiers.infiniteScroll == true {
+            self.engine.infinteScrollMonitor(scrollView)
+        }
+    }
 }
 
 extension TableViewEngine: UITableViewDataSource {
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 1
+        
+        if self.engine.dataCount.count == 0 {
+            return 1
+        }
+        return self.engine.dataCount.count
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if self.engine.dataCount == 0 && self.engine.page == 1 {
+        if self.engine.dataCount == [] {
             return kPlaceHolderCellCount
         } else {
-            if self.engine.lastPageHit == true {
-                return self.engine.dataCount
-            } else {
-                
-                if self.engine.dataCount == 0 {
-                    return self.engine.dataCount
-                } else {
-                    return self.engine.dataCount + 1
+            if self.engine.lastPageHit == false {
+                if section == self.engine.dataCount.count - 1 {
+                    return self.engine.dataCount[section] + 1
                 }
             }
         }
+        
+        return self.engine.dataCount[section]
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        // Calculate if we are used force reload
-        if self.infinityTableView.modifiers.infiniteScroll == true {
-            self.engine.infinteScrollMonitor(indexPath)
-        }
-        
-        // Check our indexdBy Type
-        var indexNum:Int = 0
-        if self.infinityTableView.modifiers.indexedBy == IndexType.Section {
-            indexNum = indexPath.section
-        } else {
-            indexNum = indexPath.row
-        }
         
         if self.engine.page == 1 {
             
-            if indexNum == kPlaceHolderCellCount - 1 {
-                
-                if self.infinityTableView.modifiers.infiniteScroll == true {
-                    
-                    return self.delegate.infinityLoadingCell(indexPath)
-                    
-                } else {
-                    return self.delegate.infinityCellForIndexPath(indexPath, withPlaceholder: true)
-                }
-                
-            } else {
-                return self.delegate.infinityCellForIndexPath(indexPath, withPlaceholder: true)
+            if indexPath.row == kPlaceHolderCellCount - 1 {
+                return self.dataSource.infinityLoadingCell(indexPath)
             }
+            return self.dataSource.infinityCellForIndexPath(indexPath, withPlaceholder: true)
             
         } else {
             
-            if indexNum == self.engine.dataCount {
-                
-                if self.infinityTableView.modifiers.infiniteScroll == true {
-                    
-                    if self.engine.dataCount > 0 {
-                        return self.delegate.infinityLoadingCell(indexPath)
-                    } else {
-                        return self.delegate.infinityCellForIndexPath(indexPath, withPlaceholder: true)
-                    }
-                    
-                } else {
-                    return self.delegate.infinityCellForIndexPath(indexPath, withPlaceholder: false)
-                }
-                
-            } else {
-                
-                // Check if there was no data returned from the response
-                if self.engine.dataCount == 0 {
-                    return self.delegate.infinityCellForIndexPath(indexPath, withPlaceholder: true)
-                } else {
-                    return self.delegate.infinityCellForIndexPath(indexPath, withPlaceholder: false)
+            if indexPath.section == self.engine.dataCount.count - 1 && self.infinityTableView.modifiers.infiniteScroll {
+                if indexPath.row == self.engine.dataCount[self.engine.dataCount.count - 1] {
+                    return self.dataSource.infinityLoadingCell(indexPath)
                 }
             }
+            return self.dataSource.infinityCellForIndexPath(indexPath, withPlaceholder: false)
         }
     }
 }
 
 extension TableViewEngine:UITableViewDelegate {
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        self.delegate.infinityDidSelectItemAtIndexPath?(indexPath)
-    }
-    
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         
-        // Check our indexdBy Type
-        var indexNum:Int = 0
-        if self.infinityTableView.modifiers.indexedBy == .Section {
-            indexNum = indexPath.section
-        } else {
-            indexNum = indexPath.row
-        }
-        
         if self.engine.page == 1 {
-            if indexNum == kPlaceHolderCellCount - 1 {
-                if self.infinityTableView.modifiers.infiniteScroll == true {
-                    return kCellHeight
-                } else {
-                    return self.delegate.infinityTableView(self.infinityTableView.tableView, heightForRowAtIndexPath: indexPath)
-                }
-            } else {
-                return self.delegate.infinityTableView(self.infinityTableView.tableView, heightForRowAtIndexPath: indexPath)
+            
+            if indexPath.row == kPlaceHolderCellCount - 1 {
+                return self.dataSource.infinityTableView(heightForRowAtIndexPath: indexPath, withLoading: true)
             }
+            return self.dataSource.infinityTableView(heightForRowAtIndexPath: indexPath, withLoading: false)
             
         } else {
-            if self.engine.dataCount == indexNum {
-                if self.infinityTableView.modifiers.infiniteScroll == true {
-                    return kCellHeight
-                } else {
-                    return self.delegate.infinityTableView(self.infinityTableView.tableView, heightForRowAtIndexPath: indexPath)
+            
+            if indexPath.section == self.engine.dataCount.count - 1 && self.infinityTableView.modifiers.infiniteScroll {
+                if indexPath.row == self.engine.dataCount[self.engine.dataCount.count - 1] {
+                    return self.dataSource.infinityTableView(heightForRowAtIndexPath: indexPath, withLoading: true)
                 }
-            } else {
-                return self.delegate.infinityTableView(self.infinityTableView.tableView, heightForRowAtIndexPath: indexPath)
             }
+            return self.dataSource.infinityTableView(heightForRowAtIndexPath: indexPath, withLoading: false)
         }
-    }    
+    }
 }

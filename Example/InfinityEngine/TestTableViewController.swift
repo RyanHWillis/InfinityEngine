@@ -26,7 +26,7 @@ class TestTableViewController: UIViewController {
         super.viewDidLoad()
         
         let cells:InfinityCells = InfinityCells(cellNames: ["TestTableViewCell"], loadingCellName: "LoadingTableViewCell", customBundle: nil)
-        let tableViewStruct:InfinityTableView = InfinityTableView(withTableView: self.tableView, withCells: cells, withDelegate: self)
+        let tableViewStruct:InfinityTableView = InfinityTableView(withTableView: tableView, withCells: cells, withDataSource: self, withDelegate: self)
         startInfinityTableView(infinityTableView: tableViewStruct)
     }
     
@@ -35,37 +35,14 @@ class TestTableViewController: UIViewController {
     }
 }
 
-extension TestTableViewController: InfinityTableViewProtocol {
+extension TestTableViewController: InfinityTableProtocol {
     func infinityData(atPage page: Int, withModifiers modifiers: InfinityModifers,
                              forSession session:String, completion: (responsePayload: ResponsePayload) -> ()) {
-
-        if page == 1 {
-            count = 0
-        }
-        count = count + 1
-        
-        var bool = false
-        if count == 3 {
-            bool = true
-        }
-        
         // I'm returning more than one completiton here...to demonstrate multiple responses for a single session for a page will be ignored.
         // You only need to return one completion per page request.
         
         delay(3.0) {
-            completion(responsePayload: ResponsePayload(count: 10, lastPage: bool, session: session))
-        }
-        
-        delay(4.5) {
-            completion(responsePayload: ResponsePayload(count: 10, lastPage: bool, session: session))
-        }
-        
-        delay(6.0) {
-            completion(responsePayload: ResponsePayload(count: 10, lastPage: bool, session: session))
-        }
-        
-        delay(7.0) {
-            completion(responsePayload: ResponsePayload(count: 10, lastPage: bool, session: session))
+            completion(responsePayload: ResponsePayload(count: [2, 2, 2 * page], lastPage: false, session: session))
         }
     }
     
@@ -89,7 +66,11 @@ extension TestTableViewController: InfinityTableViewProtocol {
         return cell
     }
     
-    func infinityTableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        return 30.0
+    func infinityTableView(heightForRowAtIndexPath indexPath: NSIndexPath, withLoading loading: Bool) -> CGFloat {
+        if loading {
+            return 50.0
+        }
+        
+        return 20.0
     }
 }

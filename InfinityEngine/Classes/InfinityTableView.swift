@@ -22,6 +22,9 @@
 
 import UIKit
 
+public typealias InfinityTableDelegate = UITableViewDelegate
+
+
 /**
  Defines a struct used when incoporating an InfinityTableView.
  
@@ -29,22 +32,27 @@ import UIKit
  - parameter cells:                     Will need to define the name of your cells, loading cel and bundle id.
  - parameter modifiers:                 See InfinityModiers - modifiers the behavior of InfinityEngine,
                                         in reference to a UICollectionView.
+ 
  */
 
 public struct InfinityTableView {
     let tableView: UITableView!
     let cells: InfinityCells!
-    let delegate: InfinityTableViewProtocol!
+    let dataSource: InfinityTableDataSource!
+    let delegate: UITableViewDelegate?
     let modifiers: InfinityModifers!
     
-    public init(withTableView tableView: UITableView, withCells cells: InfinityCells, withDelegate delegate:InfinityTableViewProtocol,
+    public init(withTableView tableView: UITableView, withCells cells: InfinityCells, withDataSource dataSource:InfinityTableDataSource, withDelegate delegate: UITableViewDelegate?,
                 withModifiers modifiers: InfinityModifers? = InfinityModifers()) {
         self.tableView = tableView
         self.cells = cells
+        self.dataSource = dataSource
         self.delegate = delegate
         self.modifiers = modifiers
     }
 }
+
+public protocol InfinityTableProtocol: InfinityTableDataSource, InfinityTableDelegate {}
 
 /**
  Defines a Protocol to be Implemented on a UIViewControl
@@ -52,13 +60,14 @@ public struct InfinityTableView {
  - func infinityCellForIndexPath:       Used to return the the corect cell in either placeholder, or live data state.
  - func infinityLoadingCell:            Used to return the desired loading cell you would like to appear at the bottom of the pages InfinityTableView.
  - func infinityTableView:              Used to define the height of each cell, excluding the loading cell.
- */
+
+*/
 
 
-public protocol InfinityTableViewProtocol: InfinityTableViewProtocolOptional, InfinityDataSource {
+public protocol InfinityTableDataSource: InfinityDataSource {
     func infinityCellForIndexPath(indexPath: NSIndexPath, withPlaceholder placeholder:Bool) -> UITableViewCell
     func infinityLoadingCell(indexPath: NSIndexPath) -> UITableViewCell
-    func infinityTableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat
+    func infinityTableView(heightForRowAtIndexPath indexPath: NSIndexPath, withLoading loading:Bool) -> CGFloat
 }
 
 /**
@@ -66,11 +75,6 @@ public protocol InfinityTableViewProtocol: InfinityTableViewProtocolOptional, In
  
  - func infinityTableView:              Used to return the loading cell height, else the default will be kLoadingCellHeight.
  */
-
-@objc public protocol InfinityTableViewProtocolOptional: class {
-    optional func infinityDidSelectItemAtIndexPath(indexPath: NSIndexPath)
-    optional func infinityTableView(tableView: UITableView, heightForLoadingCellAtIndexPath indexPath: NSIndexPath) -> CGFloat
-}
 
 /**
  Defines an extension to be Implemented on a UIViewController
@@ -80,9 +84,9 @@ public protocol InfinityTableViewProtocol: InfinityTableViewProtocolOptional, In
  */
 
 
-extension InfinityTableViewProtocol where Self: UIViewController {
+extension InfinityTableDataSource where Self: UIViewController {
     public func startInfinityTableView(infinityTableView infinityTable:InfinityTableView) {
-        InfinityEngineRoom.sharedTableInstances.append(TableViewEngine(infinityTableView: infinityTable, delegate: infinityTable.delegate))
+        InfinityEngineRoom.sharedTableInstances.append(TableViewEngine(infinityTableView: infinityTable, dataSource: infinityTable.dataSource))
     }
     
     public func resetInfinityTable() {
@@ -101,9 +105,9 @@ extension InfinityTableViewProtocol where Self: UIViewController {
  - func resetInfinityTable:             Used to reset/restart the InfinityTableView session.
  */
 
-extension InfinityTableViewProtocol where Self: UIView {
+extension InfinityTableDataSource where Self: UIView {
     public func startInfinityTableView(infinityTableView infinityTable:InfinityTableView) {
-        InfinityEngineRoom.sharedTableInstances.append(TableViewEngine(infinityTableView: infinityTable, delegate: infinityTable.delegate))
+        InfinityEngineRoom.sharedTableInstances.append(TableViewEngine(infinityTableView: infinityTable, dataSource: infinityTable.dataSource))
     }
     
     public func resetInfinityTable() {

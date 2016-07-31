@@ -80,18 +80,18 @@ public protocol InfinityCollectionViewDelegate: InfinityDataSource, InfinityColl
  */
 
 
-extension InfinityCollectionViewDelegate where Self: UIViewController {
-    public func startInfinityCollectionView(infinityCollectionView infinityCollection:InfinityCollectionView) {
-        InfinityEngineRoom.sharedCollectionInstances.append(CollectionViewEngine(infinityCollectionView: infinityCollection, delegate: infinityCollection.delegate))
-    }
-    
-    public func resetInfinityCollection() {
-        for collectionInstance in InfinityEngineRoom.sharedCollectionInstances {
-            collectionInstance.engine.resetData()
-            collectionInstance.initiateEngine()
-        }
-    }
-}
+//extension InfinityCollectionViewDelegate where Self: UIViewController {
+//    public func startInfinityCollectionView(infinityCollectionView infinityCollection:InfinityCollectionView) {
+//        InfinityEngineRoom.sharedCollectionInstances.append(CollectionViewEngine(infinityCollectionView: infinityCollection, delegate: infinityCollection.delegate))
+//    }
+//    
+//    public func resetInfinityCollection() {
+//        for collectionInstance in InfinityEngineRoom.sharedCollectionInstances {
+//            collectionInstance.engine.resetData()
+//            collectionInstance.initiateEngine()
+//        }
+//    }
+//}
 
 /**
  Defines an extension to be Implemented on a UIView
@@ -101,15 +101,15 @@ extension InfinityCollectionViewDelegate where Self: UIViewController {
  */
 
 
-extension InfinityCollectionViewDelegate where Self: UIView {
-    public func startInfinityCollectionView(infinityCollectionView infinityCollection:InfinityCollectionView) {
-        InfinityEngineRoom.sharedCollectionInstances.append(CollectionViewEngine(infinityCollectionView: infinityCollection, delegate: infinityCollection.delegate))
-    }
-    
-    public func resetInfinityCollection() {
-        for collectionInstance in InfinityEngineRoom.sharedCollectionInstances {
-            collectionInstance.engine.resetData()
-            collectionInstance.initiateEngine()
-        }
-    }
-}
+//extension InfinityCollectionViewDelegate where Self: UIView {
+//    public func startInfinityCollectionView(infinityCollectionView infinityCollection:InfinityCollectionView) {
+//        InfinityEngineRoom.sharedCollectionInstances.append(CollectionViewEngine(infinityCollectionView: infinityCollection, delegate: infinityCollection.delegate))
+//    }
+//    
+//    public func resetInfinityCollection() {
+//        for collectionInstance in InfinityEngineRoom.sharedCollectionInstances {
+//            collectionInstance.engine.resetData()
+//            collectionInstance.initiateEngine()
+//        }
+//    }
+//}
