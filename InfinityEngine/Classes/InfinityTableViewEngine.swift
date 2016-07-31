@@ -105,37 +105,6 @@ extension TableViewEngine: InfinityDataEngineDelegate {
     
     func buildIndexsForInsert(dataCount count: [Int]) -> [NSIndexPath] {
         var indexs = [NSIndexPath]()
-//        
-//        var numbObj:Int
-//        
-//        if self.engine.lastPageHit == true {
-//            
-//            if self.engine.dataCount == 0 {
-//                numbObj = count - 1
-//            } else {
-//                numbObj = count - 2
-//            }
-//            
-//        } else {
-//            if self.engine.dataCount == 0 {
-//                numbObj = count
-//            } else {
-//                numbObj = count - 1
-//            }
-//        }
-//        
-//        // Protect against negative indexes - it can happen, believe me.
-//        let beggingIndexCount:Int = self.engine.dataCount
-//        let endIndexCount:Int = self.engine.dataCount + numbObj
-//        
-//        // As long as we're not gonna cause an infinite loop, lets build those new indexes between corresponding values.
-//        if beggingIndexCount < endIndexCount {
-//            for index in (beggingIndexCount)...(endIndexCount) {
-//                let indexPath = NSIndexPath(forRow: index, inSection: 0)
-//                indexs.append(indexPath)
-//            }
-//        }
-//        
         return indexs
     }
     
@@ -245,4 +214,39 @@ extension TableViewEngine:UITableViewDelegate {
             return self.dataSource.infinityTableView(heightForRowAtIndexPath: indexPath, withLoading: false)
         }
     }
+    
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        self.infinityTableView.delegate?.tableView?(tableView, didSelectRowAtIndexPath: indexPath)
+    }
+    
+    func tableView(tableView: UITableView, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        return self.infinityTableView.delegate?.tableView?(tableView, estimatedHeightForRowAtIndexPath: indexPath) ?? UITableViewAutomaticDimension
+    }
+    
+    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        return self.infinityTableView.delegate?.tableView?(tableView, viewForHeaderInSection: section)
+    }
+    
+    func tableView(tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        return self.infinityTableView.delegate?.tableView?(tableView, viewForFooterInSection: section)
+    }
+    
+    func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return self.infinityTableView.delegate?.tableView?(tableView, heightForFooterInSection: section) ?? UITableViewAutomaticDimension
+    }
+    
+    func tableView(tableView: UITableView, estimatedHeightForFooterInSection section: Int) -> CGFloat {
+        return self.infinityTableView.delegate?.tableView?(tableView, estimatedHeightForFooterInSection: section) ?? UITableViewAutomaticDimension
+    }
+    
+    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return self.infinityTableView.delegate?.tableView?(tableView, heightForHeaderInSection: section) ?? UITableViewAutomaticDimension
+        //return 20.0
+    }
+    
+//    func tableView(tableView: UITableView, estimatedHeightForHeaderInSection section: Int) -> CGFloat {
+//        //return self.infinityTableView.delegate?.tableView?(tableView, estimatedHeightForHeaderInSection: section) ?? UITableViewAutomaticDimension
+//        //return 20.0
+//
+//    }
 }

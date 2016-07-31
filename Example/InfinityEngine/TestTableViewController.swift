@@ -25,7 +25,7 @@ class TestTableViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let cells:InfinityCells = InfinityCells(cellNames: ["TestTableViewCell"], loadingCellName: "LoadingTableViewCell", customBundle: nil)
+        let cells:InfinityCells = InfinityCells(cellNames: ["TestTableViewCell", "SectionCell"], loadingCellName: "LoadingTableViewCell", customBundle: nil)
         let tableViewStruct:InfinityTableView = InfinityTableView(withTableView: tableView, withCells: cells, withDataSource: self, withDelegate: self)
         startInfinityTableView(infinityTableView: tableViewStruct)
     }
@@ -41,8 +41,9 @@ extension TestTableViewController: InfinityTableProtocol {
         // I'm returning more than one completiton here...to demonstrate multiple responses for a single session for a page will be ignored.
         // You only need to return one completion per page request.
         
-        delay(3.0) {
-            completion(responsePayload: ResponsePayload(count: [2, 2, 2 * page], lastPage: false, session: session))
+        let numb = 5 * page
+        delay(1.0) {
+            completion(responsePayload: ResponsePayload(count: [8, 3, numb], lastPage: false, session: session))
         }
     }
     
@@ -68,9 +69,17 @@ extension TestTableViewController: InfinityTableProtocol {
     
     func infinityTableView(heightForRowAtIndexPath indexPath: NSIndexPath, withLoading loading: Bool) -> CGFloat {
         if loading {
-            return 50.0
+            return 30.0
         }
         
-        return 20.0
+        return 40.0
+    }
+    
+    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        return tableView.dequeueReusableCellWithIdentifier("SectionCell") as! SectionCell
+    }
+    
+    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 10.0
     }
 }
