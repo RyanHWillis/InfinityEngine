@@ -49,6 +49,7 @@ class TestTableViewController: UIViewController {
 extension TestTableViewController: InfinityTableProtocol {
     func infinityData(atPage page: Int, withModifiers modifiers: InfinityModifers,
                              forSession session:String, completion: (responsePayload: ResponsePayload) -> ()) {
+        print(page)
         let numb = 5 * page
         delay(1.0) {
             completion(responsePayload: ResponsePayload(count: [8, 3, numb], lastPage: false, session: session))

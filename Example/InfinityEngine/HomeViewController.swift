@@ -29,7 +29,7 @@ class HomeViewController: UIViewController {
     }
 
     @IBAction func collectionvViewBtn(sender: AnyObject) {
-        //self.navigationController?.pushViewController(TestCollectionViewController(), animated: true)
+        self.navigationController?.pushViewController(TestCollectionViewController(), animated: true)
     }
     
     @IBAction func tableViewBtn(sender: AnyObject) {

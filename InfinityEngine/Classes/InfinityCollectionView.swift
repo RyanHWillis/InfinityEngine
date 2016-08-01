@@ -34,10 +34,10 @@ import UIKit
 public struct InfinityCollectionView {
     let collectionView: UICollectionView
     let cells: InfinityCells
-    let delegate: InfinityCollectionViewDelegate
+    let delegate: InfinityCollectionSourceable
     let modifiers: InfinityModifers!
     
-    public init(withCollectionView collectionView: UICollectionView, withCells cells:InfinityCells, withDelegate delegate: InfinityCollectionViewDelegate,
+    public init(withCollectionView collectionView: UICollectionView, withCells cells:InfinityCells, withDelegate delegate: InfinityCollectionSourceable,
                                    withModifiers modifiers: InfinityModifers? = InfinityModifers()) {
         
         self.collectionView = collectionView
@@ -47,6 +47,9 @@ public struct InfinityCollectionView {
     }
 }
 
+
+
+
 /**
  Defines a Protocol to be Implemented on a UIViewControl
  
@@ -54,14 +57,10 @@ public struct InfinityCollectionView {
  - func infinityLoadingReusableView:        Used to return the desired loading cell you would like to appear at the bottom of the pages InfinityTableView.
  */
 
-public protocol InfinityCollectionViewDelegate: InfinityDataSource, InfinityCollectionViewProtocolOptional {
+public protocol InfinityCollectionSourceable: InfinityDataSource, InfinityCollectionViewProtocolOptional {
     func infinityCellItemForIndexPath(indexPath: NSIndexPath, placeholder:Bool) -> UICollectionViewCell
     func infinityLoadingReusableView(indexPath: NSIndexPath, lastPageHit:Bool) -> UICollectionReusableView
 }
-
-/**
- Defines an Optional Protocol Used to set the layout of your InfnityCollectionView cells.
- */
 
 @objc public protocol InfinityCollectionViewProtocolOptional: class {
     optional func infinityDidSelectItemAtIndexPath(indexPath: NSIndexPath)
@@ -80,18 +79,29 @@ public protocol InfinityCollectionViewDelegate: InfinityDataSource, InfinityColl
  */
 
 
-//extension InfinityCollectionViewDelegate where Self: UIViewController {
-//    public func startInfinityCollectionView(infinityCollectionView infinityCollection:InfinityCollectionView) {
-//        InfinityEngineRoom.sharedCollectionInstances.append(CollectionViewEngine(infinityCollectionView: infinityCollection, delegate: infinityCollection.delegate))
-//    }
-//    
-//    public func resetInfinityCollection() {
-//        for collectionInstance in InfinityEngineRoom.sharedCollectionInstances {
-//            collectionInstance.engine.resetData()
-//            collectionInstance.initiateEngine()
-//        }
-//    }
-//}
+public protocol InfinityCollectionProtocol: InfinityCollectionSourceable {
+    func startInfinityCollectionView(infinityCollectionView infinityCollectionView:InfinityCollectionView)
+    func createCollecionViewEngine(infinityCollectionView: InfinityCollectionView) -> CollectionViewEngine
+    func resetInfinityCollection(withCustomCollectionEngine engine:CollectionViewEngine?)
+}
+
+
+extension InfinityCollectionProtocol where Self: UIViewController {
+    public func startInfinityCollectionView(infinityCollectionView infinityCollection:InfinityCollectionView) {
+        InfinityEngineRoom.sharedCollectionInstances.append(CollectionViewEngine(infinityCollectionView: infinityCollection))
+    }
+    
+    public func createCollecionViewEngine(infinityCollectionView: InfinityCollectionView) -> CollectionViewEngine {
+        return CollectionViewEngine(infinityCollectionView: infinityCollectionView)
+    }
+    
+    public func resetInfinityCollection(withCustomCollectionEngine engine:CollectionViewEngine?) {
+        for collectionInstance in InfinityEngineRoom.sharedCollectionInstances {
+            collectionInstance.engine.resetData()
+            collectionInstance.initiateEngine()
+        }
+    }
+}
 
 /**
  Defines an extension to be Implemented on a UIView

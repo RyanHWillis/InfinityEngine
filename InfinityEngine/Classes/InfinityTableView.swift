@@ -112,23 +112,30 @@ extension InfinityTableProtocol where Self: UIViewController {
     }
 }
 
-///**
-// Defines an extension to be Implemented on a UIView
-// 
-// - func startInfinityTableView:         Used to start the InfinityTableView session.
-// - func resetInfinityTable:             Used to reset/restart the InfinityTableView session.
-// */
-//
-//extension InfinityTableDataSource where Self: UIView {
-//    public func startInfinityTableView(infinityTableView infinityTable:InfinityTableView) {
-//        InfinityEngineRoom.sharedTableInstances.append(TableViewEngine(infinityTableView: infinityTable, dataSource: infinityTable.dataSource))
-//    }
-//    
-//    public func resetInfinityTable() {
-//        
-//        for collectionInstance in InfinityEngineRoom.sharedTableInstances {
-//            collectionInstance.engine.resetData()
-//            collectionInstance.initiateEngine()
-//        }
-//    }
-//}
+/**
+ Defines an extension to be Implemented on a UIView
+ 
+ - func startInfinityTableView:         Used to start the InfinityTableView session.
+ - func resetInfinityTable:             Used to reset/restart the InfinityTableView session.
+ */
+
+extension InfinityTableProtocol where Self: UIView {
+    public func startInfinityTableView(infinityTableView infinityTable:InfinityTableView) {
+        self.createTableViewEngine(infinityTable)
+    }
+    
+    public func createTableViewEngine(infinityTableView: InfinityTableView) -> TableViewEngine {
+        return TableViewEngine(infinityTableView: infinityTableView)
+    }
+    
+    public func resetInfinityTable(withCustomTableEngine engine:TableViewEngine?) {
+        
+        if let engine = engine {
+            engine.reload()
+        } else {
+            for collectionInstance in InfinityEngineRoom.sharedTableInstances {
+                collectionInstance.reload()
+            }
+        }
+    }
+}

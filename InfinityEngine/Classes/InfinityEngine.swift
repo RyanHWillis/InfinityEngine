@@ -30,7 +30,7 @@ import UIKit
 
 internal class InfinityEngineRoom {
     static var sharedTableInstances = [TableViewEngine]()
-    //static var sharedCollectionInstances = [CollectionViewEngine]()
+    static var sharedCollectionInstances = [CollectionViewEngine]()
 }
 
 
