@@ -30,6 +30,12 @@ class TestTableViewController: UIViewController {
         startInfinityTableView(infinityTableView: tableViewStruct)
     }
     
+    
+    func createTableViewEngine(infinityTableView: InfinityTableView) -> TableViewEngine {
+        return NewTableViewEngine(infinityTableView: infinityTableView)
+    }
+    
+    
     @IBAction func reset(sender: AnyObject) {
         resetInfinityTable()
     }
@@ -38,9 +44,6 @@ class TestTableViewController: UIViewController {
 extension TestTableViewController: InfinityTableProtocol {
     func infinityData(atPage page: Int, withModifiers modifiers: InfinityModifers,
                              forSession session:String, completion: (responsePayload: ResponsePayload) -> ()) {
-        // I'm returning more than one completiton here...to demonstrate multiple responses for a single session for a page will be ignored.
-        // You only need to return one completion per page request.
-        
         let numb = 5 * page
         delay(1.0) {
             completion(responsePayload: ResponsePayload(count: [8, 3, numb], lastPage: false, session: session))
@@ -81,5 +84,12 @@ extension TestTableViewController: InfinityTableProtocol {
     
     func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 10.0
+    }
+}
+
+class NewTableViewEngine: TableViewEngine {
+
+    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        return 2.0
     }
 }

@@ -83,7 +83,7 @@ internal final class InfinityEngine: NSObject {
             
             self.delegate?.updateControllerView(atIndexes: indexs)
             
-            self.loading = false
+            self.loading = false            
         }
     }
     

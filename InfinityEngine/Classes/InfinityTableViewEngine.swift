@@ -26,26 +26,26 @@
 
 import UIKit
 
-internal final class TableViewEngine: NSObject {
+public class TableViewEngine: NSObject {
     
     var infinityTableView: InfinityTableView!
     var engine:InfinityEngine!
-    var dataSource: InfinityTableDataSource!
+    var dataSource: InfinityTableSourceable!
     var reloadControl:UIRefreshControl?
     
     // MARK: - Lifecycle
     
-    init(infinityTableView:InfinityTableView, dataSource:InfinityTableDataSource) {
+    public init(infinityTableView:InfinityTableView) {
         super.init()
         self.infinityTableView = infinityTableView
-        self.dataSource = dataSource
+        self.dataSource = infinityTableView.dataSource
         self.engine = InfinityEngine(infinityModifiers: infinityTableView.modifiers, withDelegate: self)
         self.setupTableView()
         
         self.initiateEngine()
     }
     
-    func setupTableView() {
+    private func setupTableView() {
             
         // Set Table View Instance With Appropriate Object
         self.infinityTableView.tableView.delegate = self
@@ -78,11 +78,11 @@ internal final class TableViewEngine: NSObject {
         }
     }
     
-    func initiateEngine() {
+    internal func initiateEngine() {
         self.engine.performDataFetch()
     }
     
-    func reloadFromRefreshControl() {
+    internal func reloadFromRefreshControl() {
         self.engine.resetData()
         self.initiateEngine()
     }
@@ -141,7 +141,7 @@ extension TableViewEngine: InfinityDataEngineDelegate {
         }
     }
     
-    func scrollViewDidScroll(scrollView: UIScrollView) {
+    public func scrollViewDidScroll(scrollView: UIScrollView) {
         if self.infinityTableView.modifiers.infiniteScroll == true {
             self.engine.infinteScrollMonitor(scrollView)
         }
@@ -150,7 +150,7 @@ extension TableViewEngine: InfinityDataEngineDelegate {
 
 extension TableViewEngine: UITableViewDataSource {
     
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    public func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         
         if self.engine.dataCount.count == 0 {
             return 1
@@ -158,7 +158,7 @@ extension TableViewEngine: UITableViewDataSource {
         return self.engine.dataCount.count
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    public func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if self.engine.dataCount == [] {
             return kPlaceHolderCellCount
         } else {
@@ -172,7 +172,7 @@ extension TableViewEngine: UITableViewDataSource {
         return self.engine.dataCount[section]
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         if self.engine.page == 1 {
             
@@ -195,7 +195,7 @@ extension TableViewEngine: UITableViewDataSource {
 
 extension TableViewEngine:UITableViewDelegate {
     
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    public func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         
         if self.engine.page == 1 {
             
@@ -213,40 +213,5 @@ extension TableViewEngine:UITableViewDelegate {
             }
             return self.dataSource.infinityTableView(heightForRowAtIndexPath: indexPath, withLoading: false)
         }
-    }
-    
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        self.infinityTableView.delegate?.tableView?(tableView, didSelectRowAtIndexPath: indexPath)
-    }
-    
-    func tableView(tableView: UITableView, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        return self.infinityTableView.delegate?.tableView?(tableView, estimatedHeightForRowAtIndexPath: indexPath) ?? UITableViewAutomaticDimension
-    }
-    
-    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        return self.infinityTableView.delegate?.tableView?(tableView, viewForHeaderInSection: section)
-    }
-    
-    func tableView(tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        return self.infinityTableView.delegate?.tableView?(tableView, viewForFooterInSection: section)
-    }
-    
-    func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return self.infinityTableView.delegate?.tableView?(tableView, heightForFooterInSection: section) ?? UITableViewAutomaticDimension
-    }
-    
-    func tableView(tableView: UITableView, estimatedHeightForFooterInSection section: Int) -> CGFloat {
-        return self.infinityTableView.delegate?.tableView?(tableView, estimatedHeightForFooterInSection: section) ?? UITableViewAutomaticDimension
-    }
-    
-    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return self.infinityTableView.delegate?.tableView?(tableView, heightForHeaderInSection: section) ?? UITableViewAutomaticDimension
-        //return 20.0
-    }
-    
-//    func tableView(tableView: UITableView, estimatedHeightForHeaderInSection section: Int) -> CGFloat {
-//        //return self.infinityTableView.delegate?.tableView?(tableView, estimatedHeightForHeaderInSection: section) ?? UITableViewAutomaticDimension
-//        //return 20.0
-//
-//    }
+    }  
 }
