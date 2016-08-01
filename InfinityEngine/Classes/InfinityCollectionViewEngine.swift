@@ -225,7 +225,7 @@ extension CollectionViewEngine: UICollectionViewDelegateFlowLayout {
         referenceSizeForFooterInSection section: Int) -> CGSize {
         
         
-        if section != self.engine.dataCount.count - 1 {
+        if section != self.engine.dataCount.count - 1 && self.engine.dataCount != [] {
             return CGSize(width: 0.1, height: 0.1)
         }
         
