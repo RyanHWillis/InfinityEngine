@@ -73,7 +73,7 @@ public class TableViewEngine: NSObject {
         // Refresh Control
         if self.engine.modifiers.refreshControl == true {
             self.reloadControl = UIRefreshControl()
-            self.reloadControl?.addTarget(self, action: #selector(TableViewEngine.reloadFromRefreshControl), forControlEvents: UIControlEvents.ValueChanged)
+            self.reloadControl?.addTarget(self, action: #selector(TableViewEngine.reload), forControlEvents: UIControlEvents.ValueChanged)
             self.infinityTableView.tableView.addSubview(self.reloadControl!)
         }
     }
@@ -82,7 +82,7 @@ public class TableViewEngine: NSObject {
         self.engine.performDataFetch()
     }
     
-    internal func reloadFromRefreshControl() {
+    internal func reload() {
         self.engine.resetData()
         self.initiateEngine()
     }

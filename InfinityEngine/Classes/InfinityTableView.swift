@@ -74,7 +74,7 @@ public protocol InfinityTableSourceable: InfinityDataSource, InfinityTableDelega
 public protocol InfinityTableProtocol: InfinityTableSourceable {
     func startInfinityTableView(infinityTableView infinityTable:InfinityTableView)
     func createTableViewEngine(infinityTableView: InfinityTableView) -> TableViewEngine
-    func resetInfinityTable()
+    func resetInfinityTable(withCustomTableEngine engine:TableViewEngine?)
 }
 
 /**
@@ -100,11 +100,14 @@ extension InfinityTableProtocol where Self: UIViewController {
         return TableViewEngine(infinityTableView: infinityTableView)
     }
     
-    public func resetInfinityTable() {
+    public func resetInfinityTable(withCustomTableEngine engine:TableViewEngine?) {
         
-        for collectionInstance in InfinityEngineRoom.sharedTableInstances {
-            collectionInstance.engine.resetData()
-            collectionInstance.initiateEngine()
+        if let engine = engine {
+            engine.reload()
+        } else {
+            for collectionInstance in InfinityEngineRoom.sharedTableInstances {
+                collectionInstance.reload()
+            }
         }
     }
 }

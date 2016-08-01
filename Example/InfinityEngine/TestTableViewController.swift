@@ -13,6 +13,8 @@ class TestTableViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
     var count = 0
+    
+    var customTabEngine: NewTableViewEngine!
 
     init() {
         super.init(nibName: "TestTableViewController", bundle: NSBundle.mainBundle())
@@ -25,19 +27,22 @@ class TestTableViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
         let cells:InfinityCells = InfinityCells(cellNames: ["TestTableViewCell", "SectionCell"], loadingCellName: "LoadingTableViewCell", customBundle: nil)
         let tableViewStruct:InfinityTableView = InfinityTableView(withTableView: tableView, withCells: cells, withDataSource: self, withDelegate: self)
+        self.customTabEngine = NewTableViewEngine(infinityTableView: tableViewStruct)
+
         startInfinityTableView(infinityTableView: tableViewStruct)
     }
     
     
     func createTableViewEngine(infinityTableView: InfinityTableView) -> TableViewEngine {
-        return NewTableViewEngine(infinityTableView: infinityTableView)
+        return customTabEngine
     }
     
     
     @IBAction func reset(sender: AnyObject) {
-        resetInfinityTable()
+        self.resetInfinityTable(withCustomTableEngine: self.customTabEngine)
     }
 }
 
@@ -77,19 +82,10 @@ extension TestTableViewController: InfinityTableProtocol {
         
         return 40.0
     }
-    
-    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        return tableView.dequeueReusableCellWithIdentifier("SectionCell") as! SectionCell
-    }
-    
-    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 10.0
-    }
 }
 
 class NewTableViewEngine: TableViewEngine {
-
-    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        return 2.0
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        print("test")
     }
 }
