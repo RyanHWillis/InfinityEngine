@@ -12,8 +12,6 @@ import InfinityEngine
 class TestTableViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
-    var count = 0
-    
     var customTabEngine: NewTableViewEngine!
 
     init() {
@@ -26,20 +24,22 @@ class TestTableViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
+        self.setupTableView()
+    }
+    
+    // MARK: - Setup
+    
+    func setupTableView() {
         let cells:InfinityCells = InfinityCells(cellNames: ["TestTableViewCell", "SectionCell"], loadingCellName: "LoadingTableViewCell", customBundle: nil)
         let tableViewStruct:InfinityTableView = InfinityTableView(withTableView: tableView, withCells: cells, withDataSource: self, withDelegate: self)
         self.customTabEngine = NewTableViewEngine(infinityTableView: tableViewStruct)
-
+        
         startInfinityTableView(infinityTableView: tableViewStruct)
     }
     
-    
     func createTableViewEngine(infinityTableView: InfinityTableView) -> TableViewEngine {
-        return customTabEngine
+        return self.customTabEngine
     }
-    
     
     @IBAction func reset(sender: AnyObject) {
         self.resetInfinityTable(withCustomTableEngine: self.customTabEngine)
@@ -47,7 +47,6 @@ class TestTableViewController: UIViewController {
 }
 
 extension TestTableViewController: InfinityTableProtocol {
-    
     func tableView(tableView: UITableView, withDataForPage page: Int, withModifiers modifiers: InfinityModifers, forSession session: String, completion: (responsePayload: ResponsePayload) -> ()) {
         delay(1.0) {
             completion(responsePayload: ResponsePayload(count: [8, 3, 12 * page * page], lastPage: false, session: session))
@@ -80,10 +79,14 @@ extension TestTableViewController: InfinityTableProtocol {
         
         return 40.0
     }
+    
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        
+    }
 }
 
 class NewTableViewEngine: TableViewEngine {
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        print("test")
-    }
+//    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+//        print("test")
+//    }
 }

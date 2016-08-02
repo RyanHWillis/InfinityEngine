@@ -141,9 +141,7 @@ extension TableViewEngine: InfinityDataEngineDelegate {
     }
     
     public func scrollViewDidScroll(scrollView: UIScrollView) {
-        if self.infinityTableView.modifiers.infiniteScroll == true {
-            self.engine.infinteScrollMonitor(scrollView)
-        }
+        self.engine.infinteScrollMonitor(scrollView)
     }
 }
 
@@ -172,7 +170,7 @@ extension TableViewEngine: UITableViewDataSource {
     }
     
     public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        
+        self.scrollViewDidScroll(self.infinityTableView.tableView)
         if self.engine.page == 1 {
             
             if indexPath.row == kPlaceHolderCellCount - 1 {
@@ -182,7 +180,7 @@ extension TableViewEngine: UITableViewDataSource {
             
         } else {
             
-            if indexPath.section == self.engine.dataCount.count - 1 && self.infinityTableView.modifiers.infiniteScroll {
+            if indexPath.section == self.engine.dataCount.count - 1 {
                 if indexPath.row == self.engine.dataCount[self.engine.dataCount.count - 1] {
                     return self.dataSource.tableView(self.infinityTableView.tableView, withLoadingCellItemForIndexPath: indexPath)
                 }
@@ -205,12 +203,16 @@ extension TableViewEngine:UITableViewDelegate {
             
         } else {
             
-            if indexPath.section == self.engine.dataCount.count - 1 && self.infinityTableView.modifiers.infiniteScroll {
+            if indexPath.section == self.engine.dataCount.count - 1 {
                 if indexPath.row == self.engine.dataCount[self.engine.dataCount.count - 1] {
                     return self.dataSource.tableView(self.infinityTableView.tableView, heightForRowAtIndexPath: indexPath, forLoadingCell: true)
                 }
             }
             return self.dataSource.tableView(self.infinityTableView.tableView, heightForRowAtIndexPath: indexPath, forLoadingCell: false)
         }
-    }  
+    }
+    
+    public func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        self.dataSource.tableView?(tableView, didSelectRowAtIndexPath: indexPath)
+    }
 }

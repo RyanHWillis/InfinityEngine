@@ -57,6 +57,10 @@ extension TestCollectionViewController: InfinityCollectionProtocol {
             completion(responsePayload: ResponsePayload(count: [10, 10 * page * page], lastPage: false, session: session))
         }
     }
+    
+    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+        
+    }
 }
 
 //class NewTableViewEngine: TableViewEngine {

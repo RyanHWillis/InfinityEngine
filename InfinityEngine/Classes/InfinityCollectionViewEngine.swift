@@ -177,7 +177,7 @@ extension CollectionViewEngine: UICollectionViewDataSource {
     }
     
     public func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        
+        self.scrollViewDidScroll(self.infinitCollectionView.collectionView)
         if self.engine.page == 1 {
             return self.delegate.collectionView(self.infinitCollectionView.collectionView, withCellItemForIndexPath: indexPath, forPlaceholder: true)
         } else {
@@ -188,7 +188,7 @@ extension CollectionViewEngine: UICollectionViewDataSource {
 
 extension CollectionViewEngine: UICollectionViewDelegate {
     public func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        self.delegate.infinityDidSelectItemAtIndexPath?(indexPath)
+        self.delegate.collectionView?(collectionView, didSelectItemAtIndexPath: indexPath)
     }
     
     public func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String,
@@ -204,24 +204,6 @@ extension CollectionViewEngine: UICollectionViewDelegate {
 
 extension CollectionViewEngine: UICollectionViewDelegateFlowLayout {
     public func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
-        insetForSectionAtIndex section: Int) -> UIEdgeInsets {
-        
-        return self.delegate.infinity?(collectionView, layout: collectionViewLayout, insetForSectionAtIndex: section) ?? UIEdgeInsetsMake(0.0, 0.0, 0.0, 0.0)
-    }
-    
-    public func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
-        minimumInteritemSpacingForSectionAtIndex section: Int) -> CGFloat {
-        
-        return self.delegate.infinity?(collectionView, layout: collectionViewLayout, minimumInteritemSpacingForSectionAtIndex: section) ?? 0.0
-    }
-    
-    public func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
-        minimumLineSpacingForSectionAtIndex section: Int) -> CGFloat {
-        
-        return self.delegate.infinity?(collectionView, layout: collectionViewLayout, minimumLineSpacingForSectionAtIndex: section) ?? 0.0
-    }
-    
-    public func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
         referenceSizeForFooterInSection section: Int) -> CGSize {
         
         
@@ -232,16 +214,9 @@ extension CollectionViewEngine: UICollectionViewDelegateFlowLayout {
         if self.engine.lastPageHit == true {
             return CGSize(width: 0.1, height: 0.1)
         } else {
-            return self.delegate.infinity?(collectionView, layout: collectionViewLayout, sizeForLoadingItemAtIndexPath: section) ??
+            return self.delegate.collectionView?(self.infinitCollectionView.collectionView, layout: collectionViewLayout, sizeForLoadingItemAtIndexPath: section) ??
                 CGSize(width: UIScreen.mainScreen().bounds.size.width, height: kCellHeight)
         }
-    }
-    
-    public func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
-        sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-        
-        return self.delegate.infinity?(collectionView, layout: collectionViewLayout, sizeForItemAtIndexPath: indexPath) ??
-            CGSize(width: UIScreen.mainScreen().bounds.size.width, height: kCellHeight)
     }
 }
 

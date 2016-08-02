@@ -22,9 +22,6 @@
 
 import UIKit
 
-public typealias InfinityTableDelegate = UITableViewDelegate
-
-
 /**
  Defines a struct used when incoporating an InfinityTableView.
  
@@ -32,17 +29,16 @@ public typealias InfinityTableDelegate = UITableViewDelegate
  - parameter cells:                     Will need to define the name of your cells, loading cel and bundle id.
  - parameter modifiers:                 See InfinityModiers - modifiers the behavior of InfinityEngine,
                                         in reference to a UICollectionView.
- 
  */
 
 public struct InfinityTableView {
     public let tableView: UITableView!
     public let cells: InfinityCells!
     public let dataSource: InfinityTableSourceable!
-    public let delegate: InfinityTableDelegate?
+    public let delegate: InfinityTableDelegate!
     public let modifiers: InfinityModifers!
     
-    public init(withTableView tableView: UITableView, withCells cells: InfinityCells, withDataSource dataSource:InfinityTableSourceable, withDelegate delegate: UITableViewDelegate?,
+    public init(withTableView tableView: UITableView, withCells cells: InfinityCells, withDataSource dataSource:InfinityTableSourceable, withDelegate delegate: UITableViewDelegate!,
                 withModifiers modifiers: InfinityModifers? = InfinityModifers()) {
         self.tableView = tableView
         self.cells = cells
@@ -52,29 +48,27 @@ public struct InfinityTableView {
     }
 }
 
-//public protocol InfinityTableProtocol: InfinityTableDataSource, InfinityTableDelegate {}
-
 /**
  Defines a Protocol to be Implemented on a UIViewControl
  
  - func infinityCellForIndexPath:       Used to return the the corect cell in either placeholder, or live data state.
  - func infinityLoadingCell:            Used to return the desired loading cell you would like to appear at the bottom of the pages InfinityTableView.
  - func infinityTableView:              Used to define the height of each cell, excluding the loading cell.
-
 */
 
+public typealias InfinityTableDelegate = UITableViewDelegate
 
-public protocol InfinityTableSourceable: InfinityDataSource, InfinityTableDelegate {
+public protocol InfinityTableSourceable: InfinityDataSource, InfinityTableDelegate, InfinityTableSourceableOptional {
     func tableView(tableView:UITableView, withDataForPage page:Int,
         withModifiers modifiers:InfinityModifers, forSession session:String, completion: (responsePayload: ResponsePayload) -> ())
-    
     func tableView(tableView:UITableView, cellForRowAtIndexPath indexPath:NSIndexPath, withPlaceholder placeholder:Bool) -> UITableViewCell
-    
     func tableView(tableView:UITableView, withLoadingCellItemForIndexPath indexPath:NSIndexPath) -> UITableViewCell
-    
     func tableView(tableView:UITableView, heightForRowAtIndexPath indexPath:NSIndexPath, forLoadingCell loadingCell:Bool) -> CGFloat
 }
 
+@objc public protocol InfinityTableSourceableOptional: class {
+    optional func collectionView(collectionView:UICollectionView, didSelectCellAtIndexPath indexPath:NSIndexPath)
+}
 
 public protocol InfinityTableProtocol: InfinityTableSourceable {
     func startInfinityTableView(infinityTableView infinityTable:InfinityTableView)

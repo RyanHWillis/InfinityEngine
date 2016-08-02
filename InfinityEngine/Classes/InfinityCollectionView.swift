@@ -37,8 +37,9 @@ public struct InfinityCollectionView {
     let delegate: InfinityCollectionSourceable
     let modifiers: InfinityModifers!
     
-    public init(withCollectionView collectionView: UICollectionView, withCells cells:InfinityCells, withDelegate delegate: InfinityCollectionSourceable,
-                                   withModifiers modifiers: InfinityModifers? = InfinityModifers()) {
+    public init(withCollectionView collectionView: UICollectionView, withCells cells:InfinityCells,
+        withDelegate delegate: InfinityCollectionSourceable,
+        withModifiers modifiers: InfinityModifers? = InfinityModifers()) {
         
         self.collectionView = collectionView
         self.cells = cells
@@ -57,21 +58,19 @@ public struct InfinityCollectionView {
 public protocol InfinityCollectionSourceable: InfinityDataSource, InfinityCollectionViewProtocolOptional {
     func collectionView(collectionView:UICollectionView, withDataForPage page:Int,
         withModifiers modifiers:InfinityModifers, forSession session:String, completion: (responsePayload: ResponsePayload) -> ())
-    
     func collectionView(collectionView:UICollectionView, withCellItemForIndexPath indexPath:NSIndexPath,
         forPlaceholder placeholder:Bool) -> UICollectionViewCell
-    
     func collectionView(collectionView:UICollectionView, withLoadingCellItemForIndexPath indexPath:NSIndexPath,
         forLastPageHit hit:Bool) -> UICollectionReusableView
 }
 
 @objc public protocol InfinityCollectionViewProtocolOptional: class {
-    optional func infinityDidSelectItemAtIndexPath(indexPath: NSIndexPath)
-    optional func infinity(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAtIndex section: Int) -> UIEdgeInsets
-    optional func infinity(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAtIndex section: Int) -> CGFloat
-    optional func infinity(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAtIndex section: Int) -> CGFloat
-    optional func infinity(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize
-    optional func infinity(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForLoadingItemAtIndexPath section: Int) -> CGSize
+    optional func collectionView(collectionView:UICollectionView, didSelectItemAtIndexPath indexPath:NSIndexPath)
+    optional func collectionView(collectionView:UICollectionView, layout collectionViewLayout:UICollectionViewLayout, sizeForLoadingItemAtIndexPath section:Int) -> CGSize
+    optional func collectionView(collectionView:UICollectionView, layout collectionViewLayout:UICollectionViewLayout, insetForSectionAtIndex section:Int) -> UIEdgeInsets
+    optional func collectionView(collectionView:UICollectionView, layout collectionViewLayout:UICollectionViewLayout, minimumInteritemSpacingForSectionAtIndex section:Int) -> CGFloat
+    optional func collectionView(collectionView:UICollectionView, layout collectionViewLayout:UICollectionViewLayout, minimumLineSpacingForSectionAtIndex section:Int) -> CGFloat
+    optional func collectionView(collectionView:UICollectionView, layout collectionViewLayout:UICollectionViewLayout, sizeForItemAtIndexPath indexPath:NSIndexPath) -> CGSize
 }
 
 /**

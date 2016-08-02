@@ -26,7 +26,7 @@ import UIKit
 //** Infinity Engine **//
 
 let kCellHeight:CGFloat             = 50.0
-let kBufferItems:Int                = 8
+let kBufferHeight:CGFloat           = 350.0
 let kPlaceHolderCellCount:Int       = 14
 
 /**
@@ -54,22 +54,11 @@ public enum IndexType {
  */
 
 public struct InfinityModifers {
-    let infiniteScroll:Bool!
     let forceReload:Bool!
-    let indexedBy:IndexType!
-    let uriSuffix:String?
-    let requestParamters:[String : AnyObject]?
     let refreshControl:Bool?
     
-    public init(infiniteScroll infinite: Bool! = true, forceReload force: Bool! = true,
-                indexedBy type: IndexType = .Row, uriSuffix suffix: String? = nil,
-                requestParamters params: [String : AnyObject]? = nil, refreshControl defaultControl: Bool? = true) {
-        
-        self.infiniteScroll = infinite
+    public init(forceReload force: Bool! = true, refreshControl defaultControl: Bool? = true) {
         self.forceReload = force
-        self.indexedBy = type
-        self.uriSuffix = suffix
-        self.requestParamters = params
         self.refreshControl = defaultControl
     }
 }
