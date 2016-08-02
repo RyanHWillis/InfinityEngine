@@ -65,9 +65,14 @@ public struct InfinityTableView {
 
 
 public protocol InfinityTableSourceable: InfinityDataSource, InfinityTableDelegate {
-    func infinityCellForIndexPath(indexPath: NSIndexPath, withPlaceholder placeholder:Bool) -> UITableViewCell
-    func infinityLoadingCell(indexPath: NSIndexPath) -> UITableViewCell
-    func infinityTableView(heightForRowAtIndexPath indexPath: NSIndexPath, withLoading loading:Bool) -> CGFloat
+    func tableView(tableView:UITableView, withDataForPage page:Int,
+        withModifiers modifiers:InfinityModifers, forSession session:String, completion: (responsePayload: ResponsePayload) -> ())
+    
+    func tableView(tableView:UITableView, cellForRowAtIndexPath indexPath:NSIndexPath, withPlaceholder placeholder:Bool) -> UITableViewCell
+    
+    func tableView(tableView:UITableView, withLoadingCellItemForIndexPath indexPath:NSIndexPath) -> UITableViewCell
+    
+    func tableView(tableView:UITableView, heightForRowAtIndexPath indexPath:NSIndexPath, forLoadingCell loadingCell:Bool) -> CGFloat
 }
 
 

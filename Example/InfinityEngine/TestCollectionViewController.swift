@@ -35,7 +35,8 @@ class TestCollectionViewController: UIViewController {
 }
 
 extension TestCollectionViewController: InfinityCollectionProtocol {
-    func infinityCellItemForIndexPath(indexPath: NSIndexPath, placeholder: Bool) -> UICollectionViewCell {
+    
+    func collectionView(collectionView: UICollectionView, withCellItemForIndexPath indexPath: NSIndexPath, forPlaceholder placeholder: Bool) -> UICollectionViewCell {
         let cell = self.testCollectionView.dequeueReusableCellWithReuseIdentifier("TestCollectionViewCell", forIndexPath: indexPath) as! TestCollectionViewCell
         if placeholder == true {
             cell.title.text = String(indexPath.row) + " Placeholder"
@@ -46,16 +47,20 @@ extension TestCollectionViewController: InfinityCollectionProtocol {
         return cell
     }
     
-    func infinityLoadingReusableView(indexPath: NSIndexPath, lastPageHit: Bool) -> UICollectionReusableView {
+    func collectionView(collectionView: UICollectionView, withLoadingCellItemForIndexPath indexPath: NSIndexPath, forLastPageHit hit: Bool) -> UICollectionReusableView {
         let cell = self.testCollectionView.dequeueReusableSupplementaryViewOfKind(UICollectionElementKindSectionFooter, withReuseIdentifier: "LoadingCollectionViewCell", forIndexPath: indexPath)
         return cell
     }
     
-    func infinityData(atPage page: Int, withModifiers modifiers: InfinityModifers, forSession session:String, completion: (responsePayload: ResponsePayload) -> ()) {
-        
+    func collectionView(collectionView: UICollectionView, withDataForPage page: Int, withModifiers modifiers: InfinityModifers, forSession session: String, completion: (responsePayload: ResponsePayload) -> ()) {
         delay(1.0) { // < Simulates Delay we would expect from an API
             completion(responsePayload: ResponsePayload(count: [10, 10 * page * page], lastPage: false, session: session))
         }
     }
 }
 
+//class NewTableViewEngine: TableViewEngine {
+//    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+//        print("test")
+//    }
+//}

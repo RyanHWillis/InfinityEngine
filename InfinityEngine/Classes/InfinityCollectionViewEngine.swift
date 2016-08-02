@@ -96,8 +96,8 @@ public class CollectionViewEngine: NSObject {
 
 extension CollectionViewEngine: InfinityDataEngineDelegate {
     func getData(atPage page: Int, withModifiers modifiers: InfinityModifers, completion: (responsePayload: ResponsePayload) -> ()) {
-        self.delegate.infinityData(atPage: page, withModifiers: modifiers, forSession: self.engine.sessionID) { (responsePayload) in
-            
+        self.delegate.collectionView(self.infinitCollectionView.collectionView, withDataForPage: page,
+            withModifiers: modifiers, forSession: self.engine.sessionID) { (responsePayload) in
             if self.engine.responseIsValid(atPage: page, withReloadControl: self.reloadControl, withResponsePayload: responsePayload) == true {
                 completion(responsePayload: responsePayload)
             }
@@ -179,9 +179,9 @@ extension CollectionViewEngine: UICollectionViewDataSource {
     public func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         
         if self.engine.page == 1 {
-            return self.delegate.infinityCellItemForIndexPath(indexPath, placeholder: true)
+            return self.delegate.collectionView(self.infinitCollectionView.collectionView, withCellItemForIndexPath: indexPath, forPlaceholder: true)
         } else {
-            return self.delegate.infinityCellItemForIndexPath(indexPath, placeholder: false)
+            return self.delegate.collectionView(self.infinitCollectionView.collectionView, withCellItemForIndexPath: indexPath, forPlaceholder: false)
         }
     }
 }
@@ -195,7 +195,7 @@ extension CollectionViewEngine: UICollectionViewDelegate {
         atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
         
         if kind == UICollectionElementKindSectionFooter {
-            return self.delegate.infinityLoadingReusableView(indexPath, lastPageHit: self.engine.lastPageHit)
+            return self.delegate.collectionView(self.infinitCollectionView.collectionView, withLoadingCellItemForIndexPath: indexPath, forLastPageHit: self.engine.lastPageHit)
         } else {
             return UICollectionReusableView()
         }

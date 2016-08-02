@@ -91,8 +91,7 @@ public class TableViewEngine: NSObject {
 extension TableViewEngine: InfinityDataEngineDelegate {
     
     func getData(atPage page: Int, withModifiers modifiers: InfinityModifers, completion: (responsePayload: ResponsePayload) -> ()) {
-        self.dataSource.infinityData(atPage: page, withModifiers: modifiers, forSession: self.engine.sessionID) { (responsePayload) in
-            
+        self.dataSource.tableView(self.infinityTableView.tableView, withDataForPage: page, withModifiers: modifiers, forSession: self.engine.sessionID) { (responsePayload) in
             if self.engine.responseIsValid(atPage: page, withReloadControl: self.reloadControl, withResponsePayload: responsePayload) == true {
                 completion(responsePayload: responsePayload)
             }
@@ -177,18 +176,18 @@ extension TableViewEngine: UITableViewDataSource {
         if self.engine.page == 1 {
             
             if indexPath.row == kPlaceHolderCellCount - 1 {
-                return self.dataSource.infinityLoadingCell(indexPath)
+                return self.dataSource.tableView(self.infinityTableView.tableView, withLoadingCellItemForIndexPath: indexPath)
             }
-            return self.dataSource.infinityCellForIndexPath(indexPath, withPlaceholder: true)
+            return self.dataSource.tableView(self.infinityTableView.tableView, cellForRowAtIndexPath: indexPath, withPlaceholder: true)
             
         } else {
             
             if indexPath.section == self.engine.dataCount.count - 1 && self.infinityTableView.modifiers.infiniteScroll {
                 if indexPath.row == self.engine.dataCount[self.engine.dataCount.count - 1] {
-                    return self.dataSource.infinityLoadingCell(indexPath)
+                    return self.dataSource.tableView(self.infinityTableView.tableView, withLoadingCellItemForIndexPath: indexPath)
                 }
             }
-            return self.dataSource.infinityCellForIndexPath(indexPath, withPlaceholder: false)
+            return self.dataSource.tableView(self.infinityTableView.tableView, cellForRowAtIndexPath: indexPath, withPlaceholder: false)
         }
     }
 }
@@ -200,18 +199,18 @@ extension TableViewEngine:UITableViewDelegate {
         if self.engine.page == 1 {
             
             if indexPath.row == kPlaceHolderCellCount - 1 {
-                return self.dataSource.infinityTableView(heightForRowAtIndexPath: indexPath, withLoading: true)
+                return self.dataSource.tableView(self.infinityTableView.tableView, heightForRowAtIndexPath: indexPath, forLoadingCell: true)
             }
-            return self.dataSource.infinityTableView(heightForRowAtIndexPath: indexPath, withLoading: false)
+            return self.dataSource.tableView(self.infinityTableView.tableView, heightForRowAtIndexPath: indexPath, forLoadingCell: false)
             
         } else {
             
             if indexPath.section == self.engine.dataCount.count - 1 && self.infinityTableView.modifiers.infiniteScroll {
                 if indexPath.row == self.engine.dataCount[self.engine.dataCount.count - 1] {
-                    return self.dataSource.infinityTableView(heightForRowAtIndexPath: indexPath, withLoading: true)
+                    return self.dataSource.tableView(self.infinityTableView.tableView, heightForRowAtIndexPath: indexPath, forLoadingCell: true)
                 }
             }
-            return self.dataSource.infinityTableView(heightForRowAtIndexPath: indexPath, withLoading: false)
+            return self.dataSource.tableView(self.infinityTableView.tableView, heightForRowAtIndexPath: indexPath, forLoadingCell: false)
         }
     }  
 }

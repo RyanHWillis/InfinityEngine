@@ -47,9 +47,6 @@ public struct InfinityCollectionView {
     }
 }
 
-
-
-
 /**
  Defines a Protocol to be Implemented on a UIViewControl
  
@@ -58,8 +55,14 @@ public struct InfinityCollectionView {
  */
 
 public protocol InfinityCollectionSourceable: InfinityDataSource, InfinityCollectionViewProtocolOptional {
-    func infinityCellItemForIndexPath(indexPath: NSIndexPath, placeholder:Bool) -> UICollectionViewCell
-    func infinityLoadingReusableView(indexPath: NSIndexPath, lastPageHit:Bool) -> UICollectionReusableView
+    func collectionView(collectionView:UICollectionView, withDataForPage page:Int,
+        withModifiers modifiers:InfinityModifers, forSession session:String, completion: (responsePayload: ResponsePayload) -> ())
+    
+    func collectionView(collectionView:UICollectionView, withCellItemForIndexPath indexPath:NSIndexPath,
+        forPlaceholder placeholder:Bool) -> UICollectionViewCell
+    
+    func collectionView(collectionView:UICollectionView, withLoadingCellItemForIndexPath indexPath:NSIndexPath,
+        forLastPageHit hit:Bool) -> UICollectionReusableView
 }
 
 @objc public protocol InfinityCollectionViewProtocolOptional: class {

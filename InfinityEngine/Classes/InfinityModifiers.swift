@@ -81,9 +81,9 @@ public struct InfinityModifers {
  - func infinityData:                            Retreives the appropaite data to feed into the framework
  
  */
+//func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
 
 public protocol InfinityDataSource: InfinityDataEngineDelegateOptional {
-    func infinityData(atPage page: Int, withModifiers modifiers: InfinityModifers, forSession session:String, completion: (responsePayload: ResponsePayload) -> ())
 }
 
 @objc public protocol InfinityDataEngineDelegateOptional: class {

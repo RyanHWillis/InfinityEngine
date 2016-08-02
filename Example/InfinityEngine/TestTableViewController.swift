@@ -47,17 +47,14 @@ class TestTableViewController: UIViewController {
 }
 
 extension TestTableViewController: InfinityTableProtocol {
-    func infinityData(atPage page: Int, withModifiers modifiers: InfinityModifers,
-                             forSession session:String, completion: (responsePayload: ResponsePayload) -> ()) {
-        print(page)
-        let numb = 5 * page
+    
+    func tableView(tableView: UITableView, withDataForPage page: Int, withModifiers modifiers: InfinityModifers, forSession session: String, completion: (responsePayload: ResponsePayload) -> ()) {
         delay(1.0) {
-            completion(responsePayload: ResponsePayload(count: [8, 3, numb], lastPage: false, session: session))
+            completion(responsePayload: ResponsePayload(count: [8, 3, 12 * page * page], lastPage: false, session: session))
         }
     }
     
-    func infinityCellForIndexPath(indexPath: NSIndexPath, withPlaceholder placeholder: Bool) -> UITableViewCell {
-        
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath, withPlaceholder placeholder: Bool) -> UITableViewCell {
         let cell = self.tableView.dequeueReusableCellWithIdentifier("TestTableViewCell", forIndexPath: indexPath) as! TestTableViewCell
         if placeholder == true {
             cell.contentView.backgroundColor = UIColor.redColor()
@@ -70,14 +67,14 @@ extension TestTableViewController: InfinityTableProtocol {
         return cell
     }
     
-    func infinityLoadingCell(indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(tableView: UITableView, withLoadingCellItemForIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = self.tableView.dequeueReusableCellWithIdentifier("LoadingTableViewCell", forIndexPath: indexPath) as! LoadingTableViewCell
         cell.backgroundColor = UIColor.purpleColor()
         return cell
     }
     
-    func infinityTableView(heightForRowAtIndexPath indexPath: NSIndexPath, withLoading loading: Bool) -> CGFloat {
-        if loading {
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath, forLoadingCell loadingCell: Bool) -> CGFloat {
+        if loadingCell {
             return 30.0
         }
         
