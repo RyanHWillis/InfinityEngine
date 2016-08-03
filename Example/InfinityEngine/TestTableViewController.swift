@@ -56,13 +56,10 @@ extension TestTableViewController: InfinityTableProtocol {
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath, withPlaceholder placeholder: Bool) -> UITableViewCell {
         let cell = self.tableView.dequeueReusableCellWithIdentifier("TestTableViewCell", forIndexPath: indexPath) as! TestTableViewCell
         if placeholder == true {
-            cell.contentView.backgroundColor = UIColor.redColor()
+            cell.showPlaceholder()
         } else {
-            cell.contentView.backgroundColor = UIColor.orangeColor()
+            cell.hidePlaceholder()
         }
-        
-        cell.label.text = "Row " + String(indexPath.row)
-        
         return cell
     }
     
@@ -77,7 +74,7 @@ extension TestTableViewController: InfinityTableProtocol {
             return 30.0
         }
         
-        return 40.0
+        return 98.0
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
