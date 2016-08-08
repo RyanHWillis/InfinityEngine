@@ -91,7 +91,9 @@ public class TableViewEngine: NSObject {
 extension TableViewEngine: InfinityDataEngineDelegate {
     
     func getData(atPage page: Int, withModifiers modifiers: InfinityModifers, completion: (responsePayload: ResponsePayload) -> ()) {
+        
         self.dataSource.tableView(self.infinityTableView.tableView, withDataForPage: page, withModifiers: modifiers, forSession: self.engine.sessionID) { (responsePayload) in
+            
             if self.engine.responseIsValid(atPage: page, withReloadControl: self.reloadControl, withResponsePayload: responsePayload) == true {
                 completion(responsePayload: responsePayload)
             }
@@ -176,7 +178,10 @@ extension TableViewEngine: UITableViewDataSource {
             if indexPath.row == kPlaceHolderCellCount - 1 {
                 return self.dataSource.tableView(self.infinityTableView.tableView, withLoadingCellItemForIndexPath: indexPath)
             }
-            return self.dataSource.tableView(self.infinityTableView.tableView, cellForRowAtIndexPath: indexPath, withPlaceholder: true)
+            
+            let cell:InfinityTableViewCell = self.dataSource.tableView(self.infinityTableView.tableView, cellForRowAtIndexPath: indexPath)
+            cell.showPlaceholder()
+            return cell
             
         } else {
             
@@ -185,7 +190,10 @@ extension TableViewEngine: UITableViewDataSource {
                     return self.dataSource.tableView(self.infinityTableView.tableView, withLoadingCellItemForIndexPath: indexPath)
                 }
             }
-            return self.dataSource.tableView(self.infinityTableView.tableView, cellForRowAtIndexPath: indexPath, withPlaceholder: false)
+            
+            let cell:InfinityTableViewCell = self.dataSource.tableView(self.infinityTableView.tableView, cellForRowAtIndexPath: indexPath)
+            cell.hidePlaceholder()
+            return cell
         }
     }
 }

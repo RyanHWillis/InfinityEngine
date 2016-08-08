@@ -53,14 +53,8 @@ extension TestTableViewController: InfinityTableProtocol {
         }
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath, withPlaceholder placeholder: Bool) -> UITableViewCell {
-        let cell = self.tableView.dequeueReusableCellWithIdentifier("TestTableViewCell", forIndexPath: indexPath) as! TestTableViewCell
-        if placeholder == true {
-            cell.showPlaceholder()
-        } else {
-            cell.hidePlaceholder()
-        }
-        return cell
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> InfinityTableViewCell {
+        return self.tableView.dequeueReusableCellWithIdentifier("TestTableViewCell", forIndexPath: indexPath) as! TestTableViewCell
     }
     
     func tableView(tableView: UITableView, withLoadingCellItemForIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -77,9 +71,9 @@ extension TestTableViewController: InfinityTableProtocol {
         return 98.0
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        
-    }
+//    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+//        
+//    }
 }
 
 class NewTableViewEngine: TableViewEngine {

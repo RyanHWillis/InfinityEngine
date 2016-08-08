@@ -61,7 +61,7 @@ public typealias InfinityTableDelegate = UITableViewDelegate
 public protocol InfinityTableSourceable: InfinityDataSource, InfinityTableDelegate, InfinityTableSourceableOptional {
     func tableView(tableView:UITableView, withDataForPage page:Int,
         withModifiers modifiers:InfinityModifers, forSession session:String, completion: (responsePayload: ResponsePayload) -> ())
-    func tableView(tableView:UITableView, cellForRowAtIndexPath indexPath:NSIndexPath, withPlaceholder placeholder:Bool) -> UITableViewCell
+    func tableView(tableView:UITableView, cellForRowAtIndexPath indexPath:NSIndexPath) -> InfinityTableViewCell
     func tableView(tableView:UITableView, withLoadingCellItemForIndexPath indexPath:NSIndexPath) -> UITableViewCell
     func tableView(tableView:UITableView, heightForRowAtIndexPath indexPath:NSIndexPath, forLoadingCell loadingCell:Bool) -> CGFloat
 }
