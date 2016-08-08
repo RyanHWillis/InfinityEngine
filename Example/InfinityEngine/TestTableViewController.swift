@@ -47,7 +47,7 @@ class TestTableViewController: UIViewController {
 }
 
 extension TestTableViewController: InfinityTableProtocol {
-    func tableView(tableView: UITableView, withDataForPage page: Int, withModifiers modifiers: InfinityModifers, forSession session: String, completion: (responsePayload: ResponsePayload) -> ()) {
+    func tableView(tableView: UITableView, withDataForPage page: Int, forSession session: String, completion: (responsePayload: ResponsePayload) -> ()) {
         delay(1.0) {
             completion(responsePayload: ResponsePayload(count: [8, 3, 12 * page * page], lastPage: false, session: session))
         }
@@ -70,10 +70,6 @@ extension TestTableViewController: InfinityTableProtocol {
         
         return 98.0
     }
-    
-//    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-//        
-//    }
 }
 
 class NewTableViewEngine: TableViewEngine {

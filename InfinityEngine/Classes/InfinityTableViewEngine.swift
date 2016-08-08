@@ -92,7 +92,7 @@ extension TableViewEngine: InfinityDataEngineDelegate {
     
     func getData(atPage page: Int, withModifiers modifiers: InfinityModifers, completion: (responsePayload: ResponsePayload) -> ()) {
         
-        self.dataSource.tableView(self.infinityTableView.tableView, withDataForPage: page, withModifiers: modifiers, forSession: self.engine.sessionID) { (responsePayload) in
+        self.dataSource.tableView(self.infinityTableView.tableView, withDataForPage: page, forSession: self.engine.sessionID) { (responsePayload) in
             
             if self.engine.responseIsValid(atPage: page, withReloadControl: self.reloadControl, withResponsePayload: responsePayload) == true {
                 completion(responsePayload: responsePayload)
