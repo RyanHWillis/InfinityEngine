@@ -36,15 +36,8 @@ class TestCollectionViewController: UIViewController {
 
 extension TestCollectionViewController: InfinityCollectionProtocol {
     
-    func collectionView(collectionView: UICollectionView, withCellItemForIndexPath indexPath: NSIndexPath, forPlaceholder placeholder: Bool) -> UICollectionViewCell {
-        let cell = self.testCollectionView.dequeueReusableCellWithReuseIdentifier("TestCollectionViewCell", forIndexPath: indexPath) as! TestCollectionViewCell
-        if placeholder == true {
-            cell.title.text = String(indexPath.row) + " Placeholder"
-        } else {
-            cell.title.text = String(indexPath.row) + " Live"
-        }
-        
-        return cell
+    func collectionView(collectionView: UICollectionView, withCellItemForIndexPath indexPath: NSIndexPath) -> InfinityCollectionViewCell {
+        return self.testCollectionView.dequeueReusableCellWithReuseIdentifier("TestCollectionViewCell", forIndexPath: indexPath) as! TestCollectionViewCell
     }
     
     func collectionView(collectionView: UICollectionView, withLoadingCellItemForIndexPath indexPath: NSIndexPath, forLastPageHit hit: Bool) -> UICollectionReusableView {
@@ -56,10 +49,6 @@ extension TestCollectionViewController: InfinityCollectionProtocol {
         delay(1.0) { // < Simulates Delay we would expect from an API
             completion(responsePayload: ResponsePayload(count: [10, 10 * page * page], lastPage: false, session: session))
         }
-    }
-    
-    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        
     }
 }
 

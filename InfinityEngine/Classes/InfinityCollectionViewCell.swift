@@ -1,5 +1,5 @@
 //
-//  InfinityTableViewCell.swift
+//  InfinityCollectionViewCell.swift
 //  Pods
 //
 //  Created by Ryan Willis on 08/08/2016.
@@ -8,8 +8,8 @@
 
 import UIKit
 
-public class InfinityTableViewCell: UITableViewCell {
-
+public class InfinityCollectionViewCell: UICollectionViewCell {
+    
     //MARK: - Implementation
     
     public func showPlaceholder() {

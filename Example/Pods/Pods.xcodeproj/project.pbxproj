@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		1BEA4D26DEF7E57F356F8D1E0A7377D1 /* Pods-InfinityEngine_Example-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 9916A9A6F410710EC34C6B119089B827 /* Pods-InfinityEngine_Example-dummy.m */; };
 		35C31D911D58F176007750A0 /* InfinityTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35C31D901D58F176007750A0 /* InfinityTableViewCell.swift */; };
+		35C31D931D58F4BF007750A0 /* InfinityCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35C31D921D58F4BF007750A0 /* InfinityCollectionViewCell.swift */; };
 		35E09E2E1D1B048C0019A11C /* InfinityCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35E09E2D1D1B048C0019A11C /* InfinityCell.swift */; };
 		35F4AFC41CD4F76D0090728B /* InfinityEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35F4AFBC1CD4F76D0090728B /* InfinityEngine.swift */; };
 		35F4AFC51CD4F76D0090728B /* InfinityModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35F4AFBD1CD4F76D0090728B /* InfinityModifiers.swift */; };
@@ -51,6 +52,7 @@
 		27C0416E04F210F300FF7DB578648768 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2C850F0C4531194D44724A51FB11989F /* Pods-InfinityEngine_Tests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-InfinityEngine_Tests-acknowledgements.plist"; sourceTree = "<group>"; };
 		35C31D901D58F176007750A0 /* InfinityTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfinityTableViewCell.swift; sourceTree = "<group>"; };
+		35C31D921D58F4BF007750A0 /* InfinityCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfinityCollectionViewCell.swift; sourceTree = "<group>"; };
 		35E09E2D1D1B048C0019A11C /* InfinityCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfinityCell.swift; sourceTree = "<group>"; };
 		35F4AFBC1CD4F76D0090728B /* InfinityEngine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfinityEngine.swift; sourceTree = "<group>"; };
 		35F4AFBD1CD4F76D0090728B /* InfinityModifiers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfinityModifiers.swift; sourceTree = "<group>"; };
@@ -138,6 +140,7 @@
 				35F4AFC21CD4F76D0090728B /* InfinityCollectionView.swift */,
 				35F4AFC31CD4F76D0090728B /* InfinityCollectionViewEngine.swift */,
 				35C31D901D58F176007750A0 /* InfinityTableViewCell.swift */,
+				35C31D921D58F4BF007750A0 /* InfinityCollectionViewCell.swift */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -388,6 +391,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				35C31D931D58F4BF007750A0 /* InfinityCollectionViewCell.swift in Sources */,
 				35C31D911D58F176007750A0 /* InfinityTableViewCell.swift in Sources */,
 				35F4AFC41CD4F76D0090728B /* InfinityEngine.swift in Sources */,
 				E2EE5E974BA1CBF3485F61CF4A07F12C /* InfinityEngine-dummy.m in Sources */,
