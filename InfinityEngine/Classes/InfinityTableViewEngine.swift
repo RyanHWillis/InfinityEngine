@@ -104,16 +104,16 @@ extension TableViewEngine: InfinityDataEngineDelegate {
         self.dataSource.infinintyDataResponse?(withData: data)
     }
     
-    func buildIndexsForInsert(dataCount count: [Int]) -> [NSIndexPath] {
-        var indexs = [NSIndexPath]()
+    func buildIndexsForInsert(dataCount count: [Int]) -> [[NSIndexPath]] {
+        var indexs = [[NSIndexPath]]()
         return indexs
     }
     
-    func dataEngine(responsePayload payload: ResponsePayload, withIndexPaths indexPaths: [NSIndexPath]?) {
+    func dataEngine(responsePayload payload: ResponsePayload, withIndexPaths indexPaths: [[NSIndexPath]]?) {
         self.engine.dataCount = self.engine.dataFactory(payload)
     }
     
-    func updateControllerView(atIndexes indexes: [NSIndexPath]?) {
+    func updateControllerView(atIndexes indexes: [[NSIndexPath]]?) {
         
         guard let indexes = indexes else {
             self.infinityTableView.tableView.reloadData()
@@ -133,8 +133,8 @@ extension TableViewEngine: InfinityDataEngineDelegate {
                     self.infinityTableView.tableView.reloadData()
                 } else {
                     self.infinityTableView.tableView.beginUpdates()
-                    self.infinityTableView.tableView.reloadRowsAtIndexPaths(indexPathTuple.reloadIndexPaths, withRowAnimation: UITableViewRowAnimation.Fade)
-                    self.infinityTableView.tableView.insertRowsAtIndexPaths(indexPathTuple.insertIndexPaths, withRowAnimation: UITableViewRowAnimation.Fade)
+//                    self.infinityTableView.tableView.reloadRowsAtIndexPaths(indexPathTuple.reloadIndexPaths, withRowAnimation: UITableViewRowAnimation.Fade)
+//                    self.infinityTableView.tableView.insertRowsAtIndexPaths(indexPathTuple.insertIndexPaths, withRowAnimation: UITableViewRowAnimation.Fade)
                     self.infinityTableView.tableView.endUpdates()
                 }
                 

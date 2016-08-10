@@ -28,13 +28,16 @@ class TestCollectionViewController: UIViewController {
         let infinityView:InfinityCollectionView = InfinityCollectionView(withCollectionView: self.testCollectionView, withCells: cells, withDelegate: self)
         startInfinityCollectionView(infinityCollectionView: infinityView)
     }
-
-    @IBAction func reset(sender: AnyObject) {
-        self.resetInfinityCollection(withCustomCollectionEngine: nil)
-    }
 }
 
 extension TestCollectionViewController: InfinityCollectionProtocol {
+    
+    func collectionView(collectionView: UICollectionView, withDataForPage page: Int, forSession session: String, completion: (responsePayload: ResponsePayload) -> ()) {
+        delay(1.0) { // < Simulates Delay we would expect from an API
+            completion(responsePayload: ResponsePayload(count: [10, 5, 3, 3, 6, 12, 8, 90 * page * page], lastPage: false, session: session))
+        }
+        print(page)
+    }
     
     func collectionView(collectionView: UICollectionView, withCellItemForIndexPath indexPath: NSIndexPath) -> InfinityCollectionViewCell {
         return self.testCollectionView.dequeueReusableCellWithReuseIdentifier("TestCollectionViewCell", forIndexPath: indexPath) as! TestCollectionViewCell
@@ -43,12 +46,6 @@ extension TestCollectionViewController: InfinityCollectionProtocol {
     func collectionView(collectionView: UICollectionView, withLoadingCellItemForIndexPath indexPath: NSIndexPath, forLastPageHit hit: Bool) -> UICollectionReusableView {
         let cell = self.testCollectionView.dequeueReusableSupplementaryViewOfKind(UICollectionElementKindSectionFooter, withReuseIdentifier: "LoadingCollectionViewCell", forIndexPath: indexPath)
         return cell
-    }
-    
-    func collectionView(collectionView: UICollectionView, withDataForPage page: Int, withModifiers modifiers: InfinityModifers, forSession session: String, completion: (responsePayload: ResponsePayload) -> ()) {
-        delay(1.0) { // < Simulates Delay we would expect from an API
-            completion(responsePayload: ResponsePayload(count: [10, 10 * page * page], lastPage: false, session: session))
-        }
     }
 }
 

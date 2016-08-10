@@ -47,9 +47,6 @@ public enum IndexType {
  
  - parameter infiniteScroll:        Whether our data is paged, or delivered all at first response payload.
  - parameter forceReload:           If data should append, or reload the entire view.
- - parameter indexedBy:             Represents what paging request should be based on.
- - parameter uriSuffix:             Appends to a URI.
- - parameter requestParamters:      Populates request form data.
 
  */
 

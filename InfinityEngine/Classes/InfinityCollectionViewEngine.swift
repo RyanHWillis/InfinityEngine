@@ -96,8 +96,7 @@ public class CollectionViewEngine: NSObject {
 
 extension CollectionViewEngine: InfinityDataEngineDelegate {
     func getData(atPage page: Int, withModifiers modifiers: InfinityModifers, completion: (responsePayload: ResponsePayload) -> ()) {
-        self.delegate.collectionView(self.infinitCollectionView.collectionView, withDataForPage: page,
-            withModifiers: modifiers, forSession: self.engine.sessionID) { (responsePayload) in
+        self.delegate.collectionView(self.infinitCollectionView.collectionView, withDataForPage: page, forSession: self.engine.sessionID) { (responsePayload) in
             if self.engine.responseIsValid(atPage: page, withReloadControl: self.reloadControl, withResponsePayload: responsePayload) == true {
                 completion(responsePayload: responsePayload)
             }
@@ -108,20 +107,38 @@ extension CollectionViewEngine: InfinityDataEngineDelegate {
         self.delegate.infinintyDataResponse?(withData: data)
     }
     
-    func buildIndexsForInsert(dataCount count: [Int]) -> [NSIndexPath] {
-        var indexs = [NSIndexPath]()
+    func buildIndexsForInsert(dataCount count: [Int]) -> [[NSIndexPath]] {
         
-        //        let numbObj:Int = count - 1
-        //
-        //        for index in (self.engine.dataCount)...(self.engine.dataCount + numbObj) {
-        //            let indexPath = NSIndexPath(forRow: index, inSection: 0)
-        //            indexs.append(indexPath)
-        //        }
+        var sectionIndexes = [[NSIndexPath]]()
         
-        return indexs
+        for (index, sectionNumb) in count.enumerate() {
+            
+            var indexes = [NSIndexPath]()
+            let numbObj:Int = sectionNumb - 1
+            
+            
+            var from:Int
+            if self.engine.dataCount == [] {
+                from = 0
+            } else {
+                from = self.engine.dataCount[index]
+            }
+            
+            let to = from + numbObj
+            
+
+            for index in (from)...(to) {
+                let indexPath = NSIndexPath(forRow: index, inSection: 0)
+                indexes.append(indexPath)
+            }
+            
+            sectionIndexes.append(indexes)
+        }
+        
+        return sectionIndexes
     }
     
-    func dataEngine(responsePayload payload: ResponsePayload, withIndexPaths indexPaths: [NSIndexPath]?) {
+    func dataEngine(responsePayload payload: ResponsePayload, withIndexPaths indexPaths: [[NSIndexPath]]?) {
         
         // If there are no indexes, prepare for force refresh
         guard let indexs = indexPaths else {
@@ -129,18 +146,28 @@ extension CollectionViewEngine: InfinityDataEngineDelegate {
             return
         }
         
-        let indexPathTuple = self.engine.splitIndexPaths(indexs)
+        let indexPathTuples = self.engine.splitIndexPaths(indexs)
 
         dispatch_async(dispatch_get_main_queue(), { () -> Void in
             self.infinitCollectionView.collectionView.performBatchUpdates({ () -> Void in
                 self.engine.dataCount = self.engine.dataFactory(payload)
-                self.infinitCollectionView.collectionView.reloadItemsAtIndexPaths(indexPathTuple.reloadIndexPaths)
-                self.infinitCollectionView.collectionView.insertItemsAtIndexPaths(indexPathTuple.insertIndexPaths)
+                
+                for sectionReloadIndexPaths in indexPathTuples.reloadIndexPaths {
+                    self.infinitCollectionView.collectionView.reloadItemsAtIndexPaths(sectionReloadIndexPaths)
+                }
+                
+                
+                for sectionInsertIndexPaths in indexPathTuples.insertIndexPaths {
+                    self.infinitCollectionView.collectionView.insertItemsAtIndexPaths(sectionInsertIndexPaths)
+                }
+                
+//                self.infinitCollectionView.collectionView.reloadItemsAtIndexPaths(indexPathTuple.reloadIndexPaths)
+//                self.infinitCollectionView.collectionView.insertItemsAtIndexPaths(indexPathTuple.insertIndexPaths)
                 }, completion: nil)
         })
     }
     
-    func updateControllerView(atIndexes indexes: [NSIndexPath]?) {
+    func updateControllerView(atIndexes indexes: [[NSIndexPath]]?) {
         guard let _ = indexes else {
             self.infinitCollectionView.collectionView.reloadData()
             return
@@ -197,9 +224,11 @@ extension CollectionViewEngine: UICollectionViewDelegate {
     public func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String,
         atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
         
-        if kind == UICollectionElementKindSectionFooter {
-            return self.delegate.collectionView(self.infinitCollectionView.collectionView, withLoadingCellItemForIndexPath: indexPath, forLastPageHit: self.engine.lastPageHit)
-        } else {
+        switch kind {
+        case UICollectionElementKindSectionFooter:
+            return self.delegate.collectionView(self.infinitCollectionView.collectionView,
+                withLoadingCellItemForIndexPath: indexPath, forLastPageHit: self.engine.lastPageHit)
+        default:
             return UICollectionReusableView()
         }
     }    
@@ -209,17 +238,12 @@ extension CollectionViewEngine: UICollectionViewDelegateFlowLayout {
     public func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
         referenceSizeForFooterInSection section: Int) -> CGSize {
         
-        
-        if section != self.engine.dataCount.count - 1 && self.engine.dataCount != [] {
-            return CGSize(width: 0.1, height: 0.1)
+        if section != self.engine.dataCount.count - 1 && self.engine.dataCount != [] || self.engine.lastPageHit {
+            return CGSize(width: 0.0, height: 0.0)
         }
-        
-        if self.engine.lastPageHit == true {
-            return CGSize(width: 0.1, height: 0.1)
-        } else {
-            return self.delegate.collectionView?(self.infinitCollectionView.collectionView, layout: collectionViewLayout, sizeForLoadingItemAtIndexPath: section) ??
+
+        return self.delegate.collectionView?(self.infinitCollectionView.collectionView, layout: collectionViewLayout, sizeForLoadingItemAtIndexPath: section) ??
                 CGSize(width: UIScreen.mainScreen().bounds.size.width, height: kCellHeight)
-        }
     }
 }
 

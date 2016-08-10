@@ -28,9 +28,9 @@ import UIKit
 
 internal protocol InfinityDataEngineDelegate: class {
     func getData(atPage page: Int, withModifiers modifiers: InfinityModifers, completion: (responsePayload: ResponsePayload) -> ())
-    func buildIndexsForInsert(dataCount count: [Int]) -> [NSIndexPath]
-    func updateControllerView(atIndexes indexes: [NSIndexPath]?)
-    func dataEngine(responsePayload payload: ResponsePayload, withIndexPaths indexPaths: [NSIndexPath]?)
+    func buildIndexsForInsert(dataCount count: [Int]) -> [[NSIndexPath]]
+    func updateControllerView(atIndexes indexes: [[NSIndexPath]]?)
+    func dataEngine(responsePayload payload: ResponsePayload, withIndexPaths indexPaths: [[NSIndexPath]]?)
 }
 
 /**
@@ -74,14 +74,14 @@ internal final class InfinityEngine: NSObject {
             
             // Build Indexes Depending On Results Returned
             /*------------------------------------------------------------------------*/
-            var indexs:[NSIndexPath]?
+            var sectionIndexes:[[NSIndexPath]]?
             if !self.modifiers.forceReload {
-                indexs = self.delegate?.buildIndexsForInsert(dataCount: responsePayload.count)
+                sectionIndexes = self.delegate?.buildIndexsForInsert(dataCount: responsePayload.count)
             }
             
-            self.delegate?.dataEngine(responsePayload: responsePayload, withIndexPaths: indexs)
+            self.delegate?.dataEngine(responsePayload: responsePayload, withIndexPaths: sectionIndexes)
             
-            self.delegate?.updateControllerView(atIndexes: indexs)
+            self.delegate?.updateControllerView(atIndexes: sectionIndexes)
             
             self.loading = false            
         }
@@ -123,7 +123,14 @@ internal final class InfinityEngine: NSObject {
     }
     
     func dataFactory(responsePayload:ResponsePayload) -> [Int] {
+//        self.dataCount = responsePayload.count
+//        
+//        for (index, numb) in responsePayload.count.enumerate() {
+//            self.dataCount[index] = self.dataCount[index] + numb
+//        }
+        
         self.dataCount = responsePayload.count
+
         return self.dataCount
     }
     
@@ -136,22 +143,31 @@ internal final class InfinityEngine: NSObject {
         self.delegate?.updateControllerView(atIndexes: nil)
     }
 
-    func splitIndexPaths(indexPaths: [NSIndexPath]) -> (reloadIndexPaths: [NSIndexPath], insertIndexPaths: [NSIndexPath]) {
+    func splitIndexPaths(sectionIndexPaths: [[NSIndexPath]]) -> (reloadIndexPaths: [[NSIndexPath]], insertIndexPaths: [[NSIndexPath]]) {
         
-        var reloadIndexPaths = [NSIndexPath]()
-        var insertIndexPaths = [NSIndexPath]()
+        var reloadSectionIndexPaths = [[NSIndexPath]]()
+        var insertSectionIndexPaths = [[NSIndexPath]]()
         
-        for indexPath in indexPaths {
+        for (index, sectionPaths) in sectionIndexPaths.enumerate() {
             
-            if indexPath.row < kPlaceHolderCellCount {
-                reloadIndexPaths.append(indexPath)
+            
+            var reloadIndexPaths = [NSIndexPath]()
+            var insertIndexPaths = [NSIndexPath]()
+            
+            
+            for indexPath in sectionPaths {
+                if index == 0 && indexPath.row < kPlaceHolderCellCount {
+                    reloadIndexPaths.append(indexPath)
+                } else {
+                    insertIndexPaths.append(indexPath)
+                }
             }
-            else {
-                insertIndexPaths.append(indexPath)
-            }
+            
+            reloadSectionIndexPaths.append(reloadIndexPaths)
+            insertSectionIndexPaths.append(insertIndexPaths)
         }
         
-        return (reloadIndexPaths, insertIndexPaths)
+        return (reloadSectionIndexPaths, insertSectionIndexPaths)
     }
     
     func infinteScrollMonitor(scrollView:UIScrollView) {
