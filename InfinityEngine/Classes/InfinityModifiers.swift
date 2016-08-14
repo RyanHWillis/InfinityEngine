@@ -27,7 +27,7 @@ import UIKit
 
 let kCellHeight:CGFloat             = 50.0
 let kBufferHeight:CGFloat           = 350.0
-let kPlaceHolderCellCount:Int       = 14
+let kPlaceHolderCellCount:Int       = 8
 
 /**
  Used to represent what the paging request for the next response payload to InfinityEngine should be based on.
@@ -54,7 +54,7 @@ public struct InfinityModifers {
     let forceReload:Bool!
     let refreshControl:Bool?
     
-    public init(forceReload force: Bool! = true, refreshControl defaultControl: Bool? = true) {
+    public init(forceReload force: Bool! = false, refreshControl defaultControl: Bool? = true) {
         self.forceReload = force
         self.refreshControl = defaultControl
     }

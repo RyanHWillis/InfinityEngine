@@ -34,7 +34,7 @@ extension TestCollectionViewController: InfinityCollectionProtocol {
     
     func collectionView(collectionView: UICollectionView, withDataForPage page: Int, forSession session: String, completion: (responsePayload: ResponsePayload) -> ()) {
         delay(1.0) { // < Simulates Delay we would expect from an API
-            completion(responsePayload: ResponsePayload(count: [10, 5, 3, 3, 6, 12, 8, 90 * page * page], lastPage: false, session: session))
+            completion(responsePayload: ResponsePayload(count: [10, 5, 3], lastPage: false, session: session))
         }
         print(page)
     }

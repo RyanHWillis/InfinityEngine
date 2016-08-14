@@ -29,7 +29,7 @@ import UIKit
 internal protocol InfinityDataEngineDelegate: class {
     func getData(atPage page: Int, withModifiers modifiers: InfinityModifers, completion: (responsePayload: ResponsePayload) -> ())
     func buildIndexsForInsert(dataCount count: [Int]) -> [[NSIndexPath]]
-    func updateControllerView(atIndexes indexes: [[NSIndexPath]]?)
+    func updateControllerView(atIndexes indexes: [NSIndexPath]?)
     func dataEngine(responsePayload payload: ResponsePayload, withIndexPaths indexPaths: [[NSIndexPath]]?)
 }
 
@@ -81,7 +81,7 @@ internal final class InfinityEngine: NSObject {
             
             self.delegate?.dataEngine(responsePayload: responsePayload, withIndexPaths: sectionIndexes)
             
-            self.delegate?.updateControllerView(atIndexes: sectionIndexes)
+            //self.delegate?.updateControllerView(atIndexes: sectionIndexes)
             
             self.loading = false            
         }
@@ -123,13 +123,13 @@ internal final class InfinityEngine: NSObject {
     }
     
     func dataFactory(responsePayload:ResponsePayload) -> [Int] {
-//        self.dataCount = responsePayload.count
-//        
-//        for (index, numb) in responsePayload.count.enumerate() {
-//            self.dataCount[index] = self.dataCount[index] + numb
-//        }
-        
         self.dataCount = responsePayload.count
+        
+        for (index, numb) in responsePayload.count.enumerate() {
+            self.dataCount[index] = self.dataCount[index] + numb
+        }
+        
+        //self.dataCount = responsePayload.count
 
         return self.dataCount
     }
@@ -143,28 +143,20 @@ internal final class InfinityEngine: NSObject {
         self.delegate?.updateControllerView(atIndexes: nil)
     }
 
-    func splitIndexPaths(sectionIndexPaths: [[NSIndexPath]]) -> (reloadIndexPaths: [[NSIndexPath]], insertIndexPaths: [[NSIndexPath]]) {
+    func splitIndexPaths(sectionIndexPaths: [[NSIndexPath]]) -> (reloadIndexPaths: [NSIndexPath], insertIndexPaths: [NSIndexPath]) {
         
-        var reloadSectionIndexPaths = [[NSIndexPath]]()
-        var insertSectionIndexPaths = [[NSIndexPath]]()
+        var reloadSectionIndexPaths = [NSIndexPath]()
+        var insertSectionIndexPaths = [NSIndexPath]()
         
         for (index, sectionPaths) in sectionIndexPaths.enumerate() {
             
-            
-            var reloadIndexPaths = [NSIndexPath]()
-            var insertIndexPaths = [NSIndexPath]()
-            
-            
             for indexPath in sectionPaths {
                 if index == 0 && indexPath.row < kPlaceHolderCellCount {
-                    reloadIndexPaths.append(indexPath)
+                    reloadSectionIndexPaths.append(indexPath)
                 } else {
-                    insertIndexPaths.append(indexPath)
+                    insertSectionIndexPaths.append(indexPath)
                 }
             }
-            
-            reloadSectionIndexPaths.append(reloadIndexPaths)
-            insertSectionIndexPaths.append(insertIndexPaths)
         }
         
         return (reloadSectionIndexPaths, insertSectionIndexPaths)

@@ -126,7 +126,7 @@ extension CollectionViewEngine: InfinityDataEngineDelegate {
             
             let to = from + numbObj
             
-
+            
             for index in (from)...(to) {
                 let indexPath = NSIndexPath(forRow: index, inSection: 0)
                 indexes.append(indexPath)
@@ -152,22 +152,16 @@ extension CollectionViewEngine: InfinityDataEngineDelegate {
             self.infinitCollectionView.collectionView.performBatchUpdates({ () -> Void in
                 self.engine.dataCount = self.engine.dataFactory(payload)
                 
-                for sectionReloadIndexPaths in indexPathTuples.reloadIndexPaths {
-                    self.infinitCollectionView.collectionView.reloadItemsAtIndexPaths(sectionReloadIndexPaths)
-                }
                 
-                
-                for sectionInsertIndexPaths in indexPathTuples.insertIndexPaths {
-                    self.infinitCollectionView.collectionView.insertItemsAtIndexPaths(sectionInsertIndexPaths)
-                }
-                
-//                self.infinitCollectionView.collectionView.reloadItemsAtIndexPaths(indexPathTuple.reloadIndexPaths)
-//                self.infinitCollectionView.collectionView.insertItemsAtIndexPaths(indexPathTuple.insertIndexPaths)
+                self.infinitCollectionView.collectionView.insertSections(NSIndexSet(index: 1))
+                self.infinitCollectionView.collectionView.insertSections(NSIndexSet(index: 2))
+                self.infinitCollectionView.collectionView.reloadItemsAtIndexPaths(indexPathTuples.reloadIndexPaths)
+                self.infinitCollectionView.collectionView.insertItemsAtIndexPaths(indexPathTuples.insertIndexPaths)
                 }, completion: nil)
         })
     }
     
-    func updateControllerView(atIndexes indexes: [[NSIndexPath]]?) {
+    func updateControllerView(atIndexes indexes: [NSIndexPath]?) {
         guard let _ = indexes else {
             self.infinitCollectionView.collectionView.reloadData()
             return
