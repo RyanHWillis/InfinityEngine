@@ -65,10 +65,6 @@ public protocol InfinityCollectionSourceable: InfinityDataSource, InfinityCollec
 @objc public protocol InfinityCollectionViewProtocolOptional: class {
     optional func collectionView(collectionView:UICollectionView, didSelectItemAtIndexPath indexPath:NSIndexPath)
     optional func collectionView(collectionView:UICollectionView, layout collectionViewLayout:UICollectionViewLayout, sizeForLoadingItemAtIndexPath section:Int) -> CGSize
-    optional func collectionView(collectionView:UICollectionView, layout collectionViewLayout:UICollectionViewLayout, insetForSectionAtIndex section:Int) -> UIEdgeInsets
-    optional func collectionView(collectionView:UICollectionView, layout collectionViewLayout:UICollectionViewLayout, minimumInteritemSpacingForSectionAtIndex section:Int) -> CGFloat
-    optional func collectionView(collectionView:UICollectionView, layout collectionViewLayout:UICollectionViewLayout, minimumLineSpacingForSectionAtIndex section:Int) -> CGFloat
-    optional func collectionView(collectionView:UICollectionView, layout collectionViewLayout:UICollectionViewLayout, sizeForItemAtIndexPath indexPath:NSIndexPath) -> CGSize
 }
 
 /**
@@ -111,15 +107,19 @@ extension InfinityCollectionProtocol where Self: UIViewController {
  */
 
 
-//extension InfinityCollectionViewDelegate where Self: UIView {
-//    public func startInfinityCollectionView(infinityCollectionView infinityCollection:InfinityCollectionView) {
-//        InfinityEngineRoom.sharedCollectionInstances.append(CollectionViewEngine(infinityCollectionView: infinityCollection, delegate: infinityCollection.delegate))
-//    }
-//    
-//    public func resetInfinityCollection() {
-//        for collectionInstance in InfinityEngineRoom.sharedCollectionInstances {
-//            collectionInstance.engine.resetData()
-//            collectionInstance.initiateEngine()
-//        }
-//    }
-//}
+extension InfinityCollectionProtocol where Self: UIView {
+    public func startInfinityCollectionView(infinityCollectionView infinityCollection:InfinityCollectionView) {
+        InfinityEngineRoom.sharedCollectionInstances.append(CollectionViewEngine(infinityCollectionView: infinityCollection))
+    }
+    
+    public func createCollecionViewEngine(infinityCollectionView: InfinityCollectionView) -> CollectionViewEngine {
+        return CollectionViewEngine(infinityCollectionView: infinityCollectionView)
+    }
+    
+    public func resetInfinityCollection(withCustomCollectionEngine engine:CollectionViewEngine?) {
+        for collectionInstance in InfinityEngineRoom.sharedCollectionInstances {
+            collectionInstance.engine.resetData()
+            collectionInstance.initiateEngine()
+        }
+    }
+}

@@ -28,9 +28,7 @@ import UIKit
 
 internal protocol InfinityDataEngineDelegate: class {
     func getData(atPage page: Int, withModifiers modifiers: InfinityModifers, completion: (responsePayload: ResponsePayload) -> ())
-    func buildIndexsForInsert(dataCount count: [Int]) -> [[NSIndexPath]]
-    func updateControllerView(atIndexes indexes: [NSIndexPath]?)
-    func dataEngine(responsePayload payload: ResponsePayload, withIndexPaths indexPaths: [[NSIndexPath]]?)
+    func updateControllerView()
 }
 
 /**
@@ -51,43 +49,46 @@ internal final class InfinityEngine: NSObject {
     var dataCount = [Int]()
     var delegate: InfinityDataEngineDelegate?
     
-    init(infinityModifiers modifers:InfinityModifers, withDelegate delegate: InfinityDataEngineDelegate) {
+    internal init(infinityModifiers modifers:InfinityModifers, withDelegate delegate: InfinityDataEngineDelegate) {
         super.init()
         self.delegate = delegate
         self.modifiers = modifers
         self.resetData()
     }
+    
+    public func resetData() {
+        self.page = 1
+        self.previousPage = 0
+        self.lastPageHit = false
+        self.dataCount = []
+        self.sessionID = self.randomAlphaNumericString()
+        self.delegate?.updateControllerView()
+    }
 
-    func performDataFetch() {
+    internal func performDataFetch() {
         
         if self.lastPageHit == true { return }
         
         self.loading = true
-        self.delegate?.getData(atPage: self.page, withModifiers: self.modifiers) { (responsePayload) in
-                        
-            self.page = self.page + 1
+        
+        dispatch_async(dispatch_get_main_queue()) {
             
-            // Let's Check If Our Last Page Has Been Hit
-            /*------------------------------------------------------------------------*/
-            
-            self.lastPageHit = responsePayload.lastPage
-            
-            // Build Indexes Depending On Results Returned
-            /*------------------------------------------------------------------------*/
-            var sectionIndexes:[[NSIndexPath]]?
-            if !self.modifiers.forceReload {
-                sectionIndexes = self.delegate?.buildIndexsForInsert(dataCount: responsePayload.count)
+            self.delegate?.getData(atPage: self.page, withModifiers: self.modifiers) { (responsePayload) in
+                
+                self.page = self.page + 1
+                
+                self.lastPageHit = responsePayload.lastPage
+                
+                self.dataCount = responsePayload.count
+                
+                self.delegate?.updateControllerView()
+                
+                self.loading = false
             }
-            
-            self.delegate?.dataEngine(responsePayload: responsePayload, withIndexPaths: sectionIndexes)
-            
-            //self.delegate?.updateControllerView(atIndexes: sectionIndexes)
-            
-            self.loading = false            
         }
     }
     
-    func responseIsValid(atPage page:Int, withReloadControl refreshControl: UIRefreshControl?, withResponsePayload response:ResponsePayload) -> Bool {
+    internal func responseIsValid(atPage page:Int, withReloadControl refreshControl: UIRefreshControl?, withResponsePayload response:ResponsePayload) -> Bool {
         
         // Check that the response is from the same session
         if response.session != self.sessionID {
@@ -122,47 +123,9 @@ internal final class InfinityEngine: NSObject {
         return false
     }
     
-    func dataFactory(responsePayload:ResponsePayload) -> [Int] {
-        self.dataCount = responsePayload.count
-        
-        for (index, numb) in responsePayload.count.enumerate() {
-            self.dataCount[index] = self.dataCount[index] + numb
-        }
-        
-        //self.dataCount = responsePayload.count
-
-        return self.dataCount
-    }
+    // MARK: - Scroll Monitor
     
-    func resetData() {
-        self.page = 1
-        self.previousPage = 0
-        self.lastPageHit = false
-        self.dataCount = []
-        self.sessionID = self.randomAlphaNumericString()
-        self.delegate?.updateControllerView(atIndexes: nil)
-    }
-
-    func splitIndexPaths(sectionIndexPaths: [[NSIndexPath]]) -> (reloadIndexPaths: [NSIndexPath], insertIndexPaths: [NSIndexPath]) {
-        
-        var reloadSectionIndexPaths = [NSIndexPath]()
-        var insertSectionIndexPaths = [NSIndexPath]()
-        
-        for (index, sectionPaths) in sectionIndexPaths.enumerate() {
-            
-            for indexPath in sectionPaths {
-                if index == 0 && indexPath.row < kPlaceHolderCellCount {
-                    reloadSectionIndexPaths.append(indexPath)
-                } else {
-                    insertSectionIndexPaths.append(indexPath)
-                }
-            }
-        }
-        
-        return (reloadSectionIndexPaths, insertSectionIndexPaths)
-    }
-    
-    func infinteScrollMonitor(scrollView:UIScrollView) {
+    internal func infinteScrollMonitor(scrollView:UIScrollView) {
         
         if self.loading { return }
         
@@ -175,7 +138,7 @@ internal final class InfinityEngine: NSObject {
         }
     }
     
-    func randomAlphaNumericString() -> String {
+    internal func randomAlphaNumericString() -> String {
         
         let allowedChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
         let allowedCharsCount = UInt32(allowedChars.characters.count)

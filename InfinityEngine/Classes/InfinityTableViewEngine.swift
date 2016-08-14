@@ -109,37 +109,8 @@ extension TableViewEngine: InfinityDataEngineDelegate {
         return indexs
     }
     
-    func dataEngine(responsePayload payload: ResponsePayload, withIndexPaths indexPaths: [[NSIndexPath]]?) {
-        self.engine.dataCount = self.engine.dataFactory(payload)
-    }
-    
-    func updateControllerView(atIndexes indexes: [NSIndexPath]?) {
-        
-        guard let indexes = indexes else {
-            self.infinityTableView.tableView.reloadData()
-            return
-        }
-        
-        if self.infinityTableView.modifiers.forceReload == true {
-            self.infinityTableView.tableView.reloadData()
-            
-        } else {
-            
-//            let indexPathTuple = self.engine.splitIndexPaths(indexes)
-//            
-//            dispatch_async(dispatch_get_main_queue(), { () -> Void in
-//                
-//                if self.engine.dataCount[0] <= kPlaceHolderCellCount {
-//                    self.infinityTableView.tableView.reloadData()
-//                } else {
-//                    self.infinityTableView.tableView.beginUpdates()
-////                    self.infinityTableView.tableView.reloadRowsAtIndexPaths(indexPathTuple.reloadIndexPaths, withRowAnimation: UITableViewRowAnimation.Fade)
-////                    self.infinityTableView.tableView.insertRowsAtIndexPaths(indexPathTuple.insertIndexPaths, withRowAnimation: UITableViewRowAnimation.Fade)
-//                    self.infinityTableView.tableView.endUpdates()
-//                }
-//                
-//            })
-        }
+    func updateControllerView() {
+        self.infinityTableView.tableView.reloadData()
     }
     
     public func scrollViewDidScroll(scrollView: UIScrollView) {

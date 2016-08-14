@@ -107,67 +107,8 @@ extension CollectionViewEngine: InfinityDataEngineDelegate {
         self.delegate.infinintyDataResponse?(withData: data)
     }
     
-    func buildIndexsForInsert(dataCount count: [Int]) -> [[NSIndexPath]] {
-        
-        var sectionIndexes = [[NSIndexPath]]()
-        
-        for (index, sectionNumb) in count.enumerate() {
-            
-            var indexes = [NSIndexPath]()
-            let numbObj:Int = sectionNumb - 1
-            
-            
-            var from:Int
-            if self.engine.dataCount == [] {
-                from = 0
-            } else {
-                from = self.engine.dataCount[index]
-            }
-            
-            let to = from + numbObj
-            
-            
-            for index in (from)...(to) {
-                let indexPath = NSIndexPath(forRow: index, inSection: 0)
-                indexes.append(indexPath)
-            }
-            
-            sectionIndexes.append(indexes)
-        }
-        
-        return sectionIndexes
-    }
-    
-    func dataEngine(responsePayload payload: ResponsePayload, withIndexPaths indexPaths: [[NSIndexPath]]?) {
-        
-        // If there are no indexes, prepare for force refresh
-        guard let indexs = indexPaths else {
-            self.engine.dataCount = self.engine.dataFactory(payload)
-            return
-        }
-        
-        let indexPathTuples = self.engine.splitIndexPaths(indexs)
-
-        dispatch_async(dispatch_get_main_queue(), { () -> Void in
-            self.infinitCollectionView.collectionView.performBatchUpdates({ () -> Void in
-                self.engine.dataCount = self.engine.dataFactory(payload)
-                
-                
-                self.infinitCollectionView.collectionView.insertSections(NSIndexSet(index: 1))
-                self.infinitCollectionView.collectionView.insertSections(NSIndexSet(index: 2))
-                self.infinitCollectionView.collectionView.reloadItemsAtIndexPaths(indexPathTuples.reloadIndexPaths)
-                self.infinitCollectionView.collectionView.insertItemsAtIndexPaths(indexPathTuples.insertIndexPaths)
-                }, completion: nil)
-        })
-    }
-    
-    func updateControllerView(atIndexes indexes: [NSIndexPath]?) {
-        guard let _ = indexes else {
-            self.infinitCollectionView.collectionView.reloadData()
-            return
-        }
-        
-        if self.engine.modifiers.forceReload == true { self.infinitCollectionView.collectionView.reloadData() }
+    func updateControllerView() {
+        self.infinitCollectionView.collectionView.reloadData()
     }
     
     public func scrollViewDidScroll(scrollView: UIScrollView) {
