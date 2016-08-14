@@ -100,15 +100,6 @@ extension TableViewEngine: InfinityDataEngineDelegate {
         }
     }
     
-    func dataDidRespond(withData data: [AnyObject]?) {
-        self.dataSource.infinintyDataResponse?(withData: data)
-    }
-    
-    func buildIndexsForInsert(dataCount count: [Int]) -> [[NSIndexPath]] {
-        var indexs = [[NSIndexPath]]()
-        return indexs
-    }
-    
     func updateControllerView() {
         self.infinityTableView.tableView.reloadData()
     }

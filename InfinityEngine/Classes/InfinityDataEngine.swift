@@ -56,7 +56,7 @@ internal final class InfinityEngine: NSObject {
         self.resetData()
     }
     
-    public func resetData() {
+    internal func resetData() {
         self.page = 1
         self.previousPage = 0
         self.lastPageHit = false
