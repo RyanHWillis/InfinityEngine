@@ -13,6 +13,8 @@ class TestCollectionViewController: UIViewController {
     
     @IBOutlet weak var testCollectionView: UICollectionView!
     
+    var customCollectionView: NewCollectionViewEngine!
+    
     init() {
         super.init(nibName: "TestCollectionViewController", bundle: NSBundle.mainBundle())
     }
@@ -26,7 +28,12 @@ class TestCollectionViewController: UIViewController {
         
         let cells:InfinityCells = InfinityCells(cellNames: ["TestCollectionViewCell"], loadingCellName: "LoadingCollectionViewCell", customBundle: nil)
         let infinityView:InfinityCollectionView = InfinityCollectionView(withCollectionView: self.testCollectionView, withCells: cells, withDelegate: self)
-        startInfinityCollectionView(infinityCollectionView: infinityView)
+        self.customCollectionView = NewCollectionViewEngine(infinityCollectionView: infinityView)
+        self.startInfinityCollectionView(infinityCollectionView: infinityView)
+    }
+    
+    func createCollecionViewEngine(infinityCollectionView: InfinityCollectionView) -> CollectionViewEngine {
+        return self.customCollectionView
     }
     
     @IBAction func reset() {
@@ -57,8 +64,8 @@ extension TestCollectionViewController: InfinityCollectionProtocol {
     }
 }
 
-//class NewTableViewEngine: TableViewEngine {
-//    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-//        print("test")
-//    }
-//}
+class NewCollectionViewEngine: CollectionViewEngine {
+    override func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+        print("test")
+    }
+}

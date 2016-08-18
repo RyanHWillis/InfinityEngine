@@ -84,7 +84,11 @@ public protocol InfinityCollectionProtocol: InfinityCollectionSourceable {
 
 extension InfinityCollectionProtocol where Self: UIViewController {
     public func startInfinityCollectionView(infinityCollectionView infinityCollection:InfinityCollectionView) {
-        self.createCollecionViewEngine(infinityCollection)
+        InfinityEngineRoom.sharedCollectionInstances.removeAll()
+        
+        let engine = self.createCollecionViewEngine(infinityCollection)
+        engine.initiateEngine()
+        InfinityEngineRoom.sharedCollectionInstances.append(engine)
     }
     
     public func createCollecionViewEngine(infinityCollectionView: InfinityCollectionView) -> CollectionViewEngine {
@@ -92,14 +96,9 @@ extension InfinityCollectionProtocol where Self: UIViewController {
     }
     
     public func resetInfinityCollection(withCustomCollectionEngine engine:CollectionViewEngine?) {
-        if let engine = engine {
-            engine.engine.resetData()
-            engine.initiateEngine()
-        } else {
-            for collectionInstance in InfinityEngineRoom.sharedCollectionInstances {
-                collectionInstance.engine.resetData()
-                collectionInstance.initiateEngine()
-            }
+        for collectionInstance in InfinityEngineRoom.sharedCollectionInstances {
+            collectionInstance.engine.resetData()
+            collectionInstance.initiateEngine()
         }
     }
 }
@@ -114,7 +113,11 @@ extension InfinityCollectionProtocol where Self: UIViewController {
 
 extension InfinityCollectionProtocol where Self: UIView {
     public func startInfinityCollectionView(infinityCollectionView infinityCollection:InfinityCollectionView) {
-        self.createCollecionViewEngine(infinityCollection)
+        InfinityEngineRoom.sharedCollectionInstances.removeAll()
+        
+        let engine = self.createCollecionViewEngine(infinityCollection)
+        engine.initiateEngine()
+        InfinityEngineRoom.sharedCollectionInstances.append(engine)
     }
     
     public func createCollecionViewEngine(infinityCollectionView: InfinityCollectionView) -> CollectionViewEngine {

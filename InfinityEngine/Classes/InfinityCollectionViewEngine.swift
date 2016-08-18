@@ -41,7 +41,6 @@ public class CollectionViewEngine: NSObject {
         self.delegate = infinityCollectionView.delegate
         self.engine = InfinityEngine(infinityModifiers: infinitCollectionView.modifiers, withDelegate: self)
         self.setupCollectionView()
-        self.initiateEngine()
     }
     
     func setupCollectionView() {

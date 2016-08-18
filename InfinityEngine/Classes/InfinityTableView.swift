@@ -118,21 +118,20 @@ extension InfinityTableProtocol where Self: UIViewController {
 
 extension InfinityTableProtocol where Self: UIView {
     public func startInfinityTableView(infinityTableView infinityTable:InfinityTableView) {
-        self.createTableViewEngine(infinityTable)
+        InfinityEngineRoom.sharedTableInstances.removeAll()
+        
+        let engine = self.createTableViewEngine(infinityTable)
+        engine.initiateEngine()
+        InfinityEngineRoom.sharedTableInstances.append(engine)
     }
     
     public func createTableViewEngine(infinityTableView: InfinityTableView) -> TableViewEngine {
         return TableViewEngine(infinityTableView: infinityTableView)
     }
     
-    public func resetInfinityTable(withCustomTableEngine engine:TableViewEngine?) {
-        
-        if let engine = engine {
-            engine.reload()
-        } else {
-            for collectionInstance in InfinityEngineRoom.sharedTableInstances {
-                collectionInstance.reload()
-            }
+    public func resetInfinityTable() {
+        for tableInstance in InfinityEngineRoom.sharedTableInstances {
+            tableInstance.reload()
         }
     }
 }
