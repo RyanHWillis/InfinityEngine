@@ -141,11 +141,15 @@ extension CollectionViewEngine: UICollectionViewDataSource {
     public func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         self.scrollViewDidScroll(self.infinitCollectionView.collectionView)
         
-        let cell:InfinityCollectionViewCell = self.delegate.collectionView(self.infinitCollectionView.collectionView, withCellItemForIndexPath: indexPath)
+        let cell = self.delegate.collectionView(self.infinitCollectionView.collectionView, withCellItemForIndexPath: indexPath)
         if self.engine.page == 1 {
-            cell.showPlaceholder()
+            if let placeholderableCell = cell as? InfinityCellPlaceholdable {
+                placeholderableCell.showPlaceholder()
+            }
         } else {
-            cell.hidePlaceholder()
+            if let placeholderableCell = cell as? InfinityCellPlaceholdable {
+                placeholderableCell.hidePlaceholder()
+            }
         }
         return cell
     }

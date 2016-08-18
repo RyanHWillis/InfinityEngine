@@ -57,7 +57,7 @@ public struct InfinityCollectionView {
 
 public protocol InfinityCollectionSourceable: InfinityDataSource, InfinityCollectionViewProtocolOptional {
     func collectionView(collectionView:UICollectionView, withDataForPage page:Int, forSession session:String, completion: (responsePayload: ResponsePayload) -> ())
-    func collectionView(collectionView:UICollectionView, withCellItemForIndexPath indexPath:NSIndexPath) -> InfinityCollectionViewCell
+    func collectionView(collectionView:UICollectionView, withCellItemForIndexPath indexPath:NSIndexPath) -> UICollectionViewCell
     func collectionView(collectionView:UICollectionView, withLoadingCellItemForIndexPath indexPath:NSIndexPath,
         forLastPageHit hit:Bool) -> UICollectionReusableView
 }

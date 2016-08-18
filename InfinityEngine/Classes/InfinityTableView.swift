@@ -60,13 +60,13 @@ public typealias InfinityTableDelegate = UITableViewDelegate
 
 public protocol InfinityTableSourceable: InfinityDataSource, InfinityTableDelegate, InfinityTableSourceableOptional {
     func tableView(tableView:UITableView, withDataForPage page:Int, forSession session:String, completion: (responsePayload: ResponsePayload) -> ())
-    func tableView(tableView:UITableView, cellForRowAtIndexPath indexPath:NSIndexPath) -> InfinityTableViewCell
+    func tableView(tableView:UITableView, cellForRowAtIndexPath indexPath:NSIndexPath) -> UITableViewCell
     func tableView(tableView:UITableView, withLoadingCellItemForIndexPath indexPath:NSIndexPath) -> UITableViewCell
     func tableView(tableView:UITableView, heightForRowAtIndexPath indexPath:NSIndexPath, forLoadingCell loadingCell:Bool) -> CGFloat
 }
 
 @objc public protocol InfinityTableSourceableOptional: class {
-    optional func collectionView(collectionView:UICollectionView, didSelectCellAtIndexPath indexPath:NSIndexPath)
+    optional func tableView(tableView:UITableView, didSelectRowAtIndexPath indexPath:NSIndexPath)
 }
 
 public protocol InfinityTableProtocol: InfinityTableSourceable {

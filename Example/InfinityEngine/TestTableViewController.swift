@@ -12,7 +12,7 @@ import InfinityEngine
 class TestTableViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
-    var customTabEngine: NewTableViewEngine!
+    //var customTabEngine: NewTableViewEngine!
 
     init() {
         super.init(nibName: "TestTableViewController", bundle: NSBundle.mainBundle())
@@ -32,17 +32,17 @@ class TestTableViewController: UIViewController {
     func setupTableView() {
         let cells:InfinityCells = InfinityCells(cellNames: ["TestTableViewCell", "SectionCell"], loadingCellName: "LoadingTableViewCell", customBundle: nil)
         let tableViewStruct:InfinityTableView = InfinityTableView(withTableView: tableView, withCells: cells, withDataSource: self, withDelegate: self)
-        self.customTabEngine = NewTableViewEngine(infinityTableView: tableViewStruct)
+        //self.customTabEngine = NewTableViewEngine(infinityTableView: tableViewStruct)
         
         startInfinityTableView(infinityTableView: tableViewStruct)
     }
     
-    func createTableViewEngine(infinityTableView: InfinityTableView) -> TableViewEngine {
-        return self.customTabEngine
-    }
+//    func createTableViewEngine(infinityTableView: InfinityTableView) -> TableViewEngine {
+//        //return self.customTabEngine
+//    }
     
     @IBAction func reset(sender: AnyObject) {
-        self.resetInfinityTable(withCustomTableEngine: self.customTabEngine)
+        //self.resetInfinityTable(withCustomTableEngine: self.customTabEngine)
     }
 }
 
@@ -50,11 +50,11 @@ extension TestTableViewController: InfinityTableProtocol {
     func tableView(tableView: UITableView, withDataForPage page: Int, forSession session: String, completion: (responsePayload: ResponsePayload) -> ()) {
         print(page)
         delay(1.0) {
-            completion(responsePayload: ResponsePayload(count: [8, 3, 12 * page * page], lastPage: false, session: session))
+            completion(responsePayload: ResponsePayload(count: [8, 3, 12], lastPage: false, session: session))
         }
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> InfinityTableViewCell {
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         return self.tableView.dequeueReusableCellWithIdentifier("TestTableViewCell", forIndexPath: indexPath) as! TestTableViewCell
     }
     
@@ -71,10 +71,15 @@ extension TestTableViewController: InfinityTableProtocol {
         
         return 98.0
     }
-}
-
-class NewTableViewEngine: TableViewEngine {
-//    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-//        print("test")
+    
+//    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+//        
 //    }
 }
+
+//class NewTableViewEngine: TableViewEngine {
+////    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+////        print("test")
+////    }
+//
+//}

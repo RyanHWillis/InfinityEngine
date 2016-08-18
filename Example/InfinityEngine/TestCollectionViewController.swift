@@ -39,13 +39,17 @@ extension TestCollectionViewController: InfinityCollectionProtocol {
         print(page)
     }
     
-    func collectionView(collectionView: UICollectionView, withCellItemForIndexPath indexPath: NSIndexPath) -> InfinityCollectionViewCell {
+    func collectionView(collectionView: UICollectionView, withCellItemForIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         return self.testCollectionView.dequeueReusableCellWithReuseIdentifier("TestCollectionViewCell", forIndexPath: indexPath) as! TestCollectionViewCell
     }
     
     func collectionView(collectionView: UICollectionView, withLoadingCellItemForIndexPath indexPath: NSIndexPath, forLastPageHit hit: Bool) -> UICollectionReusableView {
         let cell = self.testCollectionView.dequeueReusableSupplementaryViewOfKind(UICollectionElementKindSectionFooter, withReuseIdentifier: "LoadingCollectionViewCell", forIndexPath: indexPath)
         return cell
+    }
+    
+    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+        
     }
 }
 

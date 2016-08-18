@@ -9,7 +9,7 @@
 import UIKit
 import InfinityEngine
 
-class TestTableViewCell: InfinityTableViewCell {
+class TestTableViewCell: UITableViewCell, InfinityCellPlaceholdable {
     
     @IBOutlet weak var label: UILabel!
     @IBOutlet weak var placeholderView: UIView!
@@ -26,21 +26,18 @@ class TestTableViewCell: InfinityTableViewCell {
         // Configure the view for the selected state
     }
     
-    // MARK: - Overrides
-    
-    override func showPlaceholder() {
+    func showPlaceholder() {
         self.placeholderView.hidden = false
         UIView.animateWithDuration(0.3) {
             self.placeholderView.alpha = 1.0
         }
     }
     
-    override func hidePlaceholder() {
+    func hidePlaceholder() {
         UIView.animateWithDuration(0.3, animations: {
             self.placeholderView.alpha = 0.0
         }) { (complete) in
             self.placeholderView.hidden = true
         }
     }
-    
 }

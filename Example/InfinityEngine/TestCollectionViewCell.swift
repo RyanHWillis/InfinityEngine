@@ -9,7 +9,7 @@
 import UIKit
 import InfinityEngine
 
-class TestCollectionViewCell: InfinityCollectionViewCell {
+class TestCollectionViewCell: UICollectionViewCell, InfinityCellPlaceholdable {
     
     @IBOutlet weak var title: UILabel!
 
@@ -17,12 +17,13 @@ class TestCollectionViewCell: InfinityCollectionViewCell {
         super.awakeFromNib()
         // Initialization code
     }
+
     
-    override func showPlaceholder() {
+    func showPlaceholder() {
         self.backgroundColor = UIColor.purpleColor()
     }
     
-    override func hidePlaceholder() {
+    func hidePlaceholder() {
         self.backgroundColor = UIColor.yellowColor()
     }
 }
