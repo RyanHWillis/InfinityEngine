@@ -46,11 +46,11 @@ Infinity Engine is an Elegant TableView & CollectionView paged data handling sol
 </p>
 
 ## Features
-+ Elegant TableView & CollectionView paged data handling
++ Elegant TableView & CollectionView paged 'section' data handling
 + Progressive Protocol Implemtation
 + Fully customisable Modifers that alter Table/CollectionView behavior
-+ Placeholders for pre-data responses
-+ Automatic paged loading indicator
++ Overrides to implement Placeholders for pre-data responses
++ Automatic loading indicator at bottom whilst waiting for next data response.
 
 ## Requirements
 + iOS 8.0 +
