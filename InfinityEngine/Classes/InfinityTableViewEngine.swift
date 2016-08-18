@@ -142,8 +142,13 @@ extension TableViewEngine: UITableViewDataSource {
             }
             
             let cell = self.dataSource.tableView(self.infinityTableView.tableView, cellForRowAtIndexPath: indexPath)
-            if let placeholderableCell = cell as? InfinityCellPlaceholdable {
+            if let placeholderableCell = cell as? InfinityCellManualPlaceholdable {
                 placeholderableCell.showPlaceholder()
+            } else if let placeholderableCell = cell as? InfinityCellViewAutoPlaceholdable {
+                placeholderableCell.placeholderView.hidden = false
+                UIView.animateWithDuration(0.3) {
+                    placeholderableCell.placeholderView.alpha = 1.0
+                }
             }
             return cell
             
@@ -156,8 +161,14 @@ extension TableViewEngine: UITableViewDataSource {
             }
             
             let cell = self.dataSource.tableView(self.infinityTableView.tableView, cellForRowAtIndexPath: indexPath)
-            if let placeholderableCell = cell as? InfinityCellPlaceholdable {
+            if let placeholderableCell = cell as? InfinityCellManualPlaceholdable {
                 placeholderableCell.hidePlaceholder()
+            } else if let placeholderCell = cell as? InfinityCellViewAutoPlaceholdable {
+                UIView.animateWithDuration(0.3, animations: {
+                    placeholderCell.placeholderView.alpha = 0.0
+                }) { (complete) in
+                    placeholderCell.placeholderView.hidden = true
+                }
             }
             return cell
         }

@@ -71,10 +71,6 @@ extension TestTableViewController: InfinityTableProtocol {
         
         return 98.0
     }
-    
-//    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-//        
-//    }
 }
 
 //class NewTableViewEngine: TableViewEngine {

@@ -35,7 +35,7 @@ public class CollectionViewEngine: NSObject {
 
     // MARK: - Lifecycle
     
-    init(infinityCollectionView:InfinityCollectionView) {
+    public init(infinityCollectionView:InfinityCollectionView) {
         super.init()
         self.infinitCollectionView = infinityCollectionView
         self.delegate = infinityCollectionView.delegate
@@ -143,12 +143,26 @@ extension CollectionViewEngine: UICollectionViewDataSource {
         
         let cell = self.delegate.collectionView(self.infinitCollectionView.collectionView, withCellItemForIndexPath: indexPath)
         if self.engine.page == 1 {
-            if let placeholderableCell = cell as? InfinityCellPlaceholdable {
+            
+            
+            if let placeholderableCell = cell as? InfinityCellManualPlaceholdable {
                 placeholderableCell.showPlaceholder()
+            } else if let placeholderableCell = cell as? InfinityCellViewAutoPlaceholdable {
+                placeholderableCell.placeholderView.hidden = false
+                UIView.animateWithDuration(0.3) {
+                    placeholderableCell.placeholderView.alpha = 1.0
+                }
             }
+
         } else {
-            if let placeholderableCell = cell as? InfinityCellPlaceholdable {
+            
+            if let placeholderableCell = cell as? InfinityCellManualPlaceholdable {
                 placeholderableCell.hidePlaceholder()
+            } else if let placeholderableCell = cell as? InfinityCellViewAutoPlaceholdable {
+                placeholderableCell.placeholderView.hidden = true
+                UIView.animateWithDuration(0.3) {
+                    placeholderableCell.placeholderView.alpha = 0.0
+                }
             }
         }
         return cell

@@ -8,11 +8,16 @@
 
 import UIKit
 
-public protocol InfinityCellPlaceholdable {
+public protocol InfinityCellManualPlaceholdable {
 
     //MARK: - Implementation
     
     func showPlaceholder()
     
     func hidePlaceholder()
+}
+
+public protocol InfinityCellViewAutoPlaceholdable {
+    
+    var placeholderView: UIView { get }
 }

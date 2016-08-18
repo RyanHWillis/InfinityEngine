@@ -118,7 +118,7 @@
                 </constraints>
             </tableViewCellContentView>
             <connections>
-                <outlet property="placeholderView" destination="hl9-yV-XNA" id="3UO-fA-896"/>
+                <outlet property="view" destination="hl9-yV-XNA" id="ZkD-Ki-tmn"/>
             </connections>
             <point key="canvasLocation" x="270" y="158"/>
         </tableViewCell>

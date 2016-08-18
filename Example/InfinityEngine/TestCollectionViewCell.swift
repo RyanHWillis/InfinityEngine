@@ -9,7 +9,7 @@
 import UIKit
 import InfinityEngine
 
-class TestCollectionViewCell: UICollectionViewCell, InfinityCellPlaceholdable {
+class TestCollectionViewCell: UICollectionViewCell, InfinityCellManualPlaceholdable {
     
     @IBOutlet weak var title: UILabel!
 

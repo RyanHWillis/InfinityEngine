@@ -84,7 +84,7 @@ public protocol InfinityCollectionProtocol: InfinityCollectionSourceable {
 
 extension InfinityCollectionProtocol where Self: UIViewController {
     public func startInfinityCollectionView(infinityCollectionView infinityCollection:InfinityCollectionView) {
-        InfinityEngineRoom.sharedCollectionInstances.append(CollectionViewEngine(infinityCollectionView: infinityCollection))
+        self.createCollecionViewEngine(infinityCollection)
     }
     
     public func createCollecionViewEngine(infinityCollectionView: InfinityCollectionView) -> CollectionViewEngine {
@@ -109,7 +109,7 @@ extension InfinityCollectionProtocol where Self: UIViewController {
 
 extension InfinityCollectionProtocol where Self: UIView {
     public func startInfinityCollectionView(infinityCollectionView infinityCollection:InfinityCollectionView) {
-        InfinityEngineRoom.sharedCollectionInstances.append(CollectionViewEngine(infinityCollectionView: infinityCollection))
+        self.createCollecionViewEngine(infinityCollection)
     }
     
     public func createCollecionViewEngine(infinityCollectionView: InfinityCollectionView) -> CollectionViewEngine {
