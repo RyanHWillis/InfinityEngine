@@ -37,7 +37,7 @@ class TestCollectionViewController: UIViewController {
     }
     
     @IBAction func reset() {
-        self.resetInfinityCollection(withCustomCollectionEngine: nil)
+        self.resetInfinityCollection()
     }
 }
 
@@ -45,9 +45,9 @@ extension TestCollectionViewController: InfinityCollectionProtocol {
     
     func collectionView(collectionView: UICollectionView, withDataForPage page: Int, forSession session: String, completion: (responsePayload: ResponsePayload) -> ()) {
         delay(1.0) { // < Simulates Delay we would expect from an API
+            print(page)
             completion(responsePayload: ResponsePayload(count: [10, 5, 3 * page * page], lastPage: false, session: session))
         }
-        print(page)
     }
     
     func collectionView(collectionView: UICollectionView, withCellItemForIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {

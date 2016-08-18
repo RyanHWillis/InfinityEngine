@@ -78,7 +78,7 @@ public protocol InfinityCollectionSourceable: InfinityDataSource, InfinityCollec
 public protocol InfinityCollectionProtocol: InfinityCollectionSourceable {
     func startInfinityCollectionView(infinityCollectionView infinityCollectionView:InfinityCollectionView)
     func createCollecionViewEngine(infinityCollectionView: InfinityCollectionView) -> CollectionViewEngine
-    func resetInfinityCollection(withCustomCollectionEngine engine:CollectionViewEngine?)
+    func resetInfinityCollection()
 }
 
 
@@ -95,7 +95,7 @@ extension InfinityCollectionProtocol where Self: UIViewController {
         return CollectionViewEngine(infinityCollectionView: infinityCollectionView)
     }
     
-    public func resetInfinityCollection(withCustomCollectionEngine engine:CollectionViewEngine?) {
+    public func resetInfinityCollection() {
         for collectionInstance in InfinityEngineRoom.sharedCollectionInstances {
             collectionInstance.engine.resetData()
             collectionInstance.initiateEngine()
@@ -124,7 +124,7 @@ extension InfinityCollectionProtocol where Self: UIView {
         return CollectionViewEngine(infinityCollectionView: infinityCollectionView)
     }
     
-    public func resetInfinityCollection(withCustomCollectionEngine engine:CollectionViewEngine?) {
+    public func resetInfinityCollection() {
         for collectionInstance in InfinityEngineRoom.sharedCollectionInstances {
             collectionInstance.engine.resetData()
             collectionInstance.initiateEngine()
