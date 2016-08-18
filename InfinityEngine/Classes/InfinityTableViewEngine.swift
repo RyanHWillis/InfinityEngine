@@ -41,8 +41,6 @@ public class TableViewEngine: NSObject {
         self.dataSource = infinityTableView.dataSource
         self.engine = InfinityEngine(infinityModifiers: infinityTableView.modifiers, withDelegate: self)
         self.setupTableView()
-        
-        self.initiateEngine()
     }
     
     private func setupTableView() {

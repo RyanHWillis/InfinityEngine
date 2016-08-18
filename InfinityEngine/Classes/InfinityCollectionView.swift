@@ -92,9 +92,14 @@ extension InfinityCollectionProtocol where Self: UIViewController {
     }
     
     public func resetInfinityCollection(withCustomCollectionEngine engine:CollectionViewEngine?) {
-        for collectionInstance in InfinityEngineRoom.sharedCollectionInstances {
-            collectionInstance.engine.resetData()
-            collectionInstance.initiateEngine()
+        if let engine = engine {
+            engine.engine.resetData()
+            engine.initiateEngine()
+        } else {
+            for collectionInstance in InfinityEngineRoom.sharedCollectionInstances {
+                collectionInstance.engine.resetData()
+                collectionInstance.initiateEngine()
+            }
         }
     }
 }

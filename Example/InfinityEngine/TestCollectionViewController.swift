@@ -28,6 +28,10 @@ class TestCollectionViewController: UIViewController {
         let infinityView:InfinityCollectionView = InfinityCollectionView(withCollectionView: self.testCollectionView, withCells: cells, withDelegate: self)
         startInfinityCollectionView(infinityCollectionView: infinityView)
     }
+    
+    @IBAction func reset() {
+        self.resetInfinityCollection(withCustomCollectionEngine: nil)
+    }
 }
 
 extension TestCollectionViewController: InfinityCollectionProtocol {
