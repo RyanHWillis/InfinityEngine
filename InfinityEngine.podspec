@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = "InfinityEngine"
-  s.version          = "3.0.5"
+  s.version          = "4.0.0"
   s.summary          = "Elegant Paged Data Handling for UITableView & UICollectionView in Swift"
 
 # This description is used to generate tags and improve search results.
