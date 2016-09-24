@@ -16,7 +16,7 @@ class TestCollectionViewController: UIViewController {
     var customCollectionView: NewCollectionViewEngine!
     
     init() {
-        super.init(nibName: "TestCollectionViewController", bundle: NSBundle.mainBundle())
+        super.init(nibName: "TestCollectionViewController", bundle: Bundle.main)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -26,13 +26,13 @@ class TestCollectionViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let cells:InfinityCells = InfinityCells(cellNames: ["TestCollectionViewCell"], loadingCellName: "LoadingCollectionViewCell", customBundle: nil)
-        let infinityView:InfinityCollectionView = InfinityCollectionView(withCollectionView: self.testCollectionView, withCells: cells, withDelegate: self)
+        let cells = InfinityCells(cellNames: ["TestCollectionViewCell"], loadingCellName: "LoadingCollectionViewCell", bundle: nil)
+        let infinityView = InfinityCollectionView(withCollectionView: self.testCollectionView, withCells: cells, withDataSource: self)
         self.customCollectionView = NewCollectionViewEngine(infinityCollectionView: infinityView)
         self.startInfinityCollectionView(infinityCollectionView: infinityView)
     }
     
-    func createCollecionViewEngine(infinityCollectionView: InfinityCollectionView) -> CollectionViewEngine {
+    func createCollecionViewEngine(_ infinityCollectionView: InfinityCollectionView) -> CollectionViewEngine {
         return self.customCollectionView
     }
     
@@ -43,29 +43,29 @@ class TestCollectionViewController: UIViewController {
 
 extension TestCollectionViewController: InfinityCollectionProtocol {
     
-    func collectionView(collectionView: UICollectionView, withDataForPage page: Int, forSession session: String, completion: (responsePayload: ResponsePayload) -> ()) {
-        delay(1.0) { // < Simulates Delay we would expect from an API
-            print(page)
-            completion(responsePayload: ResponsePayload(count: [10, 5, 3 * page * page], lastPage: false, session: session))
-        }
+    
+    func collectionView(_ collectionView: UICollectionView, withDataForPage page: Int, forSession session: String, completion: (ResponsePayload) -> ()) {
+        completion(ResponsePayload(count: [10, 5, 3 * page * page], lastPage: false, session: session))
+    }
+
+    
+    func collectionView(_ collectionView: UICollectionView, withCellItemForIndexPath indexPath: IndexPath) -> UICollectionViewCell {
+        return self.testCollectionView.dequeueReusableCell(withReuseIdentifier: "TestCollectionViewCell", for: indexPath) as! TestCollectionViewCell
     }
     
-    func collectionView(collectionView: UICollectionView, withCellItemForIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        return self.testCollectionView.dequeueReusableCellWithReuseIdentifier("TestCollectionViewCell", forIndexPath: indexPath) as! TestCollectionViewCell
-    }
-    
-    func collectionView(collectionView: UICollectionView, withLoadingCellItemForIndexPath indexPath: NSIndexPath, forLastPageHit hit: Bool) -> UICollectionReusableView {
-        let cell = self.testCollectionView.dequeueReusableSupplementaryViewOfKind(UICollectionElementKindSectionFooter, withReuseIdentifier: "LoadingCollectionViewCell", forIndexPath: indexPath)
+    func collectionView(_ collectionView: UICollectionView, withLoadingCellItemForIndexPath indexPath: IndexPath, forLastPageHit hit: Bool) -> UICollectionReusableView {
+        let cell = self.testCollectionView.dequeueReusableSupplementaryView(ofKind: UICollectionElementKindSectionFooter, withReuseIdentifier: "LoadingCollectionViewCell", for: indexPath)
         return cell
     }
     
-    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: IndexPath) {
         
     }
 }
 
 class NewCollectionViewEngine: CollectionViewEngine {
-    override func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        print("test")
+    
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
     }
 }

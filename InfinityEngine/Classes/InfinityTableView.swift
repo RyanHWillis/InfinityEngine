@@ -35,15 +35,15 @@ public struct InfinityTableView {
     public let tableView: UITableView!
     public let cells: InfinityCells!
     public let dataSource: InfinityTableSourceable!
-    public let delegate: InfinityTableDelegate!
     public let modifiers: InfinityModifers!
     
-    public init(withTableView tableView: UITableView, withCells cells: InfinityCells, withDataSource dataSource:InfinityTableSourceable, withDelegate delegate: UITableViewDelegate!,
+    public init(withTableView tableView: UITableView, withCells cells: InfinityCells,
+                withDataSource source:InfinityTableSourceable,
                 withModifiers modifiers: InfinityModifers? = InfinityModifers()) {
+        
         self.tableView = tableView
         self.cells = cells
-        self.dataSource = dataSource
-        self.delegate = delegate
+        self.dataSource = source
         self.modifiers = modifiers
     }
 }
@@ -59,19 +59,19 @@ public struct InfinityTableView {
 public typealias InfinityTableDelegate = UITableViewDelegate
 
 public protocol InfinityTableSourceable: InfinityDataSource, InfinityTableDelegate, InfinityTableSourceableOptional {
-    func tableView(tableView:UITableView, withDataForPage page:Int, forSession session:String, completion: (responsePayload: ResponsePayload) -> ())
-    func tableView(tableView:UITableView, cellForRowAtIndexPath indexPath:NSIndexPath) -> UITableViewCell
-    func tableView(tableView:UITableView, withLoadingCellItemForIndexPath indexPath:NSIndexPath) -> UITableViewCell
-    func tableView(tableView:UITableView, heightForRowAtIndexPath indexPath:NSIndexPath, forLoadingCell loadingCell:Bool) -> CGFloat
+    func tableView(_ tableView:UITableView, withDataForPage page:Int, forSession session:String, completion: (_ responsePayload: ResponsePayload) -> ())
+    func tableView(_ tableView:UITableView, cellForRowAtIndexPath indexPath:IndexPath) -> UITableViewCell
+    func tableView(_ tableView:UITableView, withLoadingCellItemForIndexPath indexPath:IndexPath) -> UITableViewCell
+    func tableView(_ tableView:UITableView, heightForRowAtIndexPath indexPath:IndexPath, forLoadingCell loadingCell:Bool) -> CGFloat
 }
 
 @objc public protocol InfinityTableSourceableOptional: class {
-    optional func tableView(tableView:UITableView, didSelectRowAtIndexPath indexPath:NSIndexPath)
+    @objc optional func tableView(_ tableView:UITableView, didSelectRowAtIndexPath indexPath:IndexPath)
 }
 
 public protocol InfinityTableProtocol: InfinityTableSourceable {
     func startInfinityTableView(infinityTableView infinityTable:InfinityTableView)
-    func createTableViewEngine(infinityTableView: InfinityTableView) -> TableViewEngine
+    func createTableViewEngine(_ infinityTableView: InfinityTableView) -> TableViewEngine
     func resetInfinityTable()
 }
 
@@ -98,7 +98,7 @@ extension InfinityTableProtocol where Self: UIViewController {
         InfinityEngineRoom.sharedTableInstances.append(engine)
     }
     
-    public func createTableViewEngine(infinityTableView: InfinityTableView) -> TableViewEngine {
+    public func createTableViewEngine(_ infinityTableView: InfinityTableView) -> TableViewEngine {
         return TableViewEngine(infinityTableView: infinityTableView)
     }
     
@@ -125,7 +125,7 @@ extension InfinityTableProtocol where Self: UIView {
         InfinityEngineRoom.sharedTableInstances.append(engine)
     }
     
-    public func createTableViewEngine(infinityTableView: InfinityTableView) -> TableViewEngine {
+    public func createTableViewEngine(_ infinityTableView: InfinityTableView) -> TableViewEngine {
         return TableViewEngine(infinityTableView: infinityTableView)
     }
     

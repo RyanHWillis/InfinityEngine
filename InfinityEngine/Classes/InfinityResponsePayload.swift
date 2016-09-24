@@ -24,19 +24,15 @@
 /**
  Constructural modifers that change behavior.
  
-  - parameter data: For streets or trails.
-  - parameter count: For long journeys.
-  - parameter lastPage: For casual trips around town.
-  - parameter perPage: For general-purpose transportation.
-  - parameter total: For general-purpose transportation.
-  - parameter page: The current page we are on data-wise.
+  - parameter count: An Array with each index representing a sections count
+  - parameter lastPage: If
   - parameter session: Represents the current data session the framework is recieving data from. Creates new session on refresh or start.
 
  */
 
 public struct ResponsePayload {
     
-    var count = [Int]()
+    let count: [Int]
     let lastPage: Bool
     let session: String
     

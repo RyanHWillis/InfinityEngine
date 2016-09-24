@@ -33,12 +33,12 @@
 public struct InfinityCells {
     let cellNames: [String]!
     let loadingCellName: String!
-    let bundleIdentifier: String?
+    let bundle: Bundle?
     
-    public init(cellNames names: [String], loadingCellName name: String, customBundle: String?) {
+    public init(cellNames names: [String], loadingCellName name: String, bundle: Bundle?) {
         
         self.cellNames = names
         self.loadingCellName = name
-        self.bundleIdentifier = customBundle
+        self.bundle = bundle
     }
 }

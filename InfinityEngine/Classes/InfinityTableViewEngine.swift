@@ -26,12 +26,12 @@
 
 import UIKit
 
-public class TableViewEngine: NSObject {
+open class TableViewEngine: NSObject {
     
-    var infinityTableView: InfinityTableView!
-    var engine:InfinityEngine!
-    var dataSource: InfinityTableSourceable!
-    var reloadControl:UIRefreshControl?
+    internal var infinityTableView: InfinityTableView!
+    internal var engine:InfinityEngine!
+    internal var dataSource: InfinityTableSourceable!
+    internal var reloadControl:UIRefreshControl?
     
     // MARK: - Lifecycle
     
@@ -43,35 +43,27 @@ public class TableViewEngine: NSObject {
         self.setupTableView()
     }
     
-    private func setupTableView() {
+    fileprivate func setupTableView() {
             
         // Set Table View Instance With Appropriate Object
         self.infinityTableView.tableView.delegate = self
         self.infinityTableView.tableView.dataSource = self
-        self.infinityTableView.tableView.separatorStyle = .None
+        self.infinityTableView.tableView.separatorStyle = .none
         
-        // Get the Bundle
-        var bundle:NSBundle!
-        if let identifier = self.infinityTableView.cells.bundleIdentifier {
-            bundle = NSBundle(identifier: identifier)
-        } else {
-            bundle = NSBundle.mainBundle()
-        }
+        let bundle = self.infinityTableView.cells.bundle ?? Bundle.main
         
-        // Register All Posible Nibs
         for nibName in self.infinityTableView.cells.cellNames {
-            self.infinityTableView.tableView.registerNib(UINib(nibName: nibName, bundle: bundle), forCellReuseIdentifier: nibName)
+            self.infinityTableView.tableView.register(UINib(nibName: nibName, bundle: bundle), forCellReuseIdentifier: nibName)
         }
         
-        // Register Loading Cell
         let loadingCellNibName:String = self.infinityTableView.cells.loadingCellName
-        self.infinityTableView.tableView.registerNib(UINib(nibName: loadingCellNibName, bundle: bundle), forCellReuseIdentifier: loadingCellNibName)
+        self.infinityTableView.tableView.register(UINib(nibName: loadingCellNibName, bundle: bundle), forCellReuseIdentifier: loadingCellNibName)
 
 
         // Refresh Control
         if self.engine.modifiers.refreshControl == true {
             self.reloadControl = UIRefreshControl()
-            self.reloadControl?.addTarget(self, action: #selector(TableViewEngine.reload), forControlEvents: UIControlEvents.ValueChanged)
+            self.reloadControl?.addTarget(self, action: #selector(TableViewEngine.reload), for: UIControlEvents.valueChanged)
             self.infinityTableView.tableView.addSubview(self.reloadControl!)
         }
     }
@@ -87,29 +79,26 @@ public class TableViewEngine: NSObject {
 }
 
 extension TableViewEngine: InfinityDataEngineDelegate {
-    
-    func getData(atPage page: Int, withModifiers modifiers: InfinityModifers, completion: (responsePayload: ResponsePayload) -> ()) {
-        
+    internal func getData(atPage page: Int, withModifiers modifiers: InfinityModifers, completion: (ResponsePayload) -> ()) {
         self.dataSource.tableView(self.infinityTableView.tableView, withDataForPage: page, forSession: self.engine.sessionID) { (responsePayload) in
-            
             if self.engine.responseIsValid(atPage: page, withReloadControl: self.reloadControl, withResponsePayload: responsePayload) == true {
-                completion(responsePayload: responsePayload)
+                completion(responsePayload)
             }
         }
     }
     
-    func updateControllerView() {
+    internal func updateControllerView() {
         self.infinityTableView.tableView.reloadData()
     }
     
-    public func scrollViewDidScroll(scrollView: UIScrollView) {
+    open func scrollViewDidScroll(_ scrollView: UIScrollView) {
         self.engine.infinteScrollMonitor(scrollView)
     }
 }
 
 extension TableViewEngine: UITableViewDataSource {
     
-    public func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    open func numberOfSections(in tableView: UITableView) -> Int {
         
         if self.engine.dataCount.count == 0 {
             return 1
@@ -117,7 +106,7 @@ extension TableViewEngine: UITableViewDataSource {
         return self.engine.dataCount.count
     }
     
-    public func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    open func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if self.engine.dataCount == [] {
             return kPlaceHolderCellCount
         } else {
@@ -131,11 +120,11 @@ extension TableViewEngine: UITableViewDataSource {
         return self.engine.dataCount[section]
     }
     
-    public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    open func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         self.scrollViewDidScroll(self.infinityTableView.tableView)
         if self.engine.page == 1 {
             
-            if indexPath.row == kPlaceHolderCellCount - 1 {
+            if (indexPath as NSIndexPath).row == kPlaceHolderCellCount - 1 {
                 return self.dataSource.tableView(self.infinityTableView.tableView, withLoadingCellItemForIndexPath: indexPath)
             }
             
@@ -143,17 +132,17 @@ extension TableViewEngine: UITableViewDataSource {
             if let placeholderableCell = cell as? InfinityCellManualPlaceholdable {
                 placeholderableCell.showPlaceholder()
             } else if let placeholderableCell = cell as? InfinityCellViewAutoPlaceholdable {
-                placeholderableCell.placeholderView.hidden = false
-                UIView.animateWithDuration(0.3) {
+                placeholderableCell.placeholderView.isHidden = false
+                UIView.animate(withDuration: 0.3, animations: {
                     placeholderableCell.placeholderView.alpha = 1.0
-                }
+                }) 
             }
             return cell
             
         } else {
             
-            if indexPath.section == self.engine.dataCount.count - 1 {
-                if indexPath.row == self.engine.dataCount[self.engine.dataCount.count - 1] {
+            if (indexPath as NSIndexPath).section == self.engine.dataCount.count - 1 {
+                if (indexPath as NSIndexPath).row == self.engine.dataCount[self.engine.dataCount.count - 1] {
                     return self.dataSource.tableView(self.infinityTableView.tableView, withLoadingCellItemForIndexPath: indexPath)
                 }
             }
@@ -162,11 +151,11 @@ extension TableViewEngine: UITableViewDataSource {
             if let placeholderableCell = cell as? InfinityCellManualPlaceholdable {
                 placeholderableCell.hidePlaceholder()
             } else if let placeholderCell = cell as? InfinityCellViewAutoPlaceholdable {
-                UIView.animateWithDuration(0.3, animations: {
+                UIView.animate(withDuration: 0.3, animations: {
                     placeholderCell.placeholderView.alpha = 0.0
-                }) { (complete) in
-                    placeholderCell.placeholderView.hidden = true
-                }
+                }, completion: { (complete) in
+                    placeholderCell.placeholderView.isHidden = true
+                }) 
             }
             return cell
         }
@@ -175,19 +164,19 @@ extension TableViewEngine: UITableViewDataSource {
 
 extension TableViewEngine:UITableViewDelegate {
     
-    public func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    open func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
         if self.engine.page == 1 {
             
-            if indexPath.row == kPlaceHolderCellCount - 1 {
+            if (indexPath as NSIndexPath).row == kPlaceHolderCellCount - 1 {
                 return self.dataSource.tableView(self.infinityTableView.tableView, heightForRowAtIndexPath: indexPath, forLoadingCell: true)
             }
             return self.dataSource.tableView(self.infinityTableView.tableView, heightForRowAtIndexPath: indexPath, forLoadingCell: false)
             
         } else {
             
-            if indexPath.section == self.engine.dataCount.count - 1 {
-                if indexPath.row == self.engine.dataCount[self.engine.dataCount.count - 1] {
+            if (indexPath as NSIndexPath).section == self.engine.dataCount.count - 1 {
+                if (indexPath as NSIndexPath).row == self.engine.dataCount[self.engine.dataCount.count - 1] {
                     return self.dataSource.tableView(self.infinityTableView.tableView, heightForRowAtIndexPath: indexPath, forLoadingCell: true)
                 }
             }
@@ -195,7 +184,7 @@ extension TableViewEngine:UITableViewDelegate {
         }
     }
     
-    public func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    open func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.dataSource.tableView?(tableView, didSelectRowAtIndexPath: indexPath)
     }
 }

@@ -26,7 +26,7 @@ import UIKit
  Constructs an internal NSObject, used to represent a UICollectionView into InfinityCollectionView.
  */
 
-public class CollectionViewEngine: NSObject {
+open class CollectionViewEngine: NSObject {
     
     var infinitCollectionView: InfinityCollectionView!
     var engine:InfinityEngine!
@@ -38,66 +38,58 @@ public class CollectionViewEngine: NSObject {
     public init(infinityCollectionView:InfinityCollectionView) {
         super.init()
         self.infinitCollectionView = infinityCollectionView
-        self.delegate = infinityCollectionView.delegate
+        self.delegate = infinityCollectionView.source
         self.engine = InfinityEngine(infinityModifiers: infinitCollectionView.modifiers, withDelegate: self)
         self.setupCollectionView()
     }
     
-    func setupCollectionView() {
+    fileprivate func setupCollectionView() {
         // Set Table View Instance With Appropriate Object
         self.infinitCollectionView.collectionView.delegate = self
         self.infinitCollectionView.collectionView.dataSource = self
         self.infinitCollectionView.collectionView.alwaysBounceVertical = true
         
+        let bundle = self.infinitCollectionView.cells.bundle ?? Bundle.main
         
-        // Get the Bundle 
-        var bundle:NSBundle!
-        if let identifier = self.infinitCollectionView.cells.bundleIdentifier {
-            bundle = NSBundle(identifier: identifier)
-        } else {
-            bundle = NSBundle.mainBundle()
-        }
-        
-        // Register All Posible Nibs
         for nibName in self.infinitCollectionView.cells.cellNames {
-            self.infinitCollectionView.collectionView.registerNib(UINib(nibName: nibName, bundle: bundle), forCellWithReuseIdentifier: nibName)
+            self.infinitCollectionView.collectionView.register(UINib(nibName: nibName, bundle: bundle), forCellWithReuseIdentifier: nibName)
         }
         
         // Register Loading Cell
         let loadingCellID = self.infinitCollectionView.cells.loadingCellName
         
-        self.infinitCollectionView.collectionView.registerNib(UINib(nibName: loadingCellID,
+        self.infinitCollectionView.collectionView.register(UINib(nibName: loadingCellID!,
             bundle: bundle), forSupplementaryViewOfKind: UICollectionElementKindSectionFooter,
-                             withReuseIdentifier: loadingCellID)
+                             withReuseIdentifier: loadingCellID!)
         
         
         // Refresh Control
         if self.engine.modifiers.refreshControl == true {
             self.reloadControl = UIRefreshControl()
-            self.reloadControl?.addTarget(self, action: #selector(CollectionViewEngine.reloadFromRefreshControl), forControlEvents: UIControlEvents.ValueChanged)
+            self.reloadControl?.addTarget(self, action: #selector(CollectionViewEngine.reloadFromRefreshControl), for: UIControlEvents.valueChanged)
             self.infinitCollectionView.collectionView.addSubview(self.reloadControl!)
         }
     }
     
-    func initiateEngine() {
+    internal func initiateEngine() {
         self.engine.performDataFetch()
     }
     
-    func reloadFromRefreshControl() {
+    internal func reloadFromRefreshControl() {
         self.engine.resetData()
         self.engine.performDataFetch()
     }
     
-    func reloadCollectionView(indexes:[NSIndexPath]?) {
+    internal func reloadCollectionView(_ indexes:[IndexPath]?) {
         self.infinitCollectionView.collectionView.reloadData()
     }
 }
 
 extension CollectionViewEngine: InfinityDataEngineDelegate {
-    func getData(atPage page: Int, withModifiers modifiers: InfinityModifers, completion: (responsePayload: ResponsePayload) -> ()) {
+    internal func getData(atPage page: Int, withModifiers modifiers: InfinityModifers, completion: (ResponsePayload) -> ()) {
         self.delegate.collectionView(self.infinitCollectionView.collectionView, withDataForPage: page, forSession: self.engine.sessionID) { (responsePayload) in
             if self.engine.responseIsValid(atPage: page, withReloadControl: self.reloadControl, withResponsePayload: responsePayload) == true {
-                completion(responsePayload: responsePayload)
+                completion(responsePayload)
             }
         }
     }
@@ -110,20 +102,20 @@ extension CollectionViewEngine: InfinityDataEngineDelegate {
         self.infinitCollectionView.collectionView.reloadData()
     }
     
-    public func scrollViewDidScroll(scrollView: UIScrollView) {
+    public func scrollViewDidScroll(_ scrollView: UIScrollView) {
         self.engine.infinteScrollMonitor(scrollView)
     }
 }
 
 extension CollectionViewEngine: UICollectionViewDataSource {
-    public func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
+    open func numberOfSections(in collectionView: UICollectionView) -> Int {
         if self.engine.dataCount.count == 0 {
             return 1
         }
         return self.engine.dataCount.count
     }
     
-    public func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    open func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if self.engine.dataCount == [] {
             return kPlaceHolderCellCount
         } else {
@@ -137,20 +129,20 @@ extension CollectionViewEngine: UICollectionViewDataSource {
         return self.engine.dataCount[section]
     }
     
-    public func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+    open func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         self.scrollViewDidScroll(self.infinitCollectionView.collectionView)
         
         let cell = self.delegate.collectionView(self.infinitCollectionView.collectionView, withCellItemForIndexPath: indexPath)
+        
         if self.engine.page == 1 {
-            
             
             if let placeholderableCell = cell as? InfinityCellManualPlaceholdable {
                 placeholderableCell.showPlaceholder()
             } else if let placeholderableCell = cell as? InfinityCellViewAutoPlaceholdable {
-                placeholderableCell.placeholderView.hidden = false
-                UIView.animateWithDuration(0.3) {
+                placeholderableCell.placeholderView.isHidden = false
+                UIView.animate(withDuration: 0.3, animations: {
                     placeholderableCell.placeholderView.alpha = 1.0
-                }
+                }) 
             }
 
         } else {
@@ -158,36 +150,34 @@ extension CollectionViewEngine: UICollectionViewDataSource {
             if let placeholderableCell = cell as? InfinityCellManualPlaceholdable {
                 placeholderableCell.hidePlaceholder()
             } else if let placeholderableCell = cell as? InfinityCellViewAutoPlaceholdable {
-                placeholderableCell.placeholderView.hidden = true
-                UIView.animateWithDuration(0.3) {
+                placeholderableCell.placeholderView.isHidden = true
+                UIView.animate(withDuration: 0.3, animations: {
                     placeholderableCell.placeholderView.alpha = 0.0
-                }
+                }) 
             }
         }
+        
         return cell
     }
 }
 
 extension CollectionViewEngine: UICollectionViewDelegate {
-    public func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+    open func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         self.delegate.collectionView?(collectionView, didSelectItemAtIndexPath: indexPath)
     }
     
-    public func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String,
-        atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
-        
+    open func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: IndexPath) -> UICollectionReusableView {
         switch kind {
         case UICollectionElementKindSectionFooter:
-            return self.delegate.collectionView(self.infinitCollectionView.collectionView,
-                withLoadingCellItemForIndexPath: indexPath, forLastPageHit: self.engine.lastPageHit)
+            return self.delegate.collectionView(self.infinitCollectionView.collectionView, withLoadingCellItemForIndexPath: indexPath, forLastPageHit: self.engine.lastPageHit)
         default:
             return UICollectionReusableView()
         }
-    }    
+    }
 }
 
 extension CollectionViewEngine: UICollectionViewDelegateFlowLayout {
-    public func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
+    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
         referenceSizeForFooterInSection section: Int) -> CGSize {
         
         if section != self.engine.dataCount.count - 1 && self.engine.dataCount != [] || self.engine.lastPageHit {
@@ -195,7 +185,7 @@ extension CollectionViewEngine: UICollectionViewDelegateFlowLayout {
         }
 
         return self.delegate.collectionView?(self.infinitCollectionView.collectionView, layout: collectionViewLayout, sizeForLoadingItemAtIndexPath: section) ??
-                CGSize(width: UIScreen.mainScreen().bounds.size.width, height: kCellHeight)
+                CGSize(width: UIScreen.main.bounds.size.width, height: kCellHeight)
     }
 }
 

@@ -34,16 +34,16 @@ import UIKit
 public struct InfinityCollectionView {
     let collectionView: UICollectionView
     let cells: InfinityCells
-    let delegate: InfinityCollectionSourceable
+    let source: InfinityCollectionSourceable
     let modifiers: InfinityModifers!
     
     public init(withCollectionView collectionView: UICollectionView, withCells cells:InfinityCells,
-        withDelegate delegate: InfinityCollectionSourceable,
+        withDataSource source: InfinityCollectionSourceable,
         withModifiers modifiers: InfinityModifers? = InfinityModifers()) {
         
         self.collectionView = collectionView
         self.cells = cells
-        self.delegate = delegate
+        self.source = source
         self.modifiers = modifiers
     }
 }
@@ -56,15 +56,15 @@ public struct InfinityCollectionView {
  */
 
 public protocol InfinityCollectionSourceable: InfinityDataSource, InfinityCollectionViewProtocolOptional {
-    func collectionView(collectionView:UICollectionView, withDataForPage page:Int, forSession session:String, completion: (responsePayload: ResponsePayload) -> ())
-    func collectionView(collectionView:UICollectionView, withCellItemForIndexPath indexPath:NSIndexPath) -> UICollectionViewCell
-    func collectionView(collectionView:UICollectionView, withLoadingCellItemForIndexPath indexPath:NSIndexPath,
+    func collectionView(_ collectionView:UICollectionView, withDataForPage page:Int, forSession session:String, completion: (_ responsePayload: ResponsePayload) -> ())
+    func collectionView(_ collectionView:UICollectionView, withCellItemForIndexPath indexPath:IndexPath) -> UICollectionViewCell
+    func collectionView(_ collectionView:UICollectionView, withLoadingCellItemForIndexPath indexPath:IndexPath,
         forLastPageHit hit:Bool) -> UICollectionReusableView
 }
 
 @objc public protocol InfinityCollectionViewProtocolOptional: class {
-    optional func collectionView(collectionView:UICollectionView, didSelectItemAtIndexPath indexPath:NSIndexPath)
-    optional func collectionView(collectionView:UICollectionView, layout collectionViewLayout:UICollectionViewLayout, sizeForLoadingItemAtIndexPath section:Int) -> CGSize
+    @objc optional func collectionView(_ collectionView:UICollectionView, didSelectItemAtIndexPath indexPath:IndexPath)
+    @objc optional func collectionView(_ collectionView:UICollectionView, layout collectionViewLayout:UICollectionViewLayout, sizeForLoadingItemAtIndexPath section:Int) -> CGSize
 }
 
 /**
@@ -76,8 +76,8 @@ public protocol InfinityCollectionSourceable: InfinityDataSource, InfinityCollec
 
 
 public protocol InfinityCollectionProtocol: InfinityCollectionSourceable {
-    func startInfinityCollectionView(infinityCollectionView infinityCollectionView:InfinityCollectionView)
-    func createCollecionViewEngine(infinityCollectionView: InfinityCollectionView) -> CollectionViewEngine
+    func startInfinityCollectionView(infinityCollectionView:InfinityCollectionView)
+    func createCollecionViewEngine(_ infinityCollectionView: InfinityCollectionView) -> CollectionViewEngine
     func resetInfinityCollection()
 }
 
@@ -91,7 +91,7 @@ extension InfinityCollectionProtocol where Self: UIViewController {
         InfinityEngineRoom.sharedCollectionInstances.append(engine)
     }
     
-    public func createCollecionViewEngine(infinityCollectionView: InfinityCollectionView) -> CollectionViewEngine {
+    public func createCollecionViewEngine(_ infinityCollectionView: InfinityCollectionView) -> CollectionViewEngine {
         return CollectionViewEngine(infinityCollectionView: infinityCollectionView)
     }
     
@@ -120,7 +120,7 @@ extension InfinityCollectionProtocol where Self: UIView {
         InfinityEngineRoom.sharedCollectionInstances.append(engine)
     }
     
-    public func createCollecionViewEngine(infinityCollectionView: InfinityCollectionView) -> CollectionViewEngine {
+    public func createCollecionViewEngine(_ infinityCollectionView: InfinityCollectionView) -> CollectionViewEngine {
         return CollectionViewEngine(infinityCollectionView: infinityCollectionView)
     }
     

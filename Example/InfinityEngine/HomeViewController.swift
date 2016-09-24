@@ -11,7 +11,7 @@ import UIKit
 class HomeViewController: UIViewController {
     
     init() {
-        super.init(nibName: "HomeViewController", bundle: NSBundle.mainBundle())
+        super.init(nibName: "HomeViewController", bundle: Bundle.main)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -28,11 +28,11 @@ class HomeViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
 
-    @IBAction func collectionvViewBtn(sender: AnyObject) {
+    @IBAction func collectionvViewBtn(_ sender: AnyObject) {
         self.navigationController?.pushViewController(TestCollectionViewController(), animated: true)
     }
     
-    @IBAction func tableViewBtn(sender: AnyObject) {
+    @IBAction func tableViewBtn(_ sender: AnyObject) {
         self.navigationController?.pushViewController(TestTableViewController(), animated: true)
     }
 }

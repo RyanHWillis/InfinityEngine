@@ -27,7 +27,7 @@ import UIKit
  */
 
 internal protocol InfinityDataEngineDelegate: class {
-    func getData(atPage page: Int, withModifiers modifiers: InfinityModifers, completion: (responsePayload: ResponsePayload) -> ())
+    func getData(atPage page: Int, withModifiers modifiers: InfinityModifers, completion: (_ responsePayload: ResponsePayload) -> ())
     func updateControllerView()
 }
 
@@ -38,16 +38,16 @@ internal protocol InfinityDataEngineDelegate: class {
 internal final class InfinityEngine: NSObject {
     
     //MARK: - Monitiors
-    var page:NSInteger!
-    var previousPage: NSInteger = 0
-    var sessionID:String!
-    var lastPageHit:Bool!
-    var modifiers: InfinityModifers!
-    var loading = false
+    internal var page:NSInteger!
+    internal var previousPage: NSInteger = 0
+    internal var sessionID:String!
+    internal var lastPageHit:Bool!
+    internal var modifiers: InfinityModifers!
+    internal var loading = false
     
     //MARK: - DATA
-    var dataCount = [Int]()
-    var delegate: InfinityDataEngineDelegate?
+    internal var dataCount = [Int]()
+    internal var delegate: InfinityDataEngineDelegate?
     
     internal init(infinityModifiers modifers:InfinityModifers, withDelegate delegate: InfinityDataEngineDelegate) {
         super.init()
@@ -66,49 +66,36 @@ internal final class InfinityEngine: NSObject {
     }
 
     internal func performDataFetch() {
-        
         if self.lastPageHit == true { return }
-        
         self.loading = true
         
-        dispatch_async(dispatch_get_main_queue()) {
+        DispatchQueue.main.async {
             
             self.delegate?.getData(atPage: self.page, withModifiers: self.modifiers) { (responsePayload) in
-                
                 self.page = self.page + 1
-                
                 self.lastPageHit = responsePayload.lastPage
-                
                 self.dataCount = responsePayload.count
-                
                 self.delegate?.updateControllerView()
-                
                 self.loading = false
             }
         }
     }
     
     internal func responseIsValid(atPage page:Int, withReloadControl refreshControl: UIRefreshControl?, withResponsePayload response:ResponsePayload) -> Bool {
-        
-        // Check that the response is from the same session
         if response.session != self.sessionID {
             print("INFINITY ENGINE: - Recieving data from pre-refresh session, discarding.")
             return false
         }
         
-        // Ensure our rsponse is still not the same/previous page
         if page > self.previousPage {
             
-            if let refreshing = refreshControl?.refreshing where refreshing == true  {
-                
+            if let refreshing = refreshControl?.isRefreshing , refreshing == true  {
                 if page == 1 {
                     self.previousPage = page
                     refreshControl?.endRefreshing()
                     return true
                 }
-                
             } else {
-                
                 if page == self.previousPage + 1 {
                     self.previousPage = page
                     return true
@@ -123,10 +110,7 @@ internal final class InfinityEngine: NSObject {
         return false
     }
     
-    // MARK: - Scroll Monitor
-    
-    internal func infinteScrollMonitor(scrollView:UIScrollView) {
-        
+    internal func infinteScrollMonitor(_ scrollView:UIScrollView) {
         if self.loading { return }
         
         let height = scrollView.frame.size.height
@@ -139,14 +123,13 @@ internal final class InfinityEngine: NSObject {
     }
     
     internal func randomAlphaNumericString() -> String {
-        
         let allowedChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
         let allowedCharsCount = UInt32(allowedChars.characters.count)
         var randomString = ""
         
         for _ in (0..<100) {
             let randomNum = Int(arc4random_uniform(allowedCharsCount))
-            let newCharacter = allowedChars[allowedChars.startIndex.advancedBy(randomNum)]
+            let newCharacter = allowedChars[allowedChars.characters.index(allowedChars.startIndex, offsetBy: randomNum)]
             randomString += String(newCharacter)
         }
         

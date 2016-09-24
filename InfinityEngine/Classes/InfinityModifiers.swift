@@ -29,18 +29,6 @@ let kCellHeight:CGFloat             = 50.0
 let kBufferHeight:CGFloat           = 350.0
 let kPlaceHolderCellCount:Int       = 14
 
-/**
- Used to represent what the paging request for the next response payload to InfinityEngine should be based on.
- 
- - Row: In Consideration to 'Buffer' - item are loaded based on number of items within a section.
- - Section: In Consideration to 'Buffer' - item are loaded based on number of sections passed.
- 
- */
-
-public enum IndexType {
-    case Row
-    case Section
-}
 
 /**
  Constructural modifers that change behavior.
@@ -65,11 +53,10 @@ public struct InfinityModifers {
  - func infinityData:                            Retreives the appropaite data to feed into the framework
  
  */
-//func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
 
-public protocol InfinityDataSource: InfinityDataEngineDelegateOptional {
-}
+
+public protocol InfinityDataSource: InfinityDataEngineDelegateOptional {}
 
 @objc public protocol InfinityDataEngineDelegateOptional: class {
-    optional func infinintyDataResponse(withData data:[AnyObject]?)
+    @objc optional func infinintyDataResponse(withData data:[AnyObject]?)
 }

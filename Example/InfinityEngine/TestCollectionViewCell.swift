@@ -20,10 +20,10 @@ class TestCollectionViewCell: UICollectionViewCell, InfinityCellManualPlaceholda
 
     
     func showPlaceholder() {
-        self.backgroundColor = UIColor.purpleColor()
+        self.backgroundColor = UIColor.purple
     }
     
     func hidePlaceholder() {
-        self.backgroundColor = UIColor.yellowColor()
+        self.backgroundColor = UIColor.yellow
     }
 }
