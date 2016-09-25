@@ -27,7 +27,7 @@ import UIKit
  */
 
 internal protocol InfinityDataEngineDelegate: class {
-    func getData(atPage page: Int, withModifiers modifiers: InfinityModifers, completion: (_ responsePayload: ResponsePayload) -> ())
+    func getData(atPage page: Int, withModifiers modifiers: InfinityModifers, completion: @escaping (ResponsePayload) -> ())
     func updateControllerView()
 }
 

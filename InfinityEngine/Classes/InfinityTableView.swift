@@ -59,7 +59,7 @@ public struct InfinityTableView {
 public typealias InfinityTableDelegate = UITableViewDelegate
 
 public protocol InfinityTableSourceable: InfinityDataSource, InfinityTableDelegate, InfinityTableSourceableOptional {
-    func tableView(_ tableView:UITableView, withDataForPage page:Int, forSession session:String, completion: (_ responsePayload: ResponsePayload) -> ())
+    func tableView(_ tableView: UITableView, withDataForPage page: Int, forSession session: String, completion: @escaping (ResponsePayload) -> (Void))
     func tableView(_ tableView:UITableView, cellForRowAtIndexPath indexPath:IndexPath) -> UITableViewCell
     func tableView(_ tableView:UITableView, withLoadingCellItemForIndexPath indexPath:IndexPath) -> UITableViewCell
     func tableView(_ tableView:UITableView, heightForRowAtIndexPath indexPath:IndexPath, forLoadingCell loadingCell:Bool) -> CGFloat

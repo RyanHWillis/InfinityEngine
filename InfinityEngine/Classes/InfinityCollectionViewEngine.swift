@@ -86,7 +86,7 @@ open class CollectionViewEngine: NSObject {
 }
 
 extension CollectionViewEngine: InfinityDataEngineDelegate {
-    internal func getData(atPage page: Int, withModifiers modifiers: InfinityModifers, completion: (ResponsePayload) -> ()) {
+    internal func getData(atPage page: Int, withModifiers modifiers: InfinityModifers, completion: @escaping (ResponsePayload) -> ()) {
         self.delegate.collectionView(self.infinitCollectionView.collectionView, withDataForPage: page, forSession: self.engine.sessionID) { (responsePayload) in
             if self.engine.responseIsValid(atPage: page, withReloadControl: self.reloadControl, withResponsePayload: responsePayload) == true {
                 completion(responsePayload)

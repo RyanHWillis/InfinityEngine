@@ -43,11 +43,9 @@ class TestCollectionViewController: UIViewController {
 
 extension TestCollectionViewController: InfinityCollectionProtocol {
     
-    
-    func collectionView(_ collectionView: UICollectionView, withDataForPage page: Int, forSession session: String, completion: (ResponsePayload) -> ()) {
+    func collectionView(_ collectionView: UICollectionView, withDataForPage page: Int, forSession session: String, completion: @escaping (ResponsePayload) -> ()) {
         completion(ResponsePayload(count: [10, 5, 3 * page * page], lastPage: false, session: session))
     }
-
     
     func collectionView(_ collectionView: UICollectionView, withCellItemForIndexPath indexPath: IndexPath) -> UICollectionViewCell {
         return self.testCollectionView.dequeueReusableCell(withReuseIdentifier: "TestCollectionViewCell", for: indexPath) as! TestCollectionViewCell

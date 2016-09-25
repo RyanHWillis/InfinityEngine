@@ -38,7 +38,8 @@ class TestTableViewController: UIViewController {
 }
 
 extension TestTableViewController: InfinityTableProtocol {
-    func tableView(_ tableView: UITableView, withDataForPage page: Int, forSession session: String, completion: (ResponsePayload) -> ()) {
+    
+    func tableView(_ tableView: UITableView, withDataForPage page: Int, forSession session: String, completion: @escaping (ResponsePayload) -> ()) {
         completion(ResponsePayload(count: [8, 3, 12 * page * page], lastPage: false, session: session))
     }
     
@@ -58,3 +59,5 @@ extension TestTableViewController: InfinityTableProtocol {
         return 98.0
     }
 }
+
+
