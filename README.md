@@ -54,7 +54,7 @@ Infinity Engine is an Elegant TableView & CollectionView paged data handling sol
 
 ## InfinityTableView
 
-Implement 'InfinityTableProtocol' from your UIViewController / UIView
+Implement 'InfinityTableProtocol' on your UIViewController / UIView
 
 ```swift
 InfinityTableProtocol
@@ -96,7 +96,7 @@ self.startInfinityTableView(infinityTableView: tableView)
 
 ## InfinityCollectionView
 
-Implement 'InfinityCollectionProtocol' from your UIViewController / UIView
+Implement 'InfinityCollectionProtocol' on your UIViewController / UIView
 
 ```swift
 InfinityCollectionProtocol
