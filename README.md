@@ -133,7 +133,7 @@ self.startInfinityCollectionView(infinityCollectionView: infinityView)
 
 ## Custom Infinity Engine (Optional)
 
-You can extend InfinityTableView / InfinityCollectionView functionlality e.g. add further tableView delegates "viewForHeader", by subclassing TableViewEngine / CollectionViewEngine to extend and overriding class behavior.
+You can extend InfinityTableView / InfinityCollectionView functionality e.g. add more UITableViewDelegate / UICollectionViewDelegate delegates, by subclassing TableViewEngine / CollectionViewEngine to extend or override class behavior.
 
 ```swift
 func createTableViewEngine(_ infinityTableView: InfinityTableView) -> TableViewEngine
