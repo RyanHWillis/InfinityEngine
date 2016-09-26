@@ -86,7 +86,7 @@ func tableView(_ tableView: UITableView, heightForRowAtIndexPath indexPath: Inde
 
 Some quick setup
 
-#### Note: Cell names given must define the actual class name, the same class name will be used to dequeueReusableCell - See Above:
+#### Note: Cell names given must define the actual class name, the same class name will be used to dequeueReusableCell (See Above)
 
 ```swift
 let cells = InfinityCells(cellNames: ["TestTableViewCell", "SectionCell"], loadingCellName: "LoadingTableViewCell", bundle: nil)
@@ -94,7 +94,7 @@ let tableView = InfinityTableView(withTableView: self.tableView, withCells: cell
 self.startInfinityTableView(infinityTableView: tableView)
 ```
 
-(Optional) You can extend InfinityTableView functionlality e.g. add further tableView delegates "viewForHeader", by implementing subclassing TableViewEngine and extending / overriding functionality.
+(Optional) You can extend InfinityTableView functionlality e.g. add further tableView delegates "viewForHeader", by  subclassing TableViewEngine and extending / overriding functionality.
 
 ```swift
 func createTableViewEngine(_ infinityTableView: InfinityTableView) -> TableViewEngine
