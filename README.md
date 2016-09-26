@@ -131,6 +131,27 @@ let infinityView = InfinityCollectionView(withCollectionView: self.testCollectio
 self.startInfinityCollectionView(infinityCollectionView: infinityView)
 ```
 
+## Placeholder (Optional)
+
+Extend the following protocol's on your cell's to acheive placeholder behavior.
+
+- InfinityCellManualPlaceholdable
+
+```swift
+func showPlaceholder()
+
+func hidePlaceholder()
+```
+- InfinityCellViewAutoPlaceholdable
+
+```swift
+var placeholderView: UIView { get }
+
+var placeholderView: UIView { 
+    return 'yourView'
+}
+```
+
 ## Custom Infinity Engine (Optional)
 
 You can extend InfinityTableView / InfinityCollectionView functionality e.g. add more UITableViewDelegate / UICollectionViewDelegate delegates, by subclassing TableViewEngine / CollectionViewEngine to extend or override class behavior.
@@ -139,6 +160,7 @@ You can extend InfinityTableView / InfinityCollectionView functionality e.g. add
 func createTableViewEngine(_ infinityTableView: InfinityTableView) -> TableViewEngine
 func createCollecionViewEngine(_ infinityCollectionView: InfinityCollectionView) -> CollectionViewEngine
 ```
+
 
 ## Requirements
 + iOS 8.0 +
