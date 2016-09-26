@@ -52,6 +52,57 @@ Infinity Engine is an Elegant TableView & CollectionView paged data handling sol
 + Overrides to implement Placeholders for pre-data responses
 + Automatic loading indicator at bottom whilst waiting for next data response.
 
+## InfinityTableView
+
+Implement 'InfinityTableProtocol' from your UIViewController / UIView
+
+```swift
+InfinityTableProtocol
+```
+
+After extending 'InfinityTableProtocol', you will need to implement the following callbacks.
+
+```swift
+func tableView(_ tableView: UITableView, withDataForPage page: Int, forSession session: String, completion: @escaping (ResponsePayload) -> ()) {
+    completion(ResponsePayload(count: [8, 3, 12], lastPage: false, session: session))
+}
+
+func tableView(_ tableView: UITableView, cellForRowAtIndexPath indexPath: IndexPath) -> UITableViewCell {
+    return self.tableView.dequeueReusableCell(withIdentifier: "TestTableViewCell", for: indexPath) as! TestTableViewCell
+}
+
+func tableView(_ tableView: UITableView, withLoadingCellItemForIndexPath indexPath: IndexPath) -> UITableViewCell {
+    let cell = self.tableView.dequeueReusableCell(withIdentifier: "LoadingTableViewCell", for: indexPath) as! LoadingTableViewCell
+    return cell
+}
+
+func tableView(_ tableView: UITableView, heightForRowAtIndexPath indexPath: IndexPath, forLoadingCell loadingCell: Bool) -> CGFloat {
+    if loadingCell {
+        return 30.0
+    }
+    return 98.0
+}
+```
+
+Some quick setup
+
+#### Note: Cell names given must define the actual class name, the same class name will be used to dequeueReusableCell - See Above:
+
+```swift
+let cells = InfinityCells(cellNames: ["TestTableViewCell", "SectionCell"], loadingCellName: "LoadingTableViewCell", bundle: nil)
+let tableView = InfinityTableView(withTableView: self.tableView, withCells: cells, withDataSource: self)
+self.startInfinityTableView(infinityTableView: tableView)
+```
+
+(Optional) You can extend InfinityTableView functionlality e.g. add further tableView delegates "viewForHeader", by implementing subclassing TableViewEngine and extending / overriding functionality.
+
+```swift
+func createTableViewEngine(_ infinityTableView: InfinityTableView) -> TableViewEngine
+```
+
+
+
+
 ## Requirements
 + iOS 8.0 +
 + Xcode 7.3 +
