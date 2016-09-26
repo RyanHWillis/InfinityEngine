@@ -94,14 +94,51 @@ let tableView = InfinityTableView(withTableView: self.tableView, withCells: cell
 self.startInfinityTableView(infinityTableView: tableView)
 ```
 
-(Optional) You can extend InfinityTableView functionlality e.g. add further tableView delegates "viewForHeader", by  subclassing TableViewEngine and extending / overriding functionality.
+## InfinityCollectionView
+
+Implement 'InfinityCollectionProtocol' from your UIViewController / UIView
+
+```swift
+InfinityCollectionProtocol
+```
+After extending 'InfinityCollectionProtocol', you will need to implement the following callbacks.
+
+```swift    
+func collectionView(_ collectionView: UICollectionView, withDataForPage page: Int, forSession session: String, completion: @escaping (ResponsePayload) -> ()) {
+    completion(ResponsePayload(count: [10, 5, 3 * page * page], lastPage: false, session: session))
+}
+
+func collectionView(_ collectionView: UICollectionView, withCellItemForIndexPath indexPath: IndexPath) -> UICollectionViewCell {
+    return self.testCollectionView.dequeueReusableCell(withReuseIdentifier: "TestCollectionViewCell", for: indexPath) as! TestCollectionViewCell
+}
+
+func collectionView(_ collectionView: UICollectionView, withLoadingCellItemForIndexPath indexPath: IndexPath, forLastPageHit hit: Bool) -> UICollectionReusableView {
+    let cell = self.testCollectionView.dequeueReusableSupplementaryView(ofKind: UICollectionElementKindSectionFooter, withReuseIdentifier: "LoadingCollectionViewCell", for: indexPath)
+    return cell
+}
+
+func collectionView(_ collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: IndexPath) {
+
+}
+```
+Some quick setup
+
+#### Note: Cell names given must define the actual class name, the same class name will be used to dequeueReusableCell (See Above)
+
+```swift    
+let cells = InfinityCells(cellNames: ["TestCollectionViewCell"], loadingCellName: "LoadingCollectionViewCell", bundle: nil)
+let infinityView = InfinityCollectionView(withCollectionView: self.testCollectionView, withCells: cells, withDataSource: self)
+self.startInfinityCollectionView(infinityCollectionView: infinityView)
+```
+
+## Custom Infinity Engine (Optional)
+
+You can extend InfinityTableView / InfinityCollectionView functionlality e.g. add further tableView delegates "viewForHeader", by subclassing TableViewEngine / CollectionViewEngine to extend and overriding class behavior.
 
 ```swift
 func createTableViewEngine(_ infinityTableView: InfinityTableView) -> TableViewEngine
+func createCollecionViewEngine(_ infinityCollectionView: InfinityCollectionView) -> CollectionViewEngine
 ```
-
-
-
 
 ## Requirements
 + iOS 8.0 +
