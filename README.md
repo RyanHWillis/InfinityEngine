@@ -105,7 +105,7 @@ After extending 'InfinityCollectionProtocol', you will need to implement the fol
 
 ```swift    
 func collectionView(_ collectionView: UICollectionView, withDataForPage page: Int, forSession session: String, completion: @escaping (ResponsePayload) -> ()) {
-    completion(ResponsePayload(count: [10, 5, 3 * page * page], lastPage: false, session: session))
+    completion(ResponsePayload(count: [10, 5, 3], lastPage: false, session: session))
 }
 
 func collectionView(_ collectionView: UICollectionView, withCellItemForIndexPath indexPath: IndexPath) -> UICollectionViewCell {
