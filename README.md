@@ -163,8 +163,9 @@ func createCollecionViewEngine(_ infinityCollectionView: InfinityCollectionView)
 
 
 ## Requirements
-+ iOS 8.0 +
-+ Xcode 7.3 +
++ iOS 10.0 + 
++ Xcode 8.0 +
+(See older versions in the release list for previous versions support)
 
 ## Example
 
