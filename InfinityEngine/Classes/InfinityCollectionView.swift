@@ -35,16 +35,13 @@ public struct InfinityCollectionView {
     let collectionView: UICollectionView
     let cells: InfinityCells
     let source: InfinityCollectionSourceable
-    let modifiers: InfinityModifers!
     
     public init(withCollectionView collectionView: UICollectionView, withCells cells:InfinityCells,
-        withDataSource source: InfinityCollectionSourceable,
-        withModifiers modifiers: InfinityModifers? = InfinityModifers()) {
+        withDataSource source: InfinityCollectionSourceable) {
         
         self.collectionView = collectionView
         self.cells = cells
         self.source = source
-        self.modifiers = modifiers
     }
 }
 

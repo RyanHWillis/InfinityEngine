@@ -28,18 +28,18 @@ import UIKit
 
 open class TableViewEngine: NSObject {
     
-    internal var infinityTableView: InfinityTableView!
+    internal var infinityTableView: InfinityTable!
     internal var engine:InfinityEngine!
     internal var dataSource: InfinityTableSourceable!
     internal var reloadControl:UIRefreshControl?
     
     // MARK: - Lifecycle
     
-    public init(infinityTableView:InfinityTableView) {
+    public init(infinityTableView:InfinityTable) {
         super.init()
         self.infinityTableView = infinityTableView
         self.dataSource = infinityTableView.dataSource
-        self.engine = InfinityEngine(infinityModifiers: infinityTableView.modifiers, withDelegate: self)
+        self.engine = InfinityEngine(withDelegate: self)
         self.setupTableView()
     }
     
@@ -61,11 +61,9 @@ open class TableViewEngine: NSObject {
 
 
         // Refresh Control
-        if self.engine.modifiers.refreshControl == true {
-            self.reloadControl = UIRefreshControl()
-            self.reloadControl?.addTarget(self, action: #selector(TableViewEngine.reload), for: UIControlEvents.valueChanged)
-            self.infinityTableView.tableView.addSubview(self.reloadControl!)
-        }
+        self.reloadControl = UIRefreshControl()
+        self.reloadControl?.addTarget(self, action: #selector(TableViewEngine.reload), for: UIControlEvents.valueChanged)
+        self.infinityTableView.tableView.addSubview(self.reloadControl!)
     }
     
     internal func initiateEngine() {
@@ -79,8 +77,8 @@ open class TableViewEngine: NSObject {
 }
 
 extension TableViewEngine: InfinityDataEngineDelegate {
-    internal func getData(atPage page: Int, withModifiers modifiers: InfinityModifers, completion: @escaping (ResponsePayload) -> ()) {
-        self.dataSource.tableView(self.infinityTableView.tableView, withDataForPage: page, forSession: self.engine.sessionID) { (responsePayload) in
+    internal func getData(atPage page: Int, completion: @escaping (ResponsePayload) -> ()) {
+        self.dataSource.infinity(self.infinityTableView.tableView, withDataForPage: page, forSession: self.engine.sessionID) { (responsePayload) in
             if self.engine.responseIsValid(atPage: page, withReloadControl: self.reloadControl, withResponsePayload: responsePayload) == true {
                 completion(responsePayload)
             }
@@ -125,10 +123,21 @@ extension TableViewEngine: UITableViewDataSource {
         if self.engine.page == 1 {
             
             if (indexPath as NSIndexPath).row == kPlaceHolderCellCount - 1 {
-                return self.dataSource.tableView(self.infinityTableView.tableView, withLoadingCellItemForIndexPath: indexPath)
+                return self.dataSource.infinity(self.infinityTableView.tableView, withLoadingCellItemForIndexPath: indexPath)
             }
             
-            let cell = self.dataSource.tableView(self.infinityTableView.tableView, cellForRowAtIndexPath: indexPath)
+            
+            
+            let cell = self.dataSource.infinity(self.infinityTableView.tableView, cellForRowAtIndexPath: indexPath)
+            
+            
+            
+            //return self.tableView.dequeueReusableCell(withIdentifier: "TestTableViewCell", for: indexPath) as! TestTableViewCell
+
+            
+            
+            
+            
             if let placeholderableCell = cell as? InfinityCellManualPlaceholdable {
                 placeholderableCell.showPlaceholder()
             } else if let placeholderableCell = cell as? InfinityCellViewAutoPlaceholdable {
@@ -143,11 +152,11 @@ extension TableViewEngine: UITableViewDataSource {
             
             if (indexPath as NSIndexPath).section == self.engine.dataCount.count - 1 {
                 if (indexPath as NSIndexPath).row == self.engine.dataCount[self.engine.dataCount.count - 1] {
-                    return self.dataSource.tableView(self.infinityTableView.tableView, withLoadingCellItemForIndexPath: indexPath)
+                    return self.dataSource.infinity(self.infinityTableView.tableView, withLoadingCellItemForIndexPath: indexPath)
                 }
             }
             
-            let cell = self.dataSource.tableView(self.infinityTableView.tableView, cellForRowAtIndexPath: indexPath)
+            let cell = self.dataSource.infinity(self.infinityTableView.tableView, cellForRowAtIndexPath: indexPath)
             if let placeholderableCell = cell as? InfinityCellManualPlaceholdable {
                 placeholderableCell.hidePlaceholder()
             } else if let placeholderCell = cell as? InfinityCellViewAutoPlaceholdable {
@@ -169,22 +178,22 @@ extension TableViewEngine:UITableViewDelegate {
         if self.engine.page == 1 {
             
             if (indexPath as NSIndexPath).row == kPlaceHolderCellCount - 1 {
-                return self.dataSource.tableView(self.infinityTableView.tableView, heightForRowAtIndexPath: indexPath, forLoadingCell: true)
+                return self.dataSource.infinity(self.infinityTableView.tableView, heightForRowAtIndexPath: indexPath, forLoadingCell: true)
             }
-            return self.dataSource.tableView(self.infinityTableView.tableView, heightForRowAtIndexPath: indexPath, forLoadingCell: false)
+            return self.dataSource.infinity(self.infinityTableView.tableView, heightForRowAtIndexPath: indexPath, forLoadingCell: false)
             
         } else {
             
             if (indexPath as NSIndexPath).section == self.engine.dataCount.count - 1 {
                 if (indexPath as NSIndexPath).row == self.engine.dataCount[self.engine.dataCount.count - 1] {
-                    return self.dataSource.tableView(self.infinityTableView.tableView, heightForRowAtIndexPath: indexPath, forLoadingCell: true)
+                    return self.dataSource.infinity(self.infinityTableView.tableView, heightForRowAtIndexPath: indexPath, forLoadingCell: true)
                 }
             }
-            return self.dataSource.tableView(self.infinityTableView.tableView, heightForRowAtIndexPath: indexPath, forLoadingCell: false)
+            return self.dataSource.infinity(self.infinityTableView.tableView, heightForRowAtIndexPath: indexPath, forLoadingCell: false)
         }
     }
     
     open func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        self.dataSource.tableView?(tableView, didSelectRowAtIndexPath: indexPath)
+        self.dataSource.infinity?(tableView, didSelectRowAtIndexPath: indexPath)
     }
 }

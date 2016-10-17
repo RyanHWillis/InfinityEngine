@@ -66,4 +66,8 @@ class NewCollectionViewEngine: CollectionViewEngine {
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
     }
+    
+    override func collectionView(_ collectionView: UICollectionView, didHighlightItemAt indexPath: IndexPath) {
+        
+    }
 }

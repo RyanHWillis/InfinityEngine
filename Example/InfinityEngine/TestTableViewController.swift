@@ -16,7 +16,7 @@ class TestTableViewController: UIViewController {
     init() {
         super.init(nibName: "TestTableViewController", bundle: Bundle.main)
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -28,7 +28,7 @@ class TestTableViewController: UIViewController {
     
     func setupTableView() {
         let cells = InfinityCells(cellNames: ["TestTableViewCell", "SectionCell"], loadingCellName: "LoadingTableViewCell", bundle: nil)
-        let tableView = InfinityTableView(withTableView: self.tableView, withCells: cells, withDataSource: self)
+        let tableView = InfinityTable(withTableView: self.tableView, withCells: cells, withDataSource: self)
         self.startInfinityTableView(infinityTableView: tableView)
     }
     
@@ -37,22 +37,21 @@ class TestTableViewController: UIViewController {
     }
 }
 
-extension TestTableViewController: InfinityTableProtocol {
-    
-    func tableView(_ tableView: UITableView, withDataForPage page: Int, forSession session: String, completion: @escaping (ResponsePayload) -> ()) {
-        completion(ResponsePayload(count: [8, 3, 12 * page * page], lastPage: false, session: session))
+extension TestTableViewController: InfinityListable {
+    func infinity(_ tableView: UITableView, withDataForPage page: Int, forSession session: String, completion: @escaping (ResponsePayload) -> (Void)) {
+        completion(ResponsePayload(count: [8 * page, 3, 12], lastPage: false, session: session))
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAtIndexPath indexPath: IndexPath) -> UITableViewCell {
+    func infinity(_ tableView: UITableView, cellForRowAtIndexPath indexPath: IndexPath) -> UITableViewCell {
         return self.tableView.dequeueReusableCell(withIdentifier: "TestTableViewCell", for: indexPath) as! TestTableViewCell
     }
     
-    func tableView(_ tableView: UITableView, withLoadingCellItemForIndexPath indexPath: IndexPath) -> UITableViewCell {
+    func infinity(_ tableView: UITableView, withLoadingCellItemForIndexPath indexPath: IndexPath) -> UITableViewCell {
         let cell = self.tableView.dequeueReusableCell(withIdentifier: "LoadingTableViewCell", for: indexPath) as! LoadingTableViewCell
         return cell
     }
     
-    func tableView(_ tableView: UITableView, heightForRowAtIndexPath indexPath: IndexPath, forLoadingCell loadingCell: Bool) -> CGFloat {
+    func infinity(_ tableView: UITableView, heightForRowAtIndexPath indexPath: IndexPath, forLoadingCell loadingCell: Bool) -> CGFloat {
         if loadingCell {
             return 30.0
         }

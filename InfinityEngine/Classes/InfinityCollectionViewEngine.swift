@@ -39,7 +39,7 @@ open class CollectionViewEngine: NSObject {
         super.init()
         self.infinitCollectionView = infinityCollectionView
         self.delegate = infinityCollectionView.source
-        self.engine = InfinityEngine(infinityModifiers: infinitCollectionView.modifiers, withDelegate: self)
+        self.engine = InfinityEngine(withDelegate: self)
         self.setupCollectionView()
     }
     
@@ -64,11 +64,9 @@ open class CollectionViewEngine: NSObject {
         
         
         // Refresh Control
-        if self.engine.modifiers.refreshControl == true {
-            self.reloadControl = UIRefreshControl()
-            self.reloadControl?.addTarget(self, action: #selector(CollectionViewEngine.reloadFromRefreshControl), for: UIControlEvents.valueChanged)
-            self.infinitCollectionView.collectionView.addSubview(self.reloadControl!)
-        }
+        self.reloadControl = UIRefreshControl()
+        self.reloadControl?.addTarget(self, action: #selector(CollectionViewEngine.reloadFromRefreshControl), for: UIControlEvents.valueChanged)
+        self.infinitCollectionView.collectionView.addSubview(self.reloadControl!)
     }
     
     internal func initiateEngine() {
@@ -86,7 +84,7 @@ open class CollectionViewEngine: NSObject {
 }
 
 extension CollectionViewEngine: InfinityDataEngineDelegate {
-    internal func getData(atPage page: Int, withModifiers modifiers: InfinityModifers, completion: @escaping (ResponsePayload) -> ()) {
+    internal func getData(atPage page: Int, completion: @escaping (ResponsePayload) -> ()) {
         self.delegate.collectionView(self.infinitCollectionView.collectionView, withDataForPage: page, forSession: self.engine.sessionID) { (responsePayload) in
             if self.engine.responseIsValid(atPage: page, withReloadControl: self.reloadControl, withResponsePayload: responsePayload) == true {
                 completion(responsePayload)
@@ -173,6 +171,10 @@ extension CollectionViewEngine: UICollectionViewDelegate {
         default:
             return UICollectionReusableView()
         }
+    }
+    
+    open func collectionView(_ collectionView: UICollectionView, didHighlightItemAt indexPath: IndexPath) {
+        
     }
 }
 

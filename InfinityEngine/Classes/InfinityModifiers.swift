@@ -31,22 +31,6 @@ let kPlaceHolderCellCount:Int       = 14
 
 
 /**
- Constructural modifers that change behavior.
- 
- - parameter infiniteScroll:        Whether our data is paged, or delivered all at first response payload.
- - parameter forceReload:           If data should append, or reload the entire view.
-
- */
-
-public struct InfinityModifers {
-    let refreshControl:Bool?
-    
-    public init(refreshControl defaultControl: Bool? = true) {
-        self.refreshControl = defaultControl
-    }
-}
-
-/**
  Constructural sources for abstract data
  
  - func infinityDidSelectItemAtIndexPath:        Get the selected infinity cell at its current index.

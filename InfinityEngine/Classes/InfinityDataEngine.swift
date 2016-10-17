@@ -27,7 +27,7 @@ import UIKit
  */
 
 internal protocol InfinityDataEngineDelegate: class {
-    func getData(atPage page: Int, withModifiers modifiers: InfinityModifers, completion: @escaping (ResponsePayload) -> ())
+    func getData(atPage page: Int, completion: @escaping (ResponsePayload) -> ())
     func updateControllerView()
 }
 
@@ -42,17 +42,15 @@ internal final class InfinityEngine: NSObject {
     internal var previousPage: NSInteger = 0
     internal var sessionID:String!
     internal var lastPageHit:Bool!
-    internal var modifiers: InfinityModifers!
     internal var loading = false
     
     //MARK: - DATA
     internal var dataCount = [Int]()
     internal var delegate: InfinityDataEngineDelegate?
     
-    internal init(infinityModifiers modifers:InfinityModifers, withDelegate delegate: InfinityDataEngineDelegate) {
+    internal init(withDelegate delegate: InfinityDataEngineDelegate) {
         super.init()
         self.delegate = delegate
-        self.modifiers = modifers
         self.resetData()
     }
     
@@ -71,7 +69,7 @@ internal final class InfinityEngine: NSObject {
         
         DispatchQueue.main.async {
             
-            self.delegate?.getData(atPage: self.page, withModifiers: self.modifiers) { (responsePayload) in
+            self.delegate?.getData(atPage: self.page) { (responsePayload) in
                 self.page = self.page + 1
                 self.lastPageHit = responsePayload.lastPage
                 self.dataCount = responsePayload.count
