@@ -35,3 +35,26 @@ internal class InfinityEngineRoom {
 
 
 // ∞ + 🚒// ∞ + 🚒// ∞ + 🚒// ∞ + 🚒// ∞ + 🚒// ∞ + 🚒// ∞ + 🚒// ∞ + 🚒// ∞ + 🚒// ∞ + 🚒// ∞ + 🚒// ∞ + 🚒
+
+public struct InfinityParams {
+    var placeholderCount: Int
+    var loadingView: UIView
+    var bufferHeight: CGFloat
+    
+    public init(placeholderCount: Int, loadingView: UIView, bufferHeight: CGFloat = kBufferHeight) {
+        self.placeholderCount = placeholderCount
+        self.loadingView = loadingView
+        self.bufferHeight = bufferHeight
+    }
+}
+
+open class InfinityEngine {
+    
+    public static let shared = InfinityEngine()
+    
+    public var params: InfinityParams?
+    
+    public func setup(withParams params: InfinityParams) {
+        self.params = params
+    }
+}

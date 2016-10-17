@@ -29,7 +29,7 @@ import UIKit
 open class TableViewEngine: NSObject {
     
     internal var infinityTableView: InfinityTable!
-    internal var engine:InfinityEngine!
+    internal var engine:InfinityDataEngine!
     internal var dataSource: InfinityTableSourceable!
     internal var reloadControl:UIRefreshControl?
     
@@ -39,7 +39,7 @@ open class TableViewEngine: NSObject {
         super.init()
         self.infinityTableView = infinityTableView
         self.dataSource = infinityTableView.dataSource
-        self.engine = InfinityEngine(withDelegate: self)
+        self.engine = InfinityDataEngine(withDelegate: self)
         self.setupTableView()
     }
     
@@ -129,13 +129,6 @@ extension TableViewEngine: UITableViewDataSource {
             
             
             let cell = self.dataSource.infinity(self.infinityTableView.tableView, cellForRowAtIndexPath: indexPath)
-            
-            
-            
-            //return self.tableView.dequeueReusableCell(withIdentifier: "TestTableViewCell", for: indexPath) as! TestTableViewCell
-
-            
-            
             
             
             if let placeholderableCell = cell as? InfinityCellManualPlaceholdable {

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import InfinityEngine
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -15,6 +16,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+        
+        let loader = UIView()
+        loader.backgroundColor = UIColor.red
+        
+        let params = InfinityParams(placeholderCount: 20, loadingView: loader)
+        //InfinityEngine.shared.setup(withParams: params)
         
         let startVC = HomeViewController()
         let nav = UINavigationController(rootViewController: startVC)

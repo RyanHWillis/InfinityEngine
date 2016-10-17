@@ -29,7 +29,7 @@ import UIKit
 open class CollectionViewEngine: NSObject {
     
     var infinitCollectionView: InfinityCollectionView!
-    var engine:InfinityEngine!
+    var engine:InfinityDataEngine!
     var delegate: InfinityCollectionSourceable!
     var reloadControl:UIRefreshControl?
 
@@ -39,7 +39,7 @@ open class CollectionViewEngine: NSObject {
         super.init()
         self.infinitCollectionView = infinityCollectionView
         self.delegate = infinityCollectionView.source
-        self.engine = InfinityEngine(withDelegate: self)
+        self.engine = InfinityDataEngine(withDelegate: self)
         self.setupCollectionView()
     }
     

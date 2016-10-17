@@ -35,7 +35,7 @@ internal protocol InfinityDataEngineDelegate: class {
  Constructs an internal NSObject, used to represents the engine room for data delegation into InfinityCollectionView & InfinityTableView.
  */
 
-internal final class InfinityEngine: NSObject {
+internal final class InfinityDataEngine: NSObject {
     
     //MARK: - Monitiors
     internal var page:NSInteger!
@@ -50,6 +50,12 @@ internal final class InfinityEngine: NSObject {
     
     internal init(withDelegate delegate: InfinityDataEngineDelegate) {
         super.init()
+        
+        if InfinityEngine.shared.params == nil {
+            self.logError(withTitle: "Setup Required", withMessage: "Implement (InfinityEngine.shared.setup(withParams: _)) on didFinishLaunchingWithOptions, before ignition.")
+            fatalError()
+        }
+        
         self.delegate = delegate
         self.resetData()
     }
@@ -81,7 +87,8 @@ internal final class InfinityEngine: NSObject {
     
     internal func responseIsValid(atPage page:Int, withReloadControl refreshControl: UIRefreshControl?, withResponsePayload response:ResponsePayload) -> Bool {
         if response.session != self.sessionID {
-            print("INFINITY ENGINE: - Recieving data from pre-refresh session, discarding.")
+            
+            self.logError(withTitle: "Primitive Data", withMessage: "Recieving data from pre-refresh session, discarding")
             return false
         }
         
@@ -101,8 +108,8 @@ internal final class InfinityEngine: NSObject {
             }
             
         } else {
-            print("INFINITY ENGINE: - You seem to be feeding me duplicate " +
-                "pages (\(page)), that i've already processed.")
+            self.logError(withTitle: "Duplication", withMessage: "You seem to be feeding me duplicate " +
+            "page(s) -> (\(page)), i've already processed this - ignoring")
         }
         
         return false
@@ -132,5 +139,13 @@ internal final class InfinityEngine: NSObject {
         }
         
         return randomString
+    }
+    
+    internal func logError(withTitle title: String, withMessage message: String) {
+        print("************************************************************************\n")
+        print("*** InfinityEngine ***\n")
+        print(title)
+        print("- " + message + "\n")
+        print("************************************************************************\n")
     }
 }
