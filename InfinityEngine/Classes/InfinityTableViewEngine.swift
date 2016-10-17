@@ -74,6 +74,24 @@ open class TableViewEngine: NSObject {
         self.engine.resetData()
         self.initiateEngine()
     }
+    
+    
+    // MARK: - Loading
+    
+    func loadingCell() -> UITableViewCell {
+        let cell = UITableViewCell()
+        
+        let loadingView = InfinityEngine.shared.params.loadingView
+        loadingView.translatesAutoresizingMaskIntoConstraints = false
+        cell.addSubview(loadingView)
+        
+        let views: [String: UIView] = ["loadingView": loadingView]
+        cell.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[loadingView]|", options: [], metrics: nil, views: views))
+        cell.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[loadingView]|", options: [], metrics: nil, views: views))
+        cell.layoutIfNeeded()
+
+        return cell
+    }
 }
 
 extension TableViewEngine: InfinityDataEngineDelegate {
@@ -96,7 +114,7 @@ extension TableViewEngine: InfinityDataEngineDelegate {
 
 extension TableViewEngine: UITableViewDataSource {
     
-    open func numberOfSections(in tableView: UITableView) -> Int {
+    public func numberOfSections(in tableView: UITableView) -> Int {
         
         if self.engine.dataCount.count == 0 {
             return 1
@@ -104,9 +122,9 @@ extension TableViewEngine: UITableViewDataSource {
         return self.engine.dataCount.count
     }
     
-    open func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if self.engine.dataCount == [] {
-            return kPlaceHolderCellCount
+            return InfinityEngine.shared.params.placeholderCount
         } else {
             if self.engine.lastPageHit == false {
                 if section == self.engine.dataCount.count - 1 {
@@ -118,15 +136,13 @@ extension TableViewEngine: UITableViewDataSource {
         return self.engine.dataCount[section]
     }
     
-    open func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         self.scrollViewDidScroll(self.infinityTableView.tableView)
         if self.engine.page == 1 {
             
-            if (indexPath as NSIndexPath).row == kPlaceHolderCellCount - 1 {
-                return self.dataSource.infinity(self.infinityTableView.tableView, withLoadingCellItemForIndexPath: indexPath)
+            if (indexPath as NSIndexPath).row == InfinityEngine.shared.params.placeholderCount - 1 {
+                return self.loadingCell()
             }
-            
-            
             
             let cell = self.dataSource.infinity(self.infinityTableView.tableView, cellForRowAtIndexPath: indexPath)
             
@@ -145,7 +161,7 @@ extension TableViewEngine: UITableViewDataSource {
             
             if (indexPath as NSIndexPath).section == self.engine.dataCount.count - 1 {
                 if (indexPath as NSIndexPath).row == self.engine.dataCount[self.engine.dataCount.count - 1] {
-                    return self.dataSource.infinity(self.infinityTableView.tableView, withLoadingCellItemForIndexPath: indexPath)
+                    return self.loadingCell()
                 }
             }
             
@@ -164,13 +180,17 @@ extension TableViewEngine: UITableViewDataSource {
     }
 }
 
-extension TableViewEngine:UITableViewDelegate {
+extension TableViewEngine: UITableViewDelegate {
     
-    open func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+    public func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableViewAutomaticDimension
+    }
+    
+    public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
         if self.engine.page == 1 {
             
-            if (indexPath as NSIndexPath).row == kPlaceHolderCellCount - 1 {
+            if (indexPath as NSIndexPath).row == InfinityEngine.shared.params.placeholderCount - 1 {
                 return self.dataSource.infinity(self.infinityTableView.tableView, heightForRowAtIndexPath: indexPath, forLoadingCell: true)
             }
             return self.dataSource.infinity(self.infinityTableView.tableView, heightForRowAtIndexPath: indexPath, forLoadingCell: false)
@@ -186,7 +206,7 @@ extension TableViewEngine:UITableViewDelegate {
         }
     }
     
-    open func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.dataSource.infinity?(tableView, didSelectRowAtIndexPath: indexPath)
     }
 }

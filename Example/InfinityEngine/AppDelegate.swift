@@ -21,7 +21,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         loader.backgroundColor = UIColor.red
         
         let params = InfinityParams(placeholderCount: 20, loadingView: loader)
-        //InfinityEngine.shared.setup(withParams: params)
+        InfinityEngine.shared.setup(withParams: params)
         
         let startVC = HomeViewController()
         let nav = UINavigationController(rootViewController: startVC)

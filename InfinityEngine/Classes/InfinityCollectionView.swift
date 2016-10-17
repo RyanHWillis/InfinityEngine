@@ -81,11 +81,11 @@ public protocol InfinityCollectionProtocol: InfinityCollectionSourceable {
 
 extension InfinityCollectionProtocol where Self: UIViewController {
     public func startInfinityCollectionView(infinityCollectionView infinityCollection:InfinityCollectionView) {
-        InfinityEngineRoom.sharedCollectionInstances.removeAll()
+        InfinityEngine.sharedCollectionInstances.removeAll()
         
         let engine = self.createCollecionViewEngine(infinityCollection)
         engine.initiateEngine()
-        InfinityEngineRoom.sharedCollectionInstances.append(engine)
+        InfinityEngine.sharedCollectionInstances.append(engine)
     }
     
     public func createCollecionViewEngine(_ infinityCollectionView: InfinityCollectionView) -> CollectionViewEngine {
@@ -93,7 +93,7 @@ extension InfinityCollectionProtocol where Self: UIViewController {
     }
     
     public func resetInfinityCollection() {
-        for collectionInstance in InfinityEngineRoom.sharedCollectionInstances {
+        for collectionInstance in InfinityEngine.sharedCollectionInstances {
             collectionInstance.engine.resetData()
             collectionInstance.initiateEngine()
         }
@@ -110,11 +110,11 @@ extension InfinityCollectionProtocol where Self: UIViewController {
 
 extension InfinityCollectionProtocol where Self: UIView {
     public func startInfinityCollectionView(infinityCollectionView infinityCollection:InfinityCollectionView) {
-        InfinityEngineRoom.sharedCollectionInstances.removeAll()
+        InfinityEngine.sharedCollectionInstances.removeAll()
         
         let engine = self.createCollecionViewEngine(infinityCollection)
         engine.initiateEngine()
-        InfinityEngineRoom.sharedCollectionInstances.append(engine)
+        InfinityEngine.sharedCollectionInstances.append(engine)
     }
     
     public func createCollecionViewEngine(_ infinityCollectionView: InfinityCollectionView) -> CollectionViewEngine {
@@ -122,7 +122,7 @@ extension InfinityCollectionProtocol where Self: UIView {
     }
     
     public func resetInfinityCollection() {
-        for collectionInstance in InfinityEngineRoom.sharedCollectionInstances {
+        for collectionInstance in InfinityEngine.sharedCollectionInstances {
             collectionInstance.engine.resetData()
             collectionInstance.initiateEngine()
         }

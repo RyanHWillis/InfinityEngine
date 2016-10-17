@@ -55,7 +55,6 @@ public struct InfinityTable {
 public protocol InfinityTableSourceable: InfinityDataSource, InfinityTableSourceableOptional {
     func infinity(_ tableView: UITableView, withDataForPage page: Int, forSession session: String, completion: @escaping (ResponsePayload) -> (Void))
     func infinity(_ tableView:UITableView, cellForRowAtIndexPath indexPath:IndexPath) -> UITableViewCell
-    func infinity(_ tableView:UITableView, withLoadingCellItemForIndexPath indexPath:IndexPath) -> UITableViewCell
     func infinity(_ tableView:UITableView, heightForRowAtIndexPath indexPath:IndexPath, forLoadingCell loadingCell:Bool) -> CGFloat
 }
 
@@ -85,11 +84,11 @@ public protocol InfinityListable: InfinityTableSourceable {
 
 extension InfinityListable where Self: UIViewController {
     public func startInfinityTableView(infinityTableView infinityTable:InfinityTable) {
-        InfinityEngineRoom.sharedTableInstances.removeAll()
+        InfinityEngine.sharedTableInstances.removeAll()
         
         let engine = self.createTableViewEngine(infinityTable)
         engine.initiateEngine()
-        InfinityEngineRoom.sharedTableInstances.append(engine)
+        InfinityEngine.sharedTableInstances.append(engine)
     }
     
     public func createTableViewEngine(_ infinityTableView: InfinityTable) -> TableViewEngine {
@@ -97,7 +96,7 @@ extension InfinityListable where Self: UIViewController {
     }
     
     public func resetInfinityTable() {
-        for tableInstance in InfinityEngineRoom.sharedTableInstances {
+        for tableInstance in InfinityEngine.sharedTableInstances {
             tableInstance.reload()
         }
     }
@@ -112,11 +111,11 @@ extension InfinityListable where Self: UIViewController {
 
 extension InfinityListable where Self: UIView {
     public func startInfinityTableView(infinityTableView infinityTable:InfinityTable) {
-        InfinityEngineRoom.sharedTableInstances.removeAll()
+        InfinityEngine.sharedTableInstances.removeAll()
         
         let engine = self.createTableViewEngine(infinityTable)
         engine.initiateEngine()
-        InfinityEngineRoom.sharedTableInstances.append(engine)
+        InfinityEngine.sharedTableInstances.append(engine)
     }
     
     public func createTableViewEngine(_ infinityTableView: InfinityTable) -> TableViewEngine {
@@ -124,7 +123,7 @@ extension InfinityListable where Self: UIView {
     }
     
     public func resetInfinityTable() {
-        for tableInstance in InfinityEngineRoom.sharedTableInstances {
+        for tableInstance in InfinityEngine.sharedTableInstances {
             tableInstance.reload()
         }
     }

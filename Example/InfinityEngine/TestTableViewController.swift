@@ -39,16 +39,13 @@ class TestTableViewController: UIViewController {
 
 extension TestTableViewController: InfinityListable {
     func infinity(_ tableView: UITableView, withDataForPage page: Int, forSession session: String, completion: @escaping (ResponsePayload) -> (Void)) {
-        completion(ResponsePayload(count: [8 * page, 3, 12], lastPage: false, session: session))
+        delay(2.0) { 
+            completion(ResponsePayload(count: [8 * page, 3, 12], lastPage: false, session: session))
+        }
     }
     
     func infinity(_ tableView: UITableView, cellForRowAtIndexPath indexPath: IndexPath) -> UITableViewCell {
         return self.tableView.dequeueReusableCell(withIdentifier: "TestTableViewCell", for: indexPath) as! TestTableViewCell
-    }
-    
-    func infinity(_ tableView: UITableView, withLoadingCellItemForIndexPath indexPath: IndexPath) -> UITableViewCell {
-        let cell = self.tableView.dequeueReusableCell(withIdentifier: "LoadingTableViewCell", for: indexPath) as! LoadingTableViewCell
-        return cell
     }
     
     func infinity(_ tableView: UITableView, heightForRowAtIndexPath indexPath: IndexPath, forLoadingCell loadingCell: Bool) -> CGFloat {

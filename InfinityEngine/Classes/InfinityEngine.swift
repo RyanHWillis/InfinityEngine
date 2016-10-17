@@ -24,18 +24,6 @@
 
 import UIKit
 
-/**
- Holds a strong memory reference to our Infinity Object.
- */
-
-internal class InfinityEngineRoom {
-    static var sharedTableInstances = [TableViewEngine]()
-    static var sharedCollectionInstances = [CollectionViewEngine]()
-}
-
-
-// ∞ + 🚒// ∞ + 🚒// ∞ + 🚒// ∞ + 🚒// ∞ + 🚒// ∞ + 🚒// ∞ + 🚒// ∞ + 🚒// ∞ + 🚒// ∞ + 🚒// ∞ + 🚒// ∞ + 🚒
-
 public struct InfinityParams {
     var placeholderCount: Int
     var loadingView: UIView
@@ -52,9 +40,14 @@ open class InfinityEngine {
     
     public static let shared = InfinityEngine()
     
-    public var params: InfinityParams?
+    static var sharedTableInstances = [TableViewEngine]()
+    static var sharedCollectionInstances = [CollectionViewEngine]()
+    public var params: InfinityParams!
     
     public func setup(withParams params: InfinityParams) {
         self.params = params
     }
 }
+
+// ∞ + 🚒// ∞ + 🚒// ∞ + 🚒// ∞ + 🚒// ∞ + 🚒// ∞ + 🚒// ∞ + 🚒// ∞ + 🚒// ∞ + 🚒// ∞ + 🚒// ∞ + 🚒// ∞ + 🚒
+

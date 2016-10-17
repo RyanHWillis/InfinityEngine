@@ -115,7 +115,7 @@ extension CollectionViewEngine: UICollectionViewDataSource {
     
     open func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if self.engine.dataCount == [] {
-            return kPlaceHolderCellCount
+            return InfinityEngine.shared.params.placeholderCount
         } else {
             if self.engine.lastPageHit == false {
                 if section == self.engine.dataCount.count - 1 {
