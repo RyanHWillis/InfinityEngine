@@ -27,7 +27,6 @@ import UIKit
 
 let kCellHeight:CGFloat             = 50.0
 let kBufferHeight:CGFloat           = 350.0
-let kPlaceHolderCellCount:Int       = 14
 
 
 /**
@@ -37,7 +36,6 @@ let kPlaceHolderCellCount:Int       = 14
  - func infinityData:                            Retreives the appropaite data to feed into the framework
  
  */
-
 
 public protocol InfinityDataSource: InfinityDataEngineDelegateOptional {}
 

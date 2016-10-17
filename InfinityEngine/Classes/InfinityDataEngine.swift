@@ -122,7 +122,7 @@ internal final class InfinityDataEngine: NSObject {
         let contentYOffset = scrollView.contentOffset.y
         let distance = scrollView.contentSize.height - contentYOffset
         
-        if distance < height + kBufferHeight {
+        if distance < height + InfinityEngine.shared.params.bufferHeight {
             self.performDataFetch()
         }
     }
