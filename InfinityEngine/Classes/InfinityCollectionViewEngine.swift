@@ -81,6 +81,24 @@ open class CollectionViewEngine: NSObject {
     internal func reloadCollectionView(_ indexes:[IndexPath]?) {
         self.infinitCollectionView.collectionView.reloadData()
     }
+    
+    
+    // MARK: - Loading
+    
+    func loadingCell() -> UICollectionViewCell {
+        let cell = UICollectionViewCell()
+        
+        let loadingView = InfinityEngine.shared.params.loadingView
+        loadingView.translatesAutoresizingMaskIntoConstraints = false
+        cell.addSubview(loadingView)
+        
+        let views: [String: UIView] = ["loadingView": loadingView]
+        cell.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[loadingView]|", options: [], metrics: nil, views: views))
+        cell.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[loadingView]|", options: [], metrics: nil, views: views))
+        cell.layoutIfNeeded()
+        
+        return cell
+    }
 }
 
 extension CollectionViewEngine: InfinityDataEngineDelegate {
@@ -167,7 +185,7 @@ extension CollectionViewEngine: UICollectionViewDelegate {
     open func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: IndexPath) -> UICollectionReusableView {
         switch kind {
         case UICollectionElementKindSectionFooter:
-            return self.delegate.collectionView(self.infinitCollectionView.collectionView, withLoadingCellItemForIndexPath: indexPath, forLastPageHit: self.engine.lastPageHit)
+            return self.loadingCell()
         default:
             return UICollectionReusableView()
         }

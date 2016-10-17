@@ -27,8 +27,10 @@ class TestTableViewController: UIViewController {
     }
     
     func setupTableView() {
-        let cells = InfinityCells(cellNames: ["TestTableViewCell", "SectionCell"], loadingCellName: "LoadingTableViewCell", bundle: nil)
-        let tableView = InfinityTable(withTableView: self.tableView, withCells: cells, withDataSource: self)
+        
+        self.tableView.register(UINib(nibName: "TestTableViewCell", bundle: Bundle.main), forCellReuseIdentifier: "TestTableViewCell")
+
+        let tableView = InfinityTable(withTableView: self.tableView, withDataSource: self)
         self.startInfinityTableView(infinityTableView: tableView)
     }
     

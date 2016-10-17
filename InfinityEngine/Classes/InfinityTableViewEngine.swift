@@ -33,6 +33,8 @@ open class TableViewEngine: NSObject {
     internal var dataSource: InfinityTableSourceable!
     internal var reloadControl:UIRefreshControl?
     
+    var meh: UITableViewDelegate?
+    
     // MARK: - Lifecycle
     
     public init(infinityTableView:InfinityTable) {
@@ -49,16 +51,6 @@ open class TableViewEngine: NSObject {
         self.infinityTableView.tableView.delegate = self
         self.infinityTableView.tableView.dataSource = self
         self.infinityTableView.tableView.separatorStyle = .none
-        
-        let bundle = self.infinityTableView.cells.bundle ?? Bundle.main
-        
-        for nibName in self.infinityTableView.cells.cellNames {
-            self.infinityTableView.tableView.register(UINib(nibName: nibName, bundle: bundle), forCellReuseIdentifier: nibName)
-        }
-        
-        let loadingCellNibName:String = self.infinityTableView.cells.loadingCellName
-        self.infinityTableView.tableView.register(UINib(nibName: loadingCellNibName, bundle: bundle), forCellReuseIdentifier: loadingCellNibName)
-
 
         // Refresh Control
         self.reloadControl = UIRefreshControl()
@@ -74,7 +66,6 @@ open class TableViewEngine: NSObject {
         self.engine.resetData()
         self.initiateEngine()
     }
-    
     
     // MARK: - Loading
     

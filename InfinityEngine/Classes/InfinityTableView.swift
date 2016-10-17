@@ -33,13 +33,10 @@ import UIKit
 
 public struct InfinityTable {
     public let tableView: UITableView!
-    public let cells: InfinityCells!
     public let dataSource: InfinityTableSourceable!
     
-    public init(withTableView tableView: UITableView, withCells cells: InfinityCells,
-                withDataSource source:InfinityTableSourceable) {
+    public init(withTableView tableView: UITableView, withDataSource source:InfinityTableSourceable) {
         self.tableView = tableView
-        self.cells = cells
         self.dataSource = source
     }
 }
