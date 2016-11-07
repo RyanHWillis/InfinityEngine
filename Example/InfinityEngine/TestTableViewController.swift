@@ -23,38 +23,28 @@ class TestTableViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.setupTableView()
-    }
-    
-    func setupTableView() {
-        
         self.tableView.register(UINib(nibName: "TestTableViewCell", bundle: Bundle.main), forCellReuseIdentifier: "TestTableViewCell")
-
-        let tableView = InfinityTable(withTableView: self.tableView, withDataSource: self)
-        self.startInfinityTableView(infinityTableView: tableView)
+        self.startInfinity()
     }
     
-    @IBAction func reset(_ sender: AnyObject) {
+    func startInfinity() {
+        self.startInfinityListable(InfinityTable(self.tableView, loadingHeight: 40.0, self))
+    }
+    
+    @IBAction func resetInfinity() {
         self.resetInfinityTable()
     }
 }
 
 extension TestTableViewController: InfinityListable {
-    func infinity(_ tableView: UITableView, withDataForPage page: Int, forSession session: String, completion: @escaping (ResponsePayload) -> (Void)) {
-        delay(2.0) { 
-            completion(ResponsePayload(count: [8 * page, 3, 12], lastPage: false, session: session))
-        }
+    func infinity(_ tableView: UITableView, dataForPage page: Int, _ session: String, completion: @escaping (ResponsePayload) -> ()) {
+        completion(ResponsePayload(count: [8 * page, 3, 12], lastPage: false, session: session))
     }
-    
     func infinity(_ tableView: UITableView, cellForRowAtIndexPath indexPath: IndexPath) -> UITableViewCell {
-        return self.tableView.dequeueReusableCell(withIdentifier: "TestTableViewCell", for: indexPath) as! TestTableViewCell
+        return tableView.dequeueReusableCell(withIdentifier: "TestTableViewCell", for: indexPath) as! TestTableViewCell
     }
-    
-    func infinity(_ tableView: UITableView, heightForRowAtIndexPath indexPath: IndexPath, forLoadingCell loadingCell: Bool) -> CGFloat {
-        if loadingCell {
-            return 30.0
-        }
-        return 98.0
+    func infinity(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 200.0
     }
 }
 

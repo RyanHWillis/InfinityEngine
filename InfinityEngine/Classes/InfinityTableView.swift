@@ -33,10 +33,12 @@ import UIKit
 
 public struct InfinityTable {
     public let tableView: UITableView!
+    public let loadingHeight: CGFloat!
     public let dataSource: InfinityTableSourceable!
     
-    public init(withTableView tableView: UITableView, withDataSource source:InfinityTableSourceable) {
+    public init(_ tableView: UITableView, loadingHeight height: CGFloat, _ source:InfinityTableSourceable) {
         self.tableView = tableView
+        self.loadingHeight = height
         self.dataSource = source
     }
 }
@@ -50,17 +52,18 @@ public struct InfinityTable {
 */
 
 public protocol InfinityTableSourceable: InfinityDataSource, InfinityTableSourceableOptional {
-    func infinity(_ tableView: UITableView, withDataForPage page: Int, forSession session: String, completion: @escaping (ResponsePayload) -> (Void))
-    func infinity(_ tableView:UITableView, cellForRowAtIndexPath indexPath:IndexPath) -> UITableViewCell
-    func infinity(_ tableView:UITableView, heightForRowAtIndexPath indexPath:IndexPath, forLoadingCell loadingCell:Bool) -> CGFloat
+    func infinity(_ tableView: UITableView, dataForPage page: Int, _ session: String, completion: @escaping (ResponsePayload) -> ())
+    func infinity(_ tableView: UITableView, cellForRowAtIndexPath indexPath: IndexPath) -> UITableViewCell
+    func infinity(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat
 }
 
 @objc public protocol InfinityTableSourceableOptional: class {
-    @objc optional func infinity(_ tableView:UITableView, didSelectRowAtIndexPath indexPath:IndexPath)
+    @objc optional func infinityWillStart()
+    @objc optional func infinity(_ tableView: UITableView, didSelectRowAtIndexPath indexPath: IndexPath)
 }
 
 public protocol InfinityListable: InfinityTableSourceable {
-    func startInfinityTableView(infinityTableView infinityTable:InfinityTable)
+    func startInfinityListable(_ infinityTable:InfinityTable)
     func createTableViewEngine(_ infinityTableView: InfinityTable) -> TableViewEngine
     func resetInfinityTable()
 }
@@ -80,7 +83,7 @@ public protocol InfinityListable: InfinityTableSourceable {
 
 
 extension InfinityListable where Self: UIViewController {
-    public func startInfinityTableView(infinityTableView infinityTable:InfinityTable) {
+    public func startInfinityListable(_ infinityTable:InfinityTable) {
         InfinityEngine.sharedTableInstances.removeAll()
         
         let engine = self.createTableViewEngine(infinityTable)
@@ -107,7 +110,7 @@ extension InfinityListable where Self: UIViewController {
  */
 
 extension InfinityListable where Self: UIView {
-    public func startInfinityTableView(infinityTableView infinityTable:InfinityTable) {
+    public func startInfinityListable(_ infinityTable:InfinityTable) {
         InfinityEngine.sharedTableInstances.removeAll()
         
         let engine = self.createTableViewEngine(infinityTable)

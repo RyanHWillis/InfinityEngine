@@ -87,7 +87,7 @@ open class TableViewEngine: NSObject {
 
 extension TableViewEngine: InfinityDataEngineDelegate {
     internal func getData(atPage page: Int, completion: @escaping (ResponsePayload) -> ()) {
-        self.dataSource.infinity(self.infinityTableView.tableView, withDataForPage: page, forSession: self.engine.sessionID) { (responsePayload) in
+        self.dataSource.infinity(self.infinityTableView.tableView, dataForPage: page, self.engine.sessionID) { (responsePayload) in
             if self.engine.responseIsValid(atPage: page, withReloadControl: self.reloadControl, withResponsePayload: responsePayload) == true {
                 completion(responsePayload)
             }
@@ -182,22 +182,31 @@ extension TableViewEngine: UITableViewDelegate {
         if self.engine.page == 1 {
             
             if (indexPath as NSIndexPath).row == InfinityEngine.shared.params.placeholderCount - 1 {
-                return self.dataSource.infinity(self.infinityTableView.tableView, heightForRowAtIndexPath: indexPath, forLoadingCell: true)
+                return self.infinityTableView.loadingHeight
             }
-            return self.dataSource.infinity(self.infinityTableView.tableView, heightForRowAtIndexPath: indexPath, forLoadingCell: false)
+            
+            return self.dataSource.infinity(self.infinityTableView.tableView, heightForRowAt: indexPath)
             
         } else {
             
             if (indexPath as NSIndexPath).section == self.engine.dataCount.count - 1 {
                 if (indexPath as NSIndexPath).row == self.engine.dataCount[self.engine.dataCount.count - 1] {
-                    return self.dataSource.infinity(self.infinityTableView.tableView, heightForRowAtIndexPath: indexPath, forLoadingCell: true)
+                    return self.infinityTableView.loadingHeight
                 }
             }
-            return self.dataSource.infinity(self.infinityTableView.tableView, heightForRowAtIndexPath: indexPath, forLoadingCell: false)
+            
+            return self.dataSource.infinity(self.infinityTableView.tableView, heightForRowAt: indexPath)
         }
     }
     
     public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.dataSource.infinity?(tableView, didSelectRowAtIndexPath: indexPath)
     }
+    
+    public func tableView(_ tableView: UITableView, didEndDisplayingFooterView view: UIView, forSection section: Int) {
+        
+    }
 }
+
+
+
