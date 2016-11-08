@@ -36,7 +36,7 @@ public struct InfinityTable {
     public let loadingHeight: CGFloat!
     public let dataSource: InfinityTableSourceable!
     
-    public init(_ tableView: UITableView, loadingHeight height: CGFloat, _ source:InfinityTableSourceable) {
+    public init(tableView tableView: UITableView, loadingHeight height: CGFloat, dataSource source:InfinityTableSourceable) {
         self.tableView = tableView
         self.loadingHeight = height
         self.dataSource = source
@@ -62,7 +62,7 @@ public protocol InfinityTableSourceable: InfinityDataSource, InfinityTableSource
     @objc optional func infinity(_ tableView: UITableView, didSelectRowAtIndexPath indexPath: IndexPath)
 }
 
-public protocol InfinityListable: InfinityTableSourceable {
+public protocol InfinityTableable: InfinityTableSourceable {
     func startInfinityListable(_ infinityTable:InfinityTable)
     func createTableViewEngine(_ infinityTableView: InfinityTable) -> TableViewEngine
     func resetInfinityTable()
@@ -82,7 +82,7 @@ public protocol InfinityListable: InfinityTableSourceable {
  */
 
 
-extension InfinityListable where Self: UIViewController {
+extension InfinityTableable where Self: UIViewController {
     public func startInfinityListable(_ infinityTable:InfinityTable) {
         InfinityEngine.sharedTableInstances.removeAll()
         
@@ -109,7 +109,7 @@ extension InfinityListable where Self: UIViewController {
  - func resetInfinityTable:             Used to reset/restart the InfinityTableView session.
  */
 
-extension InfinityListable where Self: UIView {
+extension InfinityTableable where Self: UIView {
     public func startInfinityListable(_ infinityTable:InfinityTable) {
         InfinityEngine.sharedTableInstances.removeAll()
         

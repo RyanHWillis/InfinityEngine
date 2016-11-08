@@ -25,7 +25,6 @@ import UIKit
 
 //** Infinity Engine **//
 
-let kCellHeight:CGFloat             = 50.0
 let kBufferHeight:CGFloat           = 350.0
 
 

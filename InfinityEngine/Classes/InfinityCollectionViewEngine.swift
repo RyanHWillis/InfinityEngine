@@ -28,12 +28,10 @@ import UIKit
 
 open class CollectionViewEngine: NSObject {
     
-    var infinitCollectionView: InfinityCollectionView!
-    var engine:InfinityDataEngine!
-    var delegate: InfinityCollectionSourceable!
-    var reloadControl:UIRefreshControl?
-
-    // MARK: - Lifecycle
+    fileprivate var infinitCollectionView: InfinityCollectionView!
+    internal var engine:InfinityDataEngine!
+    fileprivate var delegate: InfinityCollectionSourceable!
+    fileprivate var reloadControl:UIRefreshControl?
     
     public init(infinityCollectionView:InfinityCollectionView) {
         super.init()
@@ -44,29 +42,11 @@ open class CollectionViewEngine: NSObject {
     }
     
     fileprivate func setupCollectionView() {
-        // Set Table View Instance With Appropriate Object
+        self.infinitCollectionView.collectionView.register(LoadingCollectionViewCell.self, forSupplementaryViewOfKind: UICollectionElementKindSectionFooter, withReuseIdentifier: "LoadingView")
+
         self.infinitCollectionView.collectionView.delegate = self
         self.infinitCollectionView.collectionView.dataSource = self
         self.infinitCollectionView.collectionView.alwaysBounceVertical = true
-        
-        let bundle = self.infinitCollectionView.cells.bundle ?? Bundle.main
-        
-        for nibName in self.infinitCollectionView.cells.cellNames {
-            self.infinitCollectionView.collectionView.register(UINib(nibName: nibName, bundle: bundle), forCellWithReuseIdentifier: nibName)
-        }
-        
-        // Register Loading Cell
-        let loadingCellID = self.infinitCollectionView.cells.loadingCellName
-        
-        self.infinitCollectionView.collectionView.register(UINib(nibName: loadingCellID!,
-            bundle: bundle), forSupplementaryViewOfKind: UICollectionElementKindSectionFooter,
-                             withReuseIdentifier: loadingCellID!)
-        
-        
-        // Refresh Control
-        self.reloadControl = UIRefreshControl()
-        self.reloadControl?.addTarget(self, action: #selector(CollectionViewEngine.reloadFromRefreshControl), for: UIControlEvents.valueChanged)
-        self.infinitCollectionView.collectionView.addSubview(self.reloadControl!)
     }
     
     internal func initiateEngine() {
@@ -81,29 +61,11 @@ open class CollectionViewEngine: NSObject {
     internal func reloadCollectionView(_ indexes:[IndexPath]?) {
         self.infinitCollectionView.collectionView.reloadData()
     }
-    
-    
-    // MARK: - Loading
-    
-    func loadingCell() -> UICollectionViewCell {
-        let cell = UICollectionViewCell()
-        
-        let loadingView = InfinityEngine.shared.params.loadingView
-        loadingView.translatesAutoresizingMaskIntoConstraints = false
-        cell.addSubview(loadingView)
-        
-        let views: [String: UIView] = ["loadingView": loadingView]
-        cell.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[loadingView]|", options: [], metrics: nil, views: views))
-        cell.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[loadingView]|", options: [], metrics: nil, views: views))
-        cell.layoutIfNeeded()
-        
-        return cell
-    }
 }
 
 extension CollectionViewEngine: InfinityDataEngineDelegate {
     internal func getData(atPage page: Int, completion: @escaping (ResponsePayload) -> ()) {
-        self.delegate.collectionView(self.infinitCollectionView.collectionView, withDataForPage: page, forSession: self.engine.sessionID) { (responsePayload) in
+        self.delegate.infinity(self.infinitCollectionView.collectionView, withDataForPage: page, forSession: self.engine.sessionID) { (responsePayload) in
             if self.engine.responseIsValid(atPage: page, withReloadControl: self.reloadControl, withResponsePayload: responsePayload) == true {
                 completion(responsePayload)
             }
@@ -123,7 +85,7 @@ extension CollectionViewEngine: InfinityDataEngineDelegate {
     }
 }
 
-extension CollectionViewEngine: UICollectionViewDataSource {
+extension CollectionViewEngine: UICollectionViewDataSource, UICollectionViewDelegate {
     open func numberOfSections(in collectionView: UICollectionView) -> Int {
         if self.engine.dataCount.count == 0 {
             return 1
@@ -148,7 +110,7 @@ extension CollectionViewEngine: UICollectionViewDataSource {
     open func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         self.scrollViewDidScroll(self.infinitCollectionView.collectionView)
         
-        let cell = self.delegate.collectionView(self.infinitCollectionView.collectionView, withCellItemForIndexPath: indexPath)
+        let cell = self.delegate.infinity(self.infinitCollectionView.collectionView, withCellItemForIndexPath: indexPath)
         
         if self.engine.page == 1 {
             
@@ -175,24 +137,18 @@ extension CollectionViewEngine: UICollectionViewDataSource {
         
         return cell
     }
-}
-
-extension CollectionViewEngine: UICollectionViewDelegate {
+    
     open func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        self.delegate.collectionView?(collectionView, didSelectItemAtIndexPath: indexPath)
+        self.delegate.infinity?(collectionView, didSelectItemAtIndexPath: indexPath)
     }
     
-    open func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: IndexPath) -> UICollectionReusableView {
+    open func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         switch kind {
         case UICollectionElementKindSectionFooter:
-            return self.loadingCell()
+            return self.infinitCollectionView.collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionElementKindSectionFooter, withReuseIdentifier: "LoadingView", for: indexPath)
         default:
             return UICollectionReusableView()
         }
-    }
-    
-    open func collectionView(_ collectionView: UICollectionView, didHighlightItemAt indexPath: IndexPath) {
-        
     }
 }
 
@@ -204,8 +160,31 @@ extension CollectionViewEngine: UICollectionViewDelegateFlowLayout {
             return CGSize(width: 0.0, height: 0.0)
         }
 
-        return self.delegate.collectionView?(self.infinitCollectionView.collectionView, layout: collectionViewLayout, sizeForLoadingItemAtIndexPath: section) ??
-                CGSize(width: UIScreen.main.bounds.size.width, height: kCellHeight)
+        return self.delegate.infinity?(self.infinitCollectionView.collectionView, layout: collectionViewLayout, sizeForLoadingItemAtIndexPath: section) ??
+                CGSize(width: UIScreen.main.bounds.size.width, height: 100.0)
     }
 }
+
+class LoadingCollectionViewCell: UICollectionViewCell {
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        self.addLoader()
+    }
+    
+    func addLoader() {
+        let cell = UICollectionViewCell()
+        
+        let loadingView = InfinityEngine.shared.params.loadingView
+        loadingView.translatesAutoresizingMaskIntoConstraints = false
+        cell.addSubview(loadingView)
+        
+        let views: [String: UIView] = ["loadingView": loadingView]
+        cell.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[loadingView]|", options: [], metrics: nil, views: views))
+        cell.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[loadingView]|", options: [], metrics: nil, views: views))
+        cell.layoutIfNeeded()
+    }
+    
+}
+
 

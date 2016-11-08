@@ -25,9 +25,12 @@ class TestCollectionViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        let cells = InfinityCells(cellNames: ["TestCollectionViewCell"], loadingCellName: "LoadingCollectionViewCell", bundle: nil)
-        let infinityView = InfinityCollectionView(withCollectionView: self.testCollectionView, withCells: cells, withDataSource: self)
+        self.testCollectionView.register(UINib(nibName: "TestCollectionViewCell", bundle: Bundle.main), forCellWithReuseIdentifier: "TestCollectionViewCell")
+        self.startInfinity()
+    }
+    
+    private func startInfinity() {
+        let infinityView = InfinityCollectionView(collectionView: self.testCollectionView, loadingHeight: 50.0, dataSource: self)
         self.customCollectionView = NewCollectionViewEngine(infinityCollectionView: infinityView)
         self.startInfinityCollectionView(infinityCollectionView: infinityView)
     }
@@ -41,22 +44,16 @@ class TestCollectionViewController: UIViewController {
     }
 }
 
-extension TestCollectionViewController: InfinityCollectionProtocol {
-    
-    func collectionView(_ collectionView: UICollectionView, withDataForPage page: Int, forSession session: String, completion: @escaping (ResponsePayload) -> ()) {
-        completion(ResponsePayload(count: [10, 5, 3 * page * page], lastPage: false, session: session))
+extension TestCollectionViewController: InfinityCollectable {
+    func infinity(_ collectionView: UICollectionView, withDataForPage page: Int, forSession session: String, completion: @escaping (ResponsePayload) -> ()) {
+        delay(1.0) { 
+            completion(ResponsePayload(count: [10, 5, 3 * page * page], lastPage: false, session: session))
+        }
     }
-    
-    func collectionView(_ collectionView: UICollectionView, withCellItemForIndexPath indexPath: IndexPath) -> UICollectionViewCell {
+    func infinity(_ collectionView: UICollectionView, withCellItemForIndexPath indexPath: IndexPath) -> UICollectionViewCell {
         return self.testCollectionView.dequeueReusableCell(withReuseIdentifier: "TestCollectionViewCell", for: indexPath) as! TestCollectionViewCell
     }
-    
-    func collectionView(_ collectionView: UICollectionView, withLoadingCellItemForIndexPath indexPath: IndexPath, forLastPageHit hit: Bool) -> UICollectionReusableView {
-        let cell = self.testCollectionView.dequeueReusableSupplementaryView(ofKind: UICollectionElementKindSectionFooter, withReuseIdentifier: "LoadingCollectionViewCell", for: indexPath)
-        return cell
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: IndexPath) {
+    func infinity(_ collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: IndexPath) {
         
     }
 }
@@ -67,7 +64,7 @@ class NewCollectionViewEngine: CollectionViewEngine {
         
     }
     
-    override func collectionView(_ collectionView: UICollectionView, didHighlightItemAt indexPath: IndexPath) {
+    func collectionView(_ collectionView: UICollectionView, didHighlightItemAt indexPath: IndexPath) {
         
     }
 }

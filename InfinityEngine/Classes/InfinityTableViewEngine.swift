@@ -28,14 +28,10 @@ import UIKit
 
 open class TableViewEngine: NSObject {
     
-    internal var infinityTableView: InfinityTable!
-    internal var engine:InfinityDataEngine!
-    internal var dataSource: InfinityTableSourceable!
-    internal var reloadControl:UIRefreshControl?
-    
-    var meh: UITableViewDelegate?
-    
-    // MARK: - Lifecycle
+    fileprivate var infinityTableView: InfinityTable!
+    fileprivate var engine:InfinityDataEngine!
+    fileprivate var dataSource: InfinityTableSourceable!
+    fileprivate var reloadControl:UIRefreshControl?
     
     public init(infinityTableView:InfinityTable) {
         super.init()
@@ -46,16 +42,9 @@ open class TableViewEngine: NSObject {
     }
     
     fileprivate func setupTableView() {
-            
-        // Set Table View Instance With Appropriate Object
         self.infinityTableView.tableView.delegate = self
         self.infinityTableView.tableView.dataSource = self
         self.infinityTableView.tableView.separatorStyle = .none
-
-        // Refresh Control
-        self.reloadControl = UIRefreshControl()
-        self.reloadControl?.addTarget(self, action: #selector(TableViewEngine.reload), for: UIControlEvents.valueChanged)
-        self.infinityTableView.tableView.addSubview(self.reloadControl!)
     }
     
     internal func initiateEngine() {
@@ -103,7 +92,7 @@ extension TableViewEngine: InfinityDataEngineDelegate {
     }
 }
 
-extension TableViewEngine: UITableViewDataSource {
+extension TableViewEngine: UITableViewDataSource, UITableViewDelegate {
     
     public func numberOfSections(in tableView: UITableView) -> Int {
         
@@ -169,15 +158,8 @@ extension TableViewEngine: UITableViewDataSource {
             return cell
         }
     }
-}
-
-extension TableViewEngine: UITableViewDelegate {
     
-    public func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableViewAutomaticDimension
-    }
-    
-    public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+    open func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
         if self.engine.page == 1 {
             
@@ -199,14 +181,36 @@ extension TableViewEngine: UITableViewDelegate {
         }
     }
     
-    public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    open func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.dataSource.infinity?(tableView, didSelectRowAtIndexPath: indexPath)
     }
     
-    public func tableView(_ tableView: UITableView, didEndDisplayingFooterView view: UIView, forSection section: Int) {
-        
-    }
+    // MARK: - Overrides ...  Work around for Swift 3 UITableViewDelegate not being open
+    
+    open func tableView(_ tableView: UITableView, didEndDisplayingFooterView view: UIView, forSection section: Int) {}
+    open func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {}
+    open func tableView(_ tableView: UITableView, willDisplayFooterView view: UIView, forSection section: Int) {}
+    open func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? { return nil }
+    open func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {}
+    open func tableView(_ tableView: UITableView, didHighlightRowAt indexPath: IndexPath) {}
+    open func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat { return UITableViewAutomaticDimension }
+    open func tableView(_ tableView: UITableView, didEndEditingRowAt indexPath: IndexPath?) {}
+    open func tableView(_ tableView: UITableView, didUnhighlightRowAt indexPath: IndexPath) {}
+    open func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat { return 0.0 }
+    open func tableView(_ tableView: UITableView, canFocusRowAt indexPath: IndexPath) -> Bool { return true }
+    open func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? { return nil }
+    open func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? { return nil }
+    open func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool { return false }
+    open func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat { return 0.0 }
+    open func tableView(_ tableView: UITableView, willBeginEditingRowAt indexPath: IndexPath) {}
+    open func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? { return nil }
+    open func tableView(_ tableView: UITableView, shouldShowMenuForRowAt indexPath: IndexPath) -> Bool { return false }
+    open func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {}
+    open func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? { return nil }
+    open func tableView(_ tableView: UITableView, willDeselectRowAt indexPath: IndexPath) -> IndexPath? { return nil }
+    open func tableView(_ tableView: UITableView, shouldIndentWhileEditingRowAt indexPath: IndexPath) -> Bool { return false }
 }
+
 
 
 

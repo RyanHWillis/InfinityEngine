@@ -88,7 +88,7 @@ internal final class InfinityDataEngine: NSObject {
     internal func responseIsValid(atPage page:Int, withReloadControl refreshControl: UIRefreshControl?, withResponsePayload response:ResponsePayload) -> Bool {
         if response.session != self.sessionID {
             
-            self.logError(withTitle: "Primitive Data", withMessage: "Recieving data from pre-refresh session, discarding")
+            self.logError(withTitle: "Archaic Data", withMessage: "Recieving data from pre-refresh session, discarding")
             return false
         }
         

@@ -32,15 +32,13 @@ import UIKit
  */
 
 public struct InfinityCollectionView {
-    let collectionView: UICollectionView
-    let cells: InfinityCells
-    let source: InfinityCollectionSourceable
+    public let collectionView: UICollectionView
+    public let loadingHeight: CGFloat
+    public let source: InfinityCollectionSourceable
     
-    public init(withCollectionView collectionView: UICollectionView, withCells cells:InfinityCells,
-        withDataSource source: InfinityCollectionSourceable) {
-        
+    public init(collectionView collectionView: UICollectionView, loadingHeight height: CGFloat, dataSource source: InfinityCollectionSourceable) {
         self.collectionView = collectionView
-        self.cells = cells
+        self.loadingHeight = height
         self.source = source
     }
 }
@@ -53,13 +51,13 @@ public struct InfinityCollectionView {
  */
 
 public protocol InfinityCollectionSourceable: InfinityDataSource, InfinityCollectionViewProtocolOptional {
-    func collectionView(_ collectionView: UICollectionView, withDataForPage page: Int, forSession session: String, completion: @escaping (ResponsePayload) -> ())
-    func collectionView(_ collectionView:UICollectionView, withCellItemForIndexPath indexPath:IndexPath) -> UICollectionViewCell
+    func infinity(_ collectionView: UICollectionView, withDataForPage page: Int, forSession session: String, completion: @escaping (ResponsePayload) -> ())
+    func infinity(_ collectionView:UICollectionView, withCellItemForIndexPath indexPath:IndexPath) -> UICollectionViewCell
 }
 
 @objc public protocol InfinityCollectionViewProtocolOptional: class {
-    @objc optional func collectionView(_ collectionView:UICollectionView, didSelectItemAtIndexPath indexPath:IndexPath)
-    @objc optional func collectionView(_ collectionView:UICollectionView, layout collectionViewLayout:UICollectionViewLayout, sizeForLoadingItemAtIndexPath section:Int) -> CGSize
+    @objc optional func infinity(_ collectionView:UICollectionView, didSelectItemAtIndexPath indexPath:IndexPath)
+    @objc optional func infinity(_ collectionView:UICollectionView, layout collectionViewLayout:UICollectionViewLayout, sizeForLoadingItemAtIndexPath section:Int) -> CGSize
 }
 
 /**
@@ -70,14 +68,14 @@ public protocol InfinityCollectionSourceable: InfinityDataSource, InfinityCollec
  */
 
 
-public protocol InfinityCollectionProtocol: InfinityCollectionSourceable {
+public protocol InfinityCollectable: InfinityCollectionSourceable {
     func startInfinityCollectionView(infinityCollectionView:InfinityCollectionView)
     func createCollecionViewEngine(_ infinityCollectionView: InfinityCollectionView) -> CollectionViewEngine
     func resetInfinityCollection()
 }
 
 
-extension InfinityCollectionProtocol where Self: UIViewController {
+extension InfinityCollectable where Self: UIViewController {
     public func startInfinityCollectionView(infinityCollectionView infinityCollection:InfinityCollectionView) {
         InfinityEngine.sharedCollectionInstances.removeAll()
         
@@ -106,7 +104,7 @@ extension InfinityCollectionProtocol where Self: UIViewController {
  */
 
 
-extension InfinityCollectionProtocol where Self: UIView {
+extension InfinityCollectable where Self: UIView {
     public func startInfinityCollectionView(infinityCollectionView infinityCollection:InfinityCollectionView) {
         InfinityEngine.sharedCollectionInstances.removeAll()
         
